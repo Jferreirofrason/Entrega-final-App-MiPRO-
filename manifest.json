@@ -1,0 +1,2004 @@
+{
+  "paquete": "Entrega final — App MiPRO",
+  "carpeta": "/Users/julietaferreiro/Downloads/Entrega final — App MiPRO",
+  "descripcion": "Copia organizada de la app MiPRO publicada, con sus íconos e imágenes.",
+  "generado": "2026-09-22T15:01:04-03:00",
+  "app_publicada": "https://app-mipro-app.vercel.app",
+  "proyecto_vercel": {
+    "nombre": "app-mipro-app",
+    "deployment": "app-mipro-1mqxtpd42",
+    "entorno": "production"
+  },
+  "incluye": "El ajuste del ritmo vertical del Home: encabezado de sección de 50px y contenido a 66px del inicio de la sección, igual en las cuatro secciones.",
+  "repositorio": "Jferreirofrason/AppMiPRO (privado)",
+  "proyecto_origen": "/Users/julietaferreiro/Downloads/AppMiPRO",
+  "stack": {
+    "framework": "React 18.3.1",
+    "build": "Vite 6.3.5",
+    "lenguaje": "TypeScript 6",
+    "estilos": "Tailwind CSS 4.1.12",
+    "ruteo": "react-router 7.13.0 (createHashRouter)",
+    "componentes": "Radix UI con primitivas de shadcn",
+    "iconos": "lucide-react 0.487.0",
+    "paquetes": "npm con package-lock.json",
+    "node_probado": "24.14.1"
+  },
+  "zips": [
+    {
+      "archivo": "App-MiPRO-completa.zip",
+      "descripcion": "Proyecto completo, sin node_modules, dist, .git ni .vercel",
+      "archivos": 238,
+      "carpetas": 25,
+      "tamano_bytes": 7533301,
+      "tamano_legible": "7.18 MB",
+      "tamano_sin_comprimir_bytes": 10444112,
+      "creado": "2026-09-22T14:59:44-03:00",
+      "sha256": "a274b8567df8ebddd76cd94bb52db09c807324485c7a82e852884e1f44fe3de2"
+    },
+    {
+      "archivo": "Iconos-MiPRO.zip",
+      "descripcion": "Los 80 íconos que usa la app, en 78 archivos SVG, por categoría",
+      "archivos": 79,
+      "carpetas": 6,
+      "tamano_bytes": 35529,
+      "tamano_legible": "0.03 MB",
+      "tamano_sin_comprimir_bytes": 43257,
+      "creado": "2026-09-22T14:59:44-03:00",
+      "sha256": "fde97434a87ee05c02f1512651f68ea091d70c95ab9ca6794bc447bfd7a0112f"
+    },
+    {
+      "archivo": "Imagenes-MiPRO.zip",
+      "descripcion": "Todas las imágenes que muestra la app, por tipo",
+      "archivos": 35,
+      "carpetas": 7,
+      "tamano_bytes": 3888874,
+      "tamano_legible": "3.71 MB",
+      "tamano_sin_comprimir_bytes": 3938673,
+      "creado": "2026-09-22T14:59:44-03:00",
+      "sha256": "119d2a50da86c17f60421606f62e7ec65c08a314d736655090890604a9fe6678"
+    }
+  ],
+  "iconos": {
+    "libreria": "lucide-react 0.487.0",
+    "licencia": "ISC",
+    "nombres_usados_en_el_codigo": 80,
+    "archivos_svg": 78,
+    "por_categoria": {
+      "navegacion": 12,
+      "acciones": 30,
+      "estados": 17,
+      "servicios": 15,
+      "documentacion": 4
+    },
+    "detalle": [
+      {
+        "archivo": "armchair.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "armchair",
+        "nombres_en_codigo": [
+          "Armchair"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts"
+        ]
+      },
+      {
+        "archivo": "arrow-left.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "arrow-left",
+        "nombres_en_codigo": [
+          "ArrowLeft"
+        ],
+        "tamanos_px": [
+          "18",
+          "20"
+        ],
+        "trazos": [
+          "2",
+          "2.1"
+        ],
+        "usos": [
+          "app/components/agendar/EncabezadoFlujo.tsx",
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/CatalogoServicios.tsx",
+          "app/pages/Configuracion.tsx",
+          "app/pages/DetalleCatalogo.tsx",
+          "app/pages/DetalleReclamo.tsx",
+          "app/pages/DetalleServicio.tsx",
+          "app/pages/ForgotPassword.tsx",
+          "app/pages/GarantiaAgregarDireccion.tsx",
+          "app/pages/GarantiaConfirmar.tsx",
+          "app/pages/GarantiaHub.tsx",
+          "app/pages/GarantiaProblema.tsx",
+          "app/pages/GarantiaProducto.tsx",
+          "app/pages/GarantiaRevisar.tsx",
+          "app/pages/ListaReclamos.tsx",
+          "app/pages/Login.tsx",
+          "app/pages/NotFound.tsx",
+          "app/pages/Notificaciones.tsx",
+          "app/pages/Perfil.tsx",
+          "app/pages/ProductoDetalle.tsx",
+          "app/pages/Productos.tsx",
+          "app/pages/ProyectosList.tsx",
+          "app/pages/RevisarLugar.tsx",
+          "app/pages/Signup.tsx",
+          "app/pages/Soporte.tsx",
+          "app/pages/Sugerencias.tsx"
+        ]
+      },
+      {
+        "archivo": "bed-double.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "bed-double",
+        "nombres_en_codigo": [
+          "BedDouble"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/products.ts",
+          "app/pages/Productos.tsx"
+        ]
+      },
+      {
+        "archivo": "bell-ring.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "bell-ring",
+        "nombres_en_codigo": [
+          "BellRing"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/Notificaciones.tsx"
+        ]
+      },
+      {
+        "archivo": "bell.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "bell",
+        "nombres_en_codigo": [
+          "Bell"
+        ],
+        "tamanos_px": [
+          "22"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/pages/Home.tsx"
+        ]
+      },
+      {
+        "archivo": "bug.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "bug",
+        "nombres_en_codigo": [
+          "Bug"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts"
+        ]
+      },
+      {
+        "archivo": "building.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "building",
+        "nombres_en_codigo": [
+          "Building"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/AgregarProducto.tsx"
+        ]
+      },
+      {
+        "archivo": "calendar-check.svg",
+        "categoria": "estados",
+        "nombre_lucide": "calendar-check",
+        "nombres_en_codigo": [
+          "CalendarCheck"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/Notificaciones.tsx"
+        ]
+      },
+      {
+        "archivo": "calendar-days.svg",
+        "categoria": "estados",
+        "nombre_lucide": "calendar-days",
+        "nombres_en_codigo": [
+          "CalendarDays"
+        ],
+        "tamanos_px": [
+          "14",
+          "16",
+          "24"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/components/home/AvisoProximaVisita.tsx",
+          "app/components/reclamos/TarjetaReclamo.tsx",
+          "app/components/servicios/TarjetaServicio.tsx",
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/DetalleReclamo.tsx",
+          "app/pages/GarantiaEnviada.tsx",
+          "app/pages/ProyectosList.tsx"
+        ]
+      },
+      {
+        "archivo": "calendar.svg",
+        "categoria": "estados",
+        "nombre_lucide": "calendar",
+        "nombres_en_codigo": [
+          "Calendar"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/ProductoDetalle.tsx",
+          "app/utils/statusConfig.ts"
+        ]
+      },
+      {
+        "archivo": "camera.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "camera",
+        "nombres_en_codigo": [
+          "Camera"
+        ],
+        "tamanos_px": [
+          "18",
+          "20"
+        ],
+        "trazos": [
+          "1.5",
+          "2"
+        ],
+        "usos": [
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/ConfigurarServicio.tsx"
+        ]
+      },
+      {
+        "archivo": "check.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "check",
+        "nombres_en_codigo": [
+          "Check"
+        ],
+        "tamanos_px": [
+          "14",
+          "16",
+          "18",
+          "24",
+          "32"
+        ],
+        "trazos": [
+          "2.5",
+          "3"
+        ],
+        "usos": [
+          "app/components/agendar/BuscadorDireccionMapa.tsx",
+          "app/components/garantia/SelectorBuscable.tsx",
+          "app/components/servicios/CalificacionServicio.tsx",
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/Configuracion.tsx",
+          "app/pages/DireccionServicio.tsx",
+          "app/pages/GarantiaProblema.tsx",
+          "app/pages/GarantiaRevisar.tsx",
+          "app/pages/Productos.tsx",
+          "app/pages/RevisarLugar.tsx",
+          "app/pages/Sugerencias.tsx"
+        ]
+      },
+      {
+        "archivo": "chevron-down.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "chevron-down",
+        "nombres_en_codigo": [
+          "ChevronDown"
+        ],
+        "tamanos_px": [
+          "14",
+          "16"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/components/garantia/SelectorBuscable.tsx",
+          "app/pages/ForgotPassword.tsx",
+          "app/pages/Signup.tsx"
+        ]
+      },
+      {
+        "archivo": "chevron-left.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "chevron-left",
+        "nombres_en_codigo": [
+          "ChevronLeft"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/components/ui/calendar.tsx"
+        ]
+      },
+      {
+        "archivo": "chevron-right.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "chevron-right",
+        "nombres_en_codigo": [
+          "ChevronRight"
+        ],
+        "tamanos_px": [
+          "14",
+          "15",
+          "16",
+          "18",
+          "20"
+        ],
+        "trazos": [
+          "2",
+          "2.5"
+        ],
+        "usos": [
+          "app/components/home/AvisoProximaVisita.tsx",
+          "app/components/home/CitaCard.tsx",
+          "app/components/home/SeccionMisCitas.tsx",
+          "app/components/home/SeccionPromociones.tsx",
+          "app/components/home/SeccionServicios.tsx",
+          "app/components/reclamos/SeccionGarantia.tsx",
+          "app/components/reclamos/TarjetaReclamo.tsx",
+          "app/components/reclamos/TarjetaReclamoCompacta.tsx",
+          "app/components/reclamos/TarjetaReclamoHub.tsx",
+          "app/components/servicios/TarjetaServicio.tsx",
+          "app/components/ui/breadcrumb.tsx",
+          "app/components/ui/calendar.tsx",
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/CatalogoServicios.tsx",
+          "app/pages/Configuracion.tsx",
+          "app/pages/Notificaciones.tsx",
+          "app/pages/Perfil.tsx",
+          "app/pages/ProductoDetalle.tsx",
+          "app/pages/Productos.tsx",
+          "app/pages/ReclamoGarantia.tsx",
+          "app/pages/Soporte.tsx"
+        ]
+      },
+      {
+        "archivo": "chevrons-up-down.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "chevrons-up-down",
+        "nombres_en_codigo": [
+          "ChevronsUpDown"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/AgregarProducto.tsx"
+        ]
+      },
+      {
+        "archivo": "circle-alert.svg",
+        "categoria": "estados",
+        "nombre_lucide": "circle-alert",
+        "nombres_en_codigo": [
+          "AlertCircle"
+        ],
+        "tamanos_px": [
+          "22"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/components/home/BloqueError.tsx",
+          "app/utils/statusConfig.ts"
+        ]
+      },
+      {
+        "archivo": "circle-check-big.svg",
+        "categoria": "estados",
+        "nombre_lucide": "circle-check-big",
+        "nombres_en_codigo": [
+          "CheckCircle"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/utils/statusConfig.ts"
+        ]
+      },
+      {
+        "archivo": "circle-check.svg",
+        "categoria": "estados",
+        "nombre_lucide": "circle-check",
+        "nombres_en_codigo": [
+          "CheckCircle2"
+        ],
+        "tamanos_px": [
+          "13",
+          "16",
+          "32",
+          "40"
+        ],
+        "trazos": [
+          "2",
+          "2.5"
+        ],
+        "usos": [
+          "app/pages/DetalleReclamo.tsx",
+          "app/pages/ForgotPassword.tsx",
+          "app/pages/RevisarLugar.tsx",
+          "app/pages/Signup.tsx"
+        ]
+      },
+      {
+        "archivo": "circle-help.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "circle-help",
+        "nombres_en_codigo": [
+          "HelpCircle"
+        ],
+        "tamanos_px": [
+          "14"
+        ],
+        "trazos": [],
+        "usos": [
+          "app/pages/AgregarProducto.tsx"
+        ]
+      },
+      {
+        "archivo": "circle-pause.svg",
+        "categoria": "estados",
+        "nombre_lucide": "circle-pause",
+        "nombres_en_codigo": [
+          "PauseCircle"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/utils/statusConfig.ts"
+        ]
+      },
+      {
+        "archivo": "circle-play.svg",
+        "categoria": "estados",
+        "nombre_lucide": "circle-play",
+        "nombres_en_codigo": [
+          "PlayCircle"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/utils/statusConfig.ts"
+        ]
+      },
+      {
+        "archivo": "circle-x.svg",
+        "categoria": "estados",
+        "nombre_lucide": "circle-x",
+        "nombres_en_codigo": [
+          "XCircle"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/utils/statusConfig.ts"
+        ]
+      },
+      {
+        "archivo": "clipboard-list.svg",
+        "categoria": "documentacion",
+        "nombre_lucide": "clipboard-list",
+        "nombres_en_codigo": [
+          "ClipboardList"
+        ],
+        "tamanos_px": [
+          "30"
+        ],
+        "trazos": [
+          "2.5"
+        ],
+        "usos": [
+          "app/pages/RevisarLugar.tsx"
+        ]
+      },
+      {
+        "archivo": "clock.svg",
+        "categoria": "estados",
+        "nombre_lucide": "clock",
+        "nombres_en_codigo": [
+          "Clock"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/ProductoDetalle.tsx",
+          "app/utils/statusConfig.ts"
+        ]
+      },
+      {
+        "archivo": "compass.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "compass",
+        "nombres_en_codigo": [
+          "Compass"
+        ],
+        "tamanos_px": [
+          "22"
+        ],
+        "trazos": [],
+        "usos": [
+          "app/pages/AgregarProducto.tsx"
+        ]
+      },
+      {
+        "archivo": "copy.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "copy",
+        "nombres_en_codigo": [
+          "Copy"
+        ],
+        "tamanos_px": [
+          "14"
+        ],
+        "trazos": [
+          "2.5"
+        ],
+        "usos": [
+          "app/pages/GarantiaEnviada.tsx"
+        ]
+      },
+      {
+        "archivo": "credit-card.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "credit-card",
+        "nombres_en_codigo": [
+          "CreditCard"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/Configuracion.tsx"
+        ]
+      },
+      {
+        "archivo": "droplets.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "droplets",
+        "nombres_en_codigo": [
+          "Droplets"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts"
+        ]
+      },
+      {
+        "archivo": "eye-off.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "eye-off",
+        "nombres_en_codigo": [
+          "EyeOff"
+        ],
+        "tamanos_px": [
+          "16",
+          "18"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/pages/Configuracion.tsx",
+          "app/pages/ForgotPassword.tsx",
+          "app/pages/Login.tsx",
+          "app/pages/Signup.tsx"
+        ]
+      },
+      {
+        "archivo": "eye.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "eye",
+        "nombres_en_codigo": [
+          "Eye"
+        ],
+        "tamanos_px": [
+          "16",
+          "18"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/pages/Configuracion.tsx",
+          "app/pages/ForgotPassword.tsx",
+          "app/pages/Login.tsx",
+          "app/pages/Signup.tsx"
+        ]
+      },
+      {
+        "archivo": "fan.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "fan",
+        "nombres_en_codigo": [
+          "Fan"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts",
+          "app/data/products.ts",
+          "app/pages/Productos.tsx"
+        ]
+      },
+      {
+        "archivo": "flame.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "flame",
+        "nombres_en_codigo": [
+          "Flame"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts",
+          "app/data/products.ts",
+          "app/pages/Productos.tsx"
+        ]
+      },
+      {
+        "archivo": "hammer.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "hammer",
+        "nombres_en_codigo": [
+          "Hammer"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts"
+        ]
+      },
+      {
+        "archivo": "headphones.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "headphones",
+        "nombres_en_codigo": [
+          "Headphones"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/Perfil.tsx"
+        ]
+      },
+      {
+        "archivo": "house.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "house",
+        "nombres_en_codigo": [
+          "Home"
+        ],
+        "tamanos_px": [
+          "22"
+        ],
+        "trazos": [],
+        "usos": [
+          "app/components/TabBar.tsx",
+          "app/pages/AgregarProducto.tsx"
+        ]
+      },
+      {
+        "archivo": "id-card.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "id-card",
+        "nombres_en_codigo": [
+          "IdCard"
+        ],
+        "tamanos_px": [
+          "16"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/pages/Configuracion.tsx"
+        ]
+      },
+      {
+        "archivo": "image-plus.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "image-plus",
+        "nombres_en_codigo": [
+          "ImagePlus"
+        ],
+        "tamanos_px": [
+          "18"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/pages/GarantiaProblema.tsx"
+        ]
+      },
+      {
+        "archivo": "inbox.svg",
+        "categoria": "estados",
+        "nombre_lucide": "inbox",
+        "nombres_en_codigo": [
+          "Inbox"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/Notificaciones.tsx",
+          "app/utils/statusConfig.ts"
+        ]
+      },
+      {
+        "archivo": "info.svg",
+        "categoria": "documentacion",
+        "nombre_lucide": "info",
+        "nombres_en_codigo": [
+          "Info"
+        ],
+        "tamanos_px": [
+          "14",
+          "16"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/components/home/SeccionPromociones.tsx",
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/DetalleCatalogo.tsx",
+          "app/pages/DetalleServicio.tsx",
+          "app/pages/FechaServicio.tsx",
+          "app/pages/GarantiaRevisar.tsx",
+          "app/pages/ProyectosList.tsx",
+          "app/pages/ResumenServicio.tsx",
+          "app/pages/RevisarLugar.tsx"
+        ]
+      },
+      {
+        "archivo": "leaf.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "leaf",
+        "nombres_en_codigo": [
+          "Leaf"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts"
+        ]
+      },
+      {
+        "archivo": "loader-circle.svg",
+        "categoria": "estados",
+        "nombre_lucide": "loader-circle",
+        "nombres_en_codigo": [
+          "Loader2"
+        ],
+        "tamanos_px": [
+          "16",
+          "18",
+          "20"
+        ],
+        "trazos": [
+          "2.5"
+        ],
+        "usos": [
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/GarantiaConfirmar.tsx",
+          "app/pages/GarantiaProblema.tsx"
+        ]
+      },
+      {
+        "archivo": "lock.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "lock",
+        "nombres_en_codigo": [
+          "Lock"
+        ],
+        "tamanos_px": [
+          "10"
+        ],
+        "trazos": [],
+        "usos": [
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/Configuracion.tsx"
+        ]
+      },
+      {
+        "archivo": "log-out.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "log-out",
+        "nombres_en_codigo": [
+          "LogOut"
+        ],
+        "tamanos_px": [
+          "16",
+          "18",
+          "24"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/pages/Perfil.tsx"
+        ]
+      },
+      {
+        "archivo": "mail.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "mail",
+        "nombres_en_codigo": [
+          "Mail"
+        ],
+        "tamanos_px": [
+          "20"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/pages/Configuracion.tsx",
+          "app/pages/ForgotPassword.tsx",
+          "app/pages/Perfil.tsx",
+          "app/pages/Soporte.tsx"
+        ]
+      },
+      {
+        "archivo": "map-pin.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "map-pin",
+        "nombres_en_codigo": [
+          "MapPin"
+        ],
+        "tamanos_px": [
+          "16",
+          "17",
+          "18",
+          "32"
+        ],
+        "trazos": [
+          "2",
+          "2.2"
+        ],
+        "usos": [
+          "app/components/agendar/BuscadorDireccionMapa.tsx",
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/Configuracion.tsx",
+          "app/pages/DireccionServicio.tsx"
+        ]
+      },
+      {
+        "archivo": "message-circle.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "message-circle",
+        "nombres_en_codigo": [
+          "MessageCircle"
+        ],
+        "tamanos_px": [
+          "18"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/components/servicios/ContactarMiPRO.tsx",
+          "app/pages/Soporte.tsx"
+        ]
+      },
+      {
+        "archivo": "message-square.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "message-square",
+        "nombres_en_codigo": [
+          "MessageSquare"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/Perfil.tsx"
+        ]
+      },
+      {
+        "archivo": "minus.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "minus",
+        "nombres_en_codigo": [
+          "Minus"
+        ],
+        "tamanos_px": [
+          "20"
+        ],
+        "trazos": [
+          "2.5"
+        ],
+        "usos": [
+          "app/pages/ConfigurarServicio.tsx"
+        ]
+      },
+      {
+        "archivo": "moon.svg",
+        "categoria": "documentacion",
+        "nombre_lucide": "moon",
+        "nombres_en_codigo": [
+          "Moon"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/FechaServicio.tsx"
+        ]
+      },
+      {
+        "archivo": "package.svg",
+        "categoria": "estados",
+        "nombre_lucide": "package",
+        "nombres_en_codigo": [
+          "Package"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/Productos.tsx"
+        ]
+      },
+      {
+        "archivo": "paintbrush.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "paintbrush",
+        "nombres_en_codigo": [
+          "Paintbrush"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts"
+        ]
+      },
+      {
+        "archivo": "pen-tool.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "pen-tool",
+        "nombres_en_codigo": [
+          "PenTool"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/ProductoDetalle.tsx"
+        ]
+      },
+      {
+        "archivo": "pen.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "pen",
+        "nombres_en_codigo": [
+          "Edit2"
+        ],
+        "tamanos_px": [
+          "14"
+        ],
+        "trazos": [],
+        "usos": [
+          "app/pages/AgregarProducto.tsx"
+        ]
+      },
+      {
+        "archivo": "phone.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "phone",
+        "nombres_en_codigo": [
+          "Phone"
+        ],
+        "tamanos_px": [
+          "16",
+          "18",
+          "20"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/components/servicios/ContactarMiPRO.tsx",
+          "app/pages/Configuracion.tsx",
+          "app/pages/ForgotPassword.tsx",
+          "app/pages/Perfil.tsx",
+          "app/pages/Soporte.tsx"
+        ]
+      },
+      {
+        "archivo": "plus.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "plus",
+        "nombres_en_codigo": [
+          "Plus"
+        ],
+        "tamanos_px": [
+          "14",
+          "18",
+          "20"
+        ],
+        "trazos": [
+          "2",
+          "2.5"
+        ],
+        "usos": [
+          "app/pages/Configuracion.tsx",
+          "app/pages/ConfigurarServicio.tsx",
+          "app/pages/DireccionServicio.tsx",
+          "app/pages/GarantiaRevisar.tsx",
+          "app/pages/ProductoDetalle.tsx",
+          "app/pages/Productos.tsx"
+        ]
+      },
+      {
+        "archivo": "refresh-cw.svg",
+        "categoria": "estados",
+        "nombre_lucide": "refresh-cw",
+        "nombres_en_codigo": [
+          "RefreshCw"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/Notificaciones.tsx",
+          "app/utils/statusConfig.ts"
+        ]
+      },
+      {
+        "archivo": "refrigerator.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "refrigerator",
+        "nombres_en_codigo": [
+          "Refrigerator"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/products.ts",
+          "app/pages/Productos.tsx"
+        ]
+      },
+      {
+        "archivo": "save.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "save",
+        "nombres_en_codigo": [
+          "Save"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/AgregarProducto.tsx"
+        ]
+      },
+      {
+        "archivo": "search-x.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "search-x",
+        "nombres_en_codigo": [
+          "SearchX"
+        ],
+        "tamanos_px": [
+          "24"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/pages/CatalogoServicios.tsx"
+        ]
+      },
+      {
+        "archivo": "search.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "search",
+        "nombres_en_codigo": [
+          "Search",
+          "SearchIcon"
+        ],
+        "tamanos_px": [
+          "16",
+          "18",
+          "40"
+        ],
+        "trazos": [
+          "1.5",
+          "2"
+        ],
+        "usos": [
+          "app/components/agendar/BuscadorDireccionMapa.tsx",
+          "app/components/home/BuscadorServicios.tsx",
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/CatalogoServicios.tsx",
+          "app/pages/Configuracion.tsx",
+          "app/pages/Productos.tsx"
+        ]
+      },
+      {
+        "archivo": "send.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "send",
+        "nombres_en_codigo": [
+          "Send"
+        ],
+        "tamanos_px": [
+          "18"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/pages/Sugerencias.tsx"
+        ]
+      },
+      {
+        "archivo": "settings.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "settings",
+        "nombres_en_codigo": [
+          "Settings"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts",
+          "app/pages/Perfil.tsx"
+        ]
+      },
+      {
+        "archivo": "shield-check.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "shield-check",
+        "nombres_en_codigo": [
+          "ShieldCheck"
+        ],
+        "tamanos_px": [
+          "14",
+          "16",
+          "20",
+          "22"
+        ],
+        "trazos": [
+          "2",
+          "2.2",
+          "2.5"
+        ],
+        "usos": [
+          "app/components/TabBar.tsx",
+          "app/components/reclamos/SeccionGarantia.tsx",
+          "app/components/reclamos/TarjetaReclamoHub.tsx",
+          "app/pages/GarantiaHub.tsx",
+          "app/pages/Notificaciones.tsx",
+          "app/pages/ProductoDetalle.tsx"
+        ]
+      },
+      {
+        "archivo": "shield-off.svg",
+        "categoria": "estados",
+        "nombre_lucide": "shield-off",
+        "nombres_en_codigo": [
+          "ShieldOff"
+        ],
+        "tamanos_px": [
+          "16"
+        ],
+        "trazos": [
+          "2.5"
+        ],
+        "usos": [
+          "app/pages/ProductoDetalle.tsx"
+        ]
+      },
+      {
+        "archivo": "sparkles.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "sparkles",
+        "nombres_en_codigo": [
+          "Sparkles"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts"
+        ]
+      },
+      {
+        "archivo": "square-pen.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "square-pen",
+        "nombres_en_codigo": [
+          "Edit"
+        ],
+        "tamanos_px": [
+          "14"
+        ],
+        "trazos": [],
+        "usos": [
+          "app/pages/Configuracion.tsx"
+        ]
+      },
+      {
+        "archivo": "star.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "star",
+        "nombres_en_codigo": [
+          "Star"
+        ],
+        "tamanos_px": [
+          "16",
+          "24",
+          "32"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/components/servicios/CalificacionServicio.tsx",
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/GarantiaEnviada.tsx",
+          "app/pages/Notificaciones.tsx",
+          "app/pages/Sugerencias.tsx"
+        ]
+      },
+      {
+        "archivo": "sun.svg",
+        "categoria": "documentacion",
+        "nombre_lucide": "sun",
+        "nombres_en_codigo": [
+          "Sun"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/FechaServicio.tsx"
+        ]
+      },
+      {
+        "archivo": "triangle-alert.svg",
+        "categoria": "estados",
+        "nombre_lucide": "triangle-alert",
+        "nombres_en_codigo": [
+          "AlertTriangle"
+        ],
+        "tamanos_px": [
+          "16"
+        ],
+        "trazos": [
+          "2.5"
+        ],
+        "usos": [
+          "app/pages/GarantiaProblema.tsx"
+        ]
+      },
+      {
+        "archivo": "truck.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "truck",
+        "nombres_en_codigo": [
+          "Truck"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts"
+        ]
+      },
+      {
+        "archivo": "user-round.svg",
+        "categoria": "estados",
+        "nombre_lucide": "user-round",
+        "nombres_en_codigo": [
+          "UserRound"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/pages/Notificaciones.tsx"
+        ]
+      },
+      {
+        "archivo": "user.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "user",
+        "nombres_en_codigo": [
+          "User"
+        ],
+        "tamanos_px": [
+          "13",
+          "14",
+          "16"
+        ],
+        "trazos": [
+          "2"
+        ],
+        "usos": [
+          "app/components/TabBar.tsx",
+          "app/components/home/AvisoProximaVisita.tsx",
+          "app/components/reclamos/HistorialCitas.tsx",
+          "app/components/reclamos/TarjetaReclamo.tsx",
+          "app/components/servicios/ListaCitasServicio.tsx",
+          "app/pages/Configuracion.tsx",
+          "app/pages/Perfil.tsx"
+        ]
+      },
+      {
+        "archivo": "washing-machine.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "washing-machine",
+        "nombres_en_codigo": [
+          "WashingMachine"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/products.ts",
+          "app/pages/Productos.tsx"
+        ]
+      },
+      {
+        "archivo": "wind.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "wind",
+        "nombres_en_codigo": [
+          "Wind"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts",
+          "app/data/products.ts",
+          "app/pages/Productos.tsx"
+        ]
+      },
+      {
+        "archivo": "wrench.svg",
+        "categoria": "navegacion",
+        "nombre_lucide": "wrench",
+        "nombres_en_codigo": [
+          "Wrench"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/components/TabBar.tsx",
+          "app/components/servicios/TarjetaServicio.tsx",
+          "app/data/catalogo.ts"
+        ]
+      },
+      {
+        "archivo": "x.svg",
+        "categoria": "acciones",
+        "nombre_lucide": "x",
+        "nombres_en_codigo": [
+          "X",
+          "XIcon"
+        ],
+        "tamanos_px": [
+          "12",
+          "14",
+          "15",
+          "16",
+          "18",
+          "20"
+        ],
+        "trazos": [
+          "2",
+          "2.5",
+          "3"
+        ],
+        "usos": [
+          "app/components/LegalSheet.tsx",
+          "app/components/garantia/AyudaSheet.tsx",
+          "app/pages/AgregarProducto.tsx",
+          "app/pages/CatalogoServicios.tsx",
+          "app/pages/Configuracion.tsx",
+          "app/pages/ConfigurarServicio.tsx",
+          "app/pages/GarantiaProblema.tsx",
+          "app/pages/Perfil.tsx",
+          "app/pages/Productos.tsx"
+        ]
+      },
+      {
+        "archivo": "zap.svg",
+        "categoria": "servicios",
+        "nombre_lucide": "zap",
+        "nombres_en_codigo": [
+          "Zap"
+        ],
+        "tamanos_px": [],
+        "trazos": [],
+        "usos": [
+          "app/data/catalogo.ts"
+        ]
+      }
+    ]
+  },
+  "imagenes": {
+    "archivos": 33,
+    "por_categoria": {
+      "branding": 3,
+      "servicios": 24,
+      "promociones": 0,
+      "perfiles": 1,
+      "ilustraciones": 2,
+      "otros": 3
+    },
+    "detalle": [
+      {
+        "archivo": "armado-de-muebles.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 810,
+        "bytes": 201540,
+        "sha256": "27fdea0187127ef3a639f91f0254b4761eb9a0c83351fd9161cec4c0f09d817d",
+        "urls": [
+          "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Armado de muebles\" (Mobiliario)"
+        ]
+      },
+      {
+        "archivo": "avatar-maria-gonzalez.jpg",
+        "categoria": "perfiles",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 160,
+        "alto": 160,
+        "bytes": 8614,
+        "sha256": "33b5ba107a0e50dc259a4f29bfc698b96616b4fde0f8d512aa3a8e25b4be18d6",
+        "urls": [
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=faces&fit=crop&w=160&h=160&q=70&fm=jpg"
+        ],
+        "usos": [
+          "Avatar de la usuaria de demostración: saludo del Home y Mi perfil · \"sin-nombre\""
+        ]
+      },
+      {
+        "archivo": "diagrama-comprobante-codigo.svg",
+        "categoria": "ilustraciones",
+        "origen": "exportada del código",
+        "formato": "SVG",
+        "ancho": 240,
+        "alto": 330,
+        "bytes": 11561,
+        "sha256": "e2954ec64806b282a13812d4976d9167c55a7324bbc15d1513f80de7cfbbb1f5",
+        "ruta_original": "src/app/components/garantia/ReciboAyuda.tsx",
+        "usos": [
+          "Ayuda del paso 1 de la solicitud de garantía"
+        ],
+        "notas": "Exportada del DOM de la app publicada, con el logo de Cochez embebido."
+      },
+      {
+        "archivo": "diagrama-comprobante-factura.svg",
+        "categoria": "ilustraciones",
+        "origen": "exportada del código",
+        "formato": "SVG",
+        "ancho": 240,
+        "alto": 330,
+        "bytes": 11625,
+        "sha256": "bc44ac9e6d2b566756472d8162b8407ba96d9f13db4ef1b63cab1676609db143",
+        "ruta_original": "src/app/components/garantia/ReciboAyuda.tsx",
+        "usos": [
+          "Ayuda del paso 1 de la solicitud de garantía"
+        ],
+        "notas": "Exportada del DOM de la app publicada, con el logo de Cochez embebido."
+      },
+      {
+        "archivo": "foto-simulada-producto-2.jpg",
+        "categoria": "otros",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 200,
+        "alto": 300,
+        "bytes": 16706,
+        "sha256": "d42cf948b7e30786b5b3968e08cf6d80cc9226f43064c9f32dc58f79ed1d93af",
+        "urls": [
+          "https://images.unsplash.com/photo-1585338107529-13afc5f02586?q=80&w=200&auto=format&fit=crop"
+        ],
+        "usos": [
+          "Fotos simuladas que agrega el botón \"Agregar fotos\" en Agregar producto (mockPhotos en AgregarProducto.tsx)"
+        ]
+      },
+      {
+        "archivo": "foto-simulada-producto-3.jpg",
+        "categoria": "otros",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 200,
+        "alto": 133,
+        "bytes": 5863,
+        "sha256": "fe80c97c0cfd5154d00a88d43dcc34cdf79c81bbb3ecb78005973bed412cbd97",
+        "urls": [
+          "https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=200&auto=format&fit=crop"
+        ],
+        "usos": [
+          "Fotos simuladas que agrega el botón \"Agregar fotos\" en Agregar producto (mockPhotos en AgregarProducto.tsx)"
+        ]
+      },
+      {
+        "archivo": "fumigacion-del-hogar.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 1620,
+        "bytes": 254036,
+        "sha256": "b30bcbc766e1b9d9be38e2def66ad873f390a4e7ea2354ac29ed81b345805eda",
+        "urls": [
+          "https://images.unsplash.com/photo-1593999094742-4f5280054b23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Fumigación del hogar\" (Fumigación)"
+        ]
+      },
+      {
+        "archivo": "instalacion-de-calentador-electrico-de-paso.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 112730,
+        "sha256": "db01da2f86b800817ddf6f307973bc6ab63f895cb552484b486efeae39072c3a",
+        "urls": [
+          "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de calentador eléctrico de paso\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "instalacion-de-estufa-a-gas.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 98550,
+        "sha256": "737c669a20a38a3e0388c8684666727e307d762ae147a161283f1cf1ede35cc0",
+        "urls": [
+          "https://images.unsplash.com/photo-1607324772107-8ad6740ca195?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de estufa a gas\" (Instalación)",
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de estufa empotrable a gas\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "instalacion-de-estufa-electrica.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 647,
+        "bytes": 97639,
+        "sha256": "896467c90615b9cd5cf7ea43e18fa4b6a5ee4e3c204a4581921b6eef3bfc7695",
+        "urls": [
+          "https://images.unsplash.com/photo-1556911220-bff31c812dba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de estufa eléctrica\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "instalacion-de-horno-empotrable-a-gas.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 120984,
+        "sha256": "89d7473b8461cd34c6842676fe793913260b73158ece2543eedfdee154ce2c06",
+        "urls": [
+          "https://images.unsplash.com/photo-1639405069836-f82aa6dcb900?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de horno empotrable a gas\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "instalacion-de-lavadora.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 140109,
+        "sha256": "52293f0ab822d97b967dd0514bfcac64f34526ae2c030007bae43bc87451fdb9",
+        "urls": [
+          "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de lavadora\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "instalacion-de-lavavajillas.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 105313,
+        "sha256": "a228f236cdc1728753c7a3bc5e55b0c6bfc75f03265ae0bd803a14308a80d442",
+        "urls": [
+          "https://images.unsplash.com/photo-1620568400263-6f1cf95b9e30?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de lavavajillas\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "instalacion-de-refrigeradora-french-door.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 1620,
+        "bytes": 239752,
+        "sha256": "b6467aabf3f3e1ab0602647addf4a02843878204b218fbe74b38c65ecffd9f6e",
+        "urls": [
+          "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de refrigeradora French Door\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "instalacion-de-secadora-a-gas.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 133174,
+        "sha256": "0c2be0d8c5f790378b73921d9818339b586baa00bc965f5493b1838985395001",
+        "urls": [
+          "https://images.unsplash.com/photo-1604335399105-a0c585fd81a1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de secadora a gas\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "instalacion-de-secadora-electrica.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 747,
+        "bytes": 100896,
+        "sha256": "f911846b47e728efa8c6b5598a94a8e6da8ca0e929e91358b3bbaf0bc9246675",
+        "urls": [
+          "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de secadora eléctrica\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "instalacion-de-vinera.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 1620,
+        "bytes": 435414,
+        "sha256": "30813e0f659dc3bff2fc1d1fc0be914512678daa9047234f9f708c2c6328cc2a",
+        "urls": [
+          "https://images.unsplash.com/photo-1728177196098-ef48bfb63832?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de vinera\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "isotipo-mano-mipro.svg",
+        "categoria": "branding",
+        "origen": "exportado del código",
+        "formato": "SVG",
+        "ancho": "24.0707",
+        "alto": "36.6186",
+        "bytes": 1926,
+        "sha256": "7e7ca5e054d06830234a19adabdde82aafc5885049067c2c12b995d8ef45131a",
+        "ruta_original": "src/imports/svg-0uyjwt8dfn.ts (paths) + src/app/components/ManoMiPRO.tsx (colores)",
+        "usos": [
+          "Confirmación de solicitud de servicio, Confirmación de solicitud de garantía, Agregar producto y el flujo anterior de reclamo (components/ManoMiPRO.tsx)"
+        ],
+        "notas": "Exportado de los paths de src/imports/svg-0uyjwt8dfn.ts, con los colores que aplica el componente. No es un archivo del repositorio: en la app el SVG se dibuja en línea."
+      },
+      {
+        "archivo": "limpieza-de-ductos.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 803,
+        "bytes": 212028,
+        "sha256": "998571e9bc9202fc5400d813e4c6ddf54560b6c3cda279bb6d673cd94003b8bd",
+        "urls": [
+          "https://images.unsplash.com/photo-1615309662243-70f6df917b59?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Limpieza de ductos\" (Limpieza)"
+        ]
+      },
+      {
+        "archivo": "limpieza-profunda-del-hogar.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 81199,
+        "sha256": "0974dff3ced72903dc5ecc72ee572e4ffa6ce628e24f44280e910a3f8b6f32e2",
+        "urls": [
+          "https://images.unsplash.com/photo-1581578731548-c64695cc6952?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Limpieza profunda del hogar\" (Limpieza)"
+        ]
+      },
+      {
+        "archivo": "logo-cochez.svg",
+        "categoria": "branding",
+        "origen": "local del repositorio",
+        "formato": "SVG",
+        "ancho": "111",
+        "alto": "23",
+        "bytes": 4852,
+        "sha256": "b75c40c531b562c075ba92514a1c96bddda2048cfefce053e483766100990d1f",
+        "ruta_original": "src/imports/cochez-logo.svg",
+        "usos": [
+          "Encabezado del comprobante simulado del diagrama de ayuda (components/garantia/ReciboAyuda.tsx)"
+        ],
+        "notas": "Copia exacta de src/imports/cochez-logo.svg"
+      },
+      {
+        "archivo": "logo-mipro.svg",
+        "categoria": "branding",
+        "origen": "local del repositorio",
+        "formato": "SVG",
+        "ancho": "310.81",
+        "alto": "93.87",
+        "bytes": 10834,
+        "sha256": "384e8a5c577d378e1565c7f8f1b50ba6b5f49f23f61ad5d0192a66e04d6e16c1",
+        "ruta_original": "src/imports/logo.svg",
+        "usos": [
+          "Pantallas de acceso: Welcome, Login, Signup y Recuperar contraseña (importado como logoUrl)"
+        ],
+        "notas": "Copia exacta de src/imports/logo.svg"
+      },
+      {
+        "archivo": "mantenimiento-de-aire-acondicionado.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 122398,
+        "sha256": "eb4ce0508703e8c1b190a536a050908f96f823a2bebf1647894468bd54a85433",
+        "urls": [
+          "https://images.unsplash.com/photo-1718203862467-c33159fdc504?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Mantenimiento de aire acondicionado\" (Mantenimiento)",
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de aire acondicionado\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "mantenimiento-de-calentador.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 810,
+        "bytes": 231492,
+        "sha256": "e5bbb8a670cf9a2f6c3e8fd9b964176c22eb79a03d218b55c06a523fb44e1bc8",
+        "urls": [
+          "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Mantenimiento de calentador\" (Mantenimiento)",
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación de calentador a gas de paso\" (Instalación)"
+        ]
+      },
+      {
+        "archivo": "mantenimiento-de-jardin.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 181670,
+        "sha256": "64ffb157db30015d309d1d6da108ca5bc80d8621c8bc0d67eaa0f1b3bdbf61c6",
+        "urls": [
+          "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Mantenimiento de jardín\" (Jardinería)"
+        ]
+      },
+      {
+        "archivo": "mudanza-dentro-de-la-ciudad.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 456,
+        "bytes": 129304,
+        "sha256": "35c5f2a32aaf2c940f3ebb7b1908077fc27d3d98ae94f42ab74a639cf97ee42c",
+        "urls": [
+          "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Mudanza dentro de la ciudad\" (Mudanza)"
+        ]
+      },
+      {
+        "archivo": "pintura-interior-proyecto.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 1440,
+        "bytes": 173065,
+        "sha256": "6e7e4a028f7836ca90baeff54b8eaa1b8a6c4fc59c8705167b5cb5e7d4bf68ed",
+        "urls": [
+          "https://images.unsplash.com/photo-1643804475756-ca849847c78a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcGFpbnRpbmclMjBpbnRlcmlvciUyMHdhbGxzfGVufDF8fHx8MTc3MzA4NTc1OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+        ],
+        "usos": [
+          "Fixture de Mis servicios · \"Pintura interior\""
+        ]
+      },
+      {
+        "archivo": "pintura-interior.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 754,
+        "bytes": 131557,
+        "sha256": "4b7f76b12ac39cf84c1999eed1369910813e3929895159d30bd9b5576446dd89",
+        "urls": [
+          "https://images.unsplash.com/photo-1562259949-e8e7689d7828?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Pintura interior\" (Pintura)",
+          "Carrusel de promociones del Home · \"Pintura interior\""
+        ]
+      },
+      {
+        "archivo": "placeholder-imagen-no-carga.svg",
+        "categoria": "otros",
+        "origen": "local del repositorio",
+        "formato": "SVG",
+        "ancho": "88",
+        "alto": "88",
+        "bytes": 265,
+        "sha256": "7635449ae368090d928cef5ca2ee9e9f1a248b8062a226908c1b08b5f27b49d7",
+        "ruta_original": "src/app/components/figma/ImageWithFallback.tsx (data URI)",
+        "usos": [
+          "Se muestra en lugar de cualquier imagen que falle al cargar (components/figma/ImageWithFallback.tsx)"
+        ],
+        "notas": "Estaba embebido como data URI en el componente; acá va extraído a un archivo."
+      },
+      {
+        "archivo": "remodelacion-de-cocina.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 771,
+        "bytes": 174222,
+        "sha256": "2dd480f38fcf3b8e8f55e33b70f788b1a162d3d5850ccaa7571e4918119d139a",
+        "urls": [
+          "https://images.unsplash.com/photo-1708915965975-2a950db0e215?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+          "https://images.unsplash.com/photo-1708915965975-2a950db0e215?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBraXRjaGVuJTIwcmVub3ZhdGlvbiUyMHByb2dyZXNzfGVufDF8fHx8MTc3MzA4NTc1OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Remodelación de cocina\" (Instalación)",
+          "Carrusel de promociones del Home · \"Remodelación de cocina\"",
+          "Carrusel de promociones del Home · \"Mantenimiento preventivo de aire acondicionado\"",
+          "Fixture de Mis servicios · \"Remodelación de cocina\""
+        ]
+      },
+      {
+        "archivo": "renovacion-de-bano.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 1440,
+        "bytes": 200015,
+        "sha256": "5b92af180693851a6f450161cf47fc5943ef2b4f06c0a3800ce8d68a411287f2",
+        "urls": [
+          "https://images.unsplash.com/photo-1758448018619-4cbe2250b9ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+          "https://images.unsplash.com/photo-1758448018619-4cbe2250b9ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXRocm9vbSUyMHJlbm92YXRpb24lMjBtb2Rlcm4lMjBmaXh0dXJlc3xlbnwxfHx8fDE3NzMwODUxNTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Renovación de baño\" (Instalación)",
+          "Carrusel de promociones del Home · \"Renovación de baño\"",
+          "Fixture de Mis servicios · \"Instalación de aire acondicionado\""
+        ]
+      },
+      {
+        "archivo": "revision-de-plomeria.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 75329,
+        "sha256": "ec181696b31d73c5fab43a6ddf82422304ed8264db08830189469edf5d5c5312",
+        "urls": [
+          "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Revisión de plomería\" (Reparación)"
+        ]
+      },
+      {
+        "archivo": "revision-electrica.jpg",
+        "categoria": "servicios",
+        "origen": "remota (Unsplash)",
+        "formato": "JPEG",
+        "ancho": 1080,
+        "alto": 720,
+        "bytes": 99681,
+        "sha256": "637367dbd07353385ed6b6477922ccde25713c751721f460411a57efe8d18142",
+        "urls": [
+          "https://images.unsplash.com/photo-1767514536570-83d70c024247?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+          "https://images.unsplash.com/photo-1767514536570-83d70c024247?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2FsJTIwaW5zdGFsbGF0aW9uJTIwd2lyaW5nJTIwaG9tZXxlbnwxfHx8fDE3NzMwODU3NTl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+        ],
+        "usos": [
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Revisión eléctrica\" (Reparación)",
+          "Catálogo de servicios: ficha /catalogo/:id, destacados del Home · \"Instalación eléctrica\" (Instalación)",
+          "Carrusel de promociones del Home · \"Revisión eléctrica\"",
+          "Fixture de Mis servicios · \"Instalación eléctrica\""
+        ]
+      }
+    ]
+  },
+  "no_recuperados": [
+    {
+      "url": "https://images.unsplash.com/photo-1523413363574-c3c4447df219?q=80&w=200&auto=format&fit=crop",
+      "motivo": "HTTP 404: la foto ya no existe en Unsplash",
+      "usos": [
+        "Fotos simuladas que agrega el botón \"Agregar fotos\" en Agregar producto (mockPhotos en AgregarProducto.tsx)"
+      ]
+    }
+  ],
+  "sin_secretos": {
+    "env_incluido": false,
+    "env_example_incluido": false,
+    "motivo": "El repositorio no tiene .env ni .env.example. La única variable que el código menciona es VITE_GEMINI_API_KEY, en src/services/mapsService.ts, que además ningún componente importa.",
+    "verificado": "Se buscaron dentro del ZIP archivos .env, .pem y claves privadas, y patrones de token de GitHub, OpenAI y Google. No hay ninguno."
+  }
+}
