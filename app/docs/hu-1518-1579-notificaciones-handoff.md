@@ -2,10 +2,14 @@
 
 ## Header de Inicio y Notificaciones · HU-1518 / HU-1579
 
-23-11-2026
+24-11-2026
 
 Implementación para el app: sistema visual, navegación y detalle de cada
 pantalla.
+
+**Repositorio:** <https://github.com/Jferreirofrason/Entrega-final-App-MiPRO->
+
+El código, las capturas de este documento y los íconos están ahí, en `app/`.
 
 **Cómo leerlo.** Cada número al margen de una captura es una fila de la tabla
 que viene abajo. Las medidas están tomadas del código y del DOM a 390 px, no
@@ -158,8 +162,10 @@ midieron en el DOM para comprobarlo.
 ## 1.4 Íconos
 
 Los 12 íconos de esta entrega son **assets propios**: un archivo SVG por
-ícono, guardados en **[UBICACIÓN DEL REPOSITORIO]**, igual que las fotos de
-las categorías.
+ícono, guardados en el repositorio de la entrega,
+en **`app/docs/iconos/`**, igual que las fotos de las categorías:
+
+<https://github.com/Jferreirofrason/Entrega-final-App-MiPRO-/tree/main/app/docs/iconos>
 
 Cada archivo va a **24 × 24, trazo 2 y color heredado**. El tamaño y el color
 de cada uso están más abajo, en la tabla de usos: el mismo archivo sirve para
