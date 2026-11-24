@@ -1,0 +1,16 @@
+# Dependencias y build: se regeneran con npm install y npm run build.
+node_modules
+dist
+
+# Deploy local de Vercel (identifica el proyecto de Julieta, no va al repo).
+.vercel
+
+# Ruido del sistema y del editor.
+.DS_Store
+*.log
+
+# ZIPs de trabajo bajados a mano; no son fuente.
+mi pro /
+
+# Config local del editor/agente, no del proyecto.
+.claude

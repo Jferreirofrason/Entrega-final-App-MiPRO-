@@ -1,0 +1,2118 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiPRO · Detalles de diseño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amarillo: #FFEE00;
+    --negro: #000000;
+    --gris-80: #414141;
+    --gris-60: #717171;
+    --gris-40: #929292;
+    --gris-20: #D0D0D0;
+    --gris-8: #ECECEC;
+    --gris-3: #F6F6F5;
+    --rojo: #E05263;
+    --azul: #336DD0;
+    --oro: #8A7A00;
+    --texto: 'Helvetica Neue LT Std', Helvetica, Arial, sans-serif;
+    --titulo: 'Bebas Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--gris-3);
+    color: var(--negro);
+    font-family: var(--texto);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hoja {
+    max-width: 920px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 56px 64px 96px;
+  }
+
+  h1, h2, h3 { font-family: var(--titulo); text-transform: uppercase; letter-spacing: 1px; font-weight: 400; }
+  h1 { font-size: 46px; line-height: 1.05; margin: 0 0 8px; }
+  h1 + p, h1 + table { margin-top: 24px; }
+  h2 {
+    font-size: 30px;
+    margin: 64px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--amarillo);
+  }
+  h3 { font-size: 21px; margin: 40px 0 12px; }
+  h4 { font-family: var(--texto); font-size: 15px; font-weight: 600; margin: 24px 0 8px; }
+
+  p { margin: 0 0 14px; }
+  a { color: var(--azul); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  strong { font-weight: 600; }
+
+  hr { border: 0; border-top: 1px solid var(--gris-8); margin: 48px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 13.5px;
+    page-break-inside: auto;
+  }
+  th, td {
+    text-align: left;
+    vertical-align: top;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--gris-8);
+  }
+  th {
+    background: var(--gris-3);
+    font-weight: 600;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--gris-80);
+    border-bottom: 1px solid var(--gris-20);
+  }
+  tr:last-child td { border-bottom: 1px solid var(--gris-20); }
+  td code, th code, li code, p code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.88em;
+    background: var(--gris-3);
+    border: 1px solid var(--gris-8);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  pre {
+    background: var(--negro);
+    color: #fff;
+    border-radius: 8px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  pre code { background: none; border: 0; padding: 0; color: inherit; }
+
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li input[type=checkbox] { margin-right: 6px; }
+
+  blockquote {
+    margin: 16px 0;
+    padding: 12px 18px;
+    background: var(--gris-3);
+    border-left: 4px solid var(--gris-20);
+    border-radius: 0 8px 8px 0;
+    color: var(--gris-80);
+  }
+
+  img {
+    display: block;
+    width: 320px;
+    max-width: 100%;
+    border: 1px solid var(--gris-20);
+    border-radius: 12px;
+    margin: 8px 0 8px;
+  }
+
+  /* Capturas con los números al margen: necesitan más ancho para que el
+     número se lea. Se marcan en el Markdown con {: .numerada }. */
+  img.numerada {
+    width: 460px;
+    border: 0;
+    border-radius: 0;
+  }
+  /* Recortes anchos y bajos (un encabezado, una fila): ocupan todo el
+     ancho, que es lo único que los deja leer. */
+  img.detalle {
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+  /* El ícono dibujado adentro de una celda de tabla. */
+  img.ico {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    vertical-align: middle;
+  }
+  /* La muestra real de un chip de estado, adentro de una celda. */
+  img.chip {
+    display: inline-block;
+    width: auto;
+    height: 28px;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    vertical-align: middle;
+  }
+  /* Láminas (la hoja de íconos): ocupan el ancho de la caja de texto. */
+  img.lamina {
+    width: 100%;
+    border: 1px solid var(--gris-8);
+    border-radius: 12px;
+  }
+
+  /* Los avisos "Pendiente de definición" e "Inconsistencia detectada" se
+     marcan solos: el Markdown ya los escribe con un signo al inicio. */
+  .aviso {
+    background: rgba(255, 238, 0, 0.12);
+    border-left: 4px solid var(--amarillo);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
+  }
+  .aviso p { margin: 0; }
+
+  @media print {
+    body { background: #fff; }
+    .hoja { max-width: none; padding: 0; }
+    /* Nada se empuja de página: las tablas cortan entre filas y solo las
+       imágenes y los avisos se mantienen enteros. Con break-inside: avoid en
+       las tablas quedaban páginas casi vacías. */
+    table, pre, thead, tbody, img { break-inside: auto; page-break-inside: auto; }
+    tr, .aviso { break-inside: avoid; page-break-inside: avoid; }
+    thead { display: table-row-group; }
+    p, li { orphans: 2; widows: 2; }
+    h1, h2, h3, h4 { break-after: auto; page-break-after: auto; }
+    h2 { margin-top: 32px; }
+    h3 { margin-top: 24px; }
+    hr { margin: 24px 0; }
+    /* Las capturas pueden cortarse en el corte de página y seguir en la
+       siguiente. Es lo que evita las páginas medio vacías. Sin radio, para
+       que el corte no parezca un error de render. */
+    img { width: 220px; border-radius: 0; }
+    img.numerada { width: 360px; }
+    img.detalle { width: 100%; }
+    img.lamina { width: 100%; }
+    img.ico { width: 18px; height: 18px; }
+    img.chip { width: auto; height: 26px; }
+    a { color: var(--negro); }
+  }
+  @page { margin: 16mm 14mm; size: A4; }
+
+  @media (max-width: 720px) {
+    .hoja { padding: 32px 20px 64px; }
+    h1 { font-size: 34px; }
+    h2 { font-size: 24px; }
+    table { font-size: 12.5px; }
+    th, td { padding: 7px 8px; }
+  }
+</style>
+</head>
+<body>
+<main class="hoja">
+<h1>MiPRO · Detalles de diseño</h1>
+<h2>Header de Inicio y Notificaciones · HU-1518 / HU-1579</h2>
+<p>23-11-2026</p>
+<p>Implementación para el app: sistema visual, navegación y detalle de cada
+pantalla.</p>
+<p><strong>Cómo leerlo.</strong> Cada número al margen de una captura es una fila de la tabla
+que viene abajo. Las medidas están tomadas del código y del DOM a 390 px, no
+son propuestas. Cuando este documento y el código no coincidan, manda el
+código.</p>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Qué hay</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01 · Sistema visual</td>
+<td>Tipografía, color, estados, íconos y los componentes que usan dos o más pantallas</td>
+</tr>
+<tr>
+<td>02 · Navegación</td>
+<td>Qué pantalla es cada ruta y cuál entra en esta entrega</td>
+</tr>
+<tr>
+<td>03 · Pantallas</td>
+<td>Una captura numerada por pantalla, con su tabla</td>
+</tr>
+<tr>
+<td>04 · Contenido</td>
+<td>Qué dice una notificación, de dónde sale cada texto y en qué orden aparecen</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>01 · Sistema visual</h1>
+<h2>1.1 Tipografía</h2>
+<p>Dos fuentes. <strong>Bebas Neue</strong> en mayúsculas para los títulos de pantalla, de
+grupo y de hoja. <strong>Helvetica Neue LT Std</strong> para todo lo demás, con Arial de
+respaldo. Tamaños en px, sin escalado propio: siguen el ajuste del sistema.</p>
+<p>Los nombres de la primera columna son <strong>de este documento</strong>, para poder
+citarlos en las tablas. Hoy no existen como estilos con nombre: el tamaño se
+escribe en cada lugar. Si se van a reusar, conviene nombrarlos de verdad.</p>
+<table>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Muestra</th>
+<th>Fuente</th>
+<th>Tamaño</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>titulo/pantalla</code></td>
+<td>NOTIFICACIONES</td>
+<td>Bebas Neue 400, mayúsculas, interletra 1</td>
+<td>20</td>
+</tr>
+<tr>
+<td><code>titulo/grupo</code></td>
+<td>HOY</td>
+<td>Bebas Neue 400, mayúsculas, interletra 1</td>
+<td>16</td>
+</tr>
+<tr>
+<td><code>titulo/hoja</code></td>
+<td>NOTIFICACIONES</td>
+<td>Bebas Neue 400, mayúsculas, interletra 1</td>
+<td>20</td>
+</tr>
+<tr>
+<td><code>titulo/confirmacion</code></td>
+<td>¿Borrar todas las notificaciones?</td>
+<td>Helvetica 600</td>
+<td>17 / 23</td>
+</tr>
+<tr>
+<td><code>saludo</code></td>
+<td>HOLA, MARÍA</td>
+<td>Bebas Neue 400, mayúsculas, interletra 1</td>
+<td>20</td>
+</tr>
+<tr>
+<td><code>saludo/sub</code></td>
+<td>¿Qué hacemos hoy en tu hogar?</td>
+<td>Helvetica 400</td>
+<td>12</td>
+</tr>
+<tr>
+<td><code>avatar/inicial</code></td>
+<td>M</td>
+<td>Helvetica 600</td>
+<td>18 en el avatar de 44 · 36 en el de 88</td>
+</tr>
+<tr>
+<td><code>contador</code></td>
+<td>10 notificaciones sin leer</td>
+<td>Helvetica 500</td>
+<td>13</td>
+</tr>
+<tr>
+<td><code>fila/encabezado</code></td>
+<td>Servicio · Instalación de aire</td>
+<td>Helvetica 400</td>
+<td>12 / 17</td>
+</tr>
+<tr>
+<td><code>fila/titulo</code></td>
+<td>Tu cita está programada</td>
+<td>Helvetica 500 sin leer · 400 leída</td>
+<td>15 / 20</td>
+</tr>
+<tr>
+<td><code>fila/fecha</code></td>
+<td>9:30 a. m.</td>
+<td>Helvetica 400</td>
+<td>12</td>
+</tr>
+<tr>
+<td><code>chip/estado</code></td>
+<td>Cita programada</td>
+<td>Helvetica 500</td>
+<td>12 / 16</td>
+</tr>
+<tr>
+<td><code>cuerpo/md</code></td>
+<td>Cuando tengamos información sobre tus servicios</td>
+<td>Helvetica 400</td>
+<td>14 / 20</td>
+</tr>
+<tr>
+<td><code>cuerpo/sm</code></td>
+<td>Esta acción eliminará todas las notificaciones</td>
+<td>Helvetica 400</td>
+<td>13 / 19</td>
+</tr>
+<tr>
+<td><code>accion/hoja</code></td>
+<td>Marcar todas como leídas</td>
+<td>Helvetica 500</td>
+<td>15 / 20</td>
+</tr>
+<tr>
+<td><code>accion/detalle</code></td>
+<td>segunda línea de una acción</td>
+<td>Helvetica 400</td>
+<td>13 / 18</td>
+</tr>
+<tr>
+<td><code>boton</code></td>
+<td>Borrar todas</td>
+<td>Helvetica 500</td>
+<td>13</td>
+</tr>
+<tr>
+<td><code>aviso</code></td>
+<td>Borramos todas tus notificaciones</td>
+<td>Helvetica 400</td>
+<td>13 / 19</td>
+</tr>
+<tr>
+<td><code>campana/contador</code></td>
+<td>10</td>
+<td>Helvetica 500</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>1.2 Color</h2>
+<p>Ningún color se escribe a mano. Todos son tokens del sistema, y ese es el
+único lugar donde viven. Los códigos de esta tabla están para leer, no para
+copiar al código.</p>
+<h3>Diccionario de colores</h3>
+<table>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Código</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--primary-yellow</code></td>
+<td><code>#FFEE00</code></td>
+</tr>
+<tr>
+<td><code>--amarillo-sin-leer</code></td>
+<td><code>rgba(255, 238, 0, 0.10)</code></td>
+</tr>
+<tr>
+<td><code>--primary-black</code></td>
+<td><code>#000000</code></td>
+</tr>
+<tr>
+<td><code>--primary-white</code></td>
+<td><code>#FFFFFF</code></td>
+</tr>
+<tr>
+<td><code>--gray-80</code></td>
+<td><code>#414141</code></td>
+</tr>
+<tr>
+<td><code>--gray-60</code></td>
+<td><code>#717171</code></td>
+</tr>
+<tr>
+<td><code>--gray-40</code></td>
+<td><code>#929292</code></td>
+</tr>
+<tr>
+<td><code>--gray-20</code></td>
+<td><code>#D0D0D0</code></td>
+</tr>
+<tr>
+<td><code>--gray-8</code></td>
+<td><code>#ECECEC</code></td>
+</tr>
+<tr>
+<td><code>--gray-3</code></td>
+<td><code>#F6F6F5</code></td>
+</tr>
+<tr>
+<td><code>--info-blue</code></td>
+<td><code>#336DD0</code></td>
+</tr>
+<tr>
+<td><code>--success-green</code></td>
+<td><code>#58CA8A</code></td>
+</tr>
+<tr>
+<td><code>--error-red</code></td>
+<td><code>#E05263</code></td>
+</tr>
+<tr>
+<td>oro oscuro</td>
+<td><code>#8A7A00</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>El oro oscuro es el único color de esta entrega que no es un token.</strong> Es el
+texto del estado <code>En revisión</code>. El amarillo de marca no contrasta sobre
+blanco, así que el chip lleva el amarillo al 20 % de fondo y la palabra en
+oro. Si se queda, le corresponde un nombre propio.</p>
+<h3>Para qué se usa cada uno</h3>
+<table>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--primary-yellow</code></td>
+<td>Fondo del avatar, barra de la fila sin leer, <code>Deshacer</code> del aviso</td>
+</tr>
+<tr>
+<td><code>--amarillo-sin-leer</code></td>
+<td>Sombreado de la fila sin leer</td>
+</tr>
+<tr>
+<td><code>--primary-black</code></td>
+<td>Títulos, íconos del encabezado, punto de no leída, fondo del aviso</td>
+</tr>
+<tr>
+<td><code>--primary-white</code></td>
+<td>Fondo de las dos pantallas y de las hojas</td>
+</tr>
+<tr>
+<td><code>--gray-80</code></td>
+<td>Título de una fila leída, cuerpo de la confirmación</td>
+</tr>
+<tr>
+<td><code>--gray-60</code></td>
+<td>Encabezado del caso sin leer, descripción del vacío, línea de estado del menú</td>
+</tr>
+<tr>
+<td><code>--gray-40</code></td>
+<td>Fecha y hora, papelera, campana del vacío, encabezado del caso leído</td>
+</tr>
+<tr>
+<td><code>--gray-20</code></td>
+<td>Borde del avatar, borde del botón de volver, agarre de las hojas</td>
+</tr>
+<tr>
+<td><code>--gray-8</code></td>
+<td>Separadores de 1 pt</td>
+</tr>
+<tr>
+<td><code>--gray-3</code></td>
+<td>Fila al tocarla, pie de la confirmación</td>
+</tr>
+<tr>
+<td><code>--error-red</code></td>
+<td>Borrar todas, contador de la campana</td>
+</tr>
+</tbody>
+</table>
+<h3>Color por estado</h3>
+<p>Los cinco salen de un solo mapa de estados, <strong>el mismo que usa el
+historial</strong>: un estado no puede verse de dos colores según desde dónde se lo
+mire.</p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Chip</th>
+<th>Ícono</th>
+<th>Fondo del chip</th>
+<th>Texto e ícono</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solicitud recibida</td>
+<td><img class="chip" src="capturas-hu-1518-1579/chip-solicitud-recibida.png" alt="Chip Solicitud recibida"></td>
+<td><img class="ico" src="iconos/08-inbox.svg" alt="Inbox"> 08 <code>Inbox</code></td>
+<td><code>rgba(51, 109, 208, 0.1)</code></td>
+<td><code>--info-blue</code> <code>#336DD0</code></td>
+</tr>
+<tr>
+<td>En revisión</td>
+<td><img class="chip" src="capturas-hu-1518-1579/chip-en-revision.png" alt="Chip En revisión"></td>
+<td><img class="ico" src="iconos/09-clock.svg" alt="Clock"> 09 <code>Clock</code></td>
+<td><code>rgba(255, 238, 0, 0.2)</code></td>
+<td>oro oscuro <code>#8A7A00</code></td>
+</tr>
+<tr>
+<td>Cita programada</td>
+<td><img class="chip" src="capturas-hu-1518-1579/chip-cita-programada.png" alt="Chip Cita programada"></td>
+<td><img class="ico" src="iconos/10-calendar.svg" alt="Calendar"> 10 <code>Calendar</code></td>
+<td><code>rgba(51, 109, 208, 0.1)</code></td>
+<td><code>--info-blue</code> <code>#336DD0</code></td>
+</tr>
+<tr>
+<td>Completada</td>
+<td><img class="chip" src="capturas-hu-1518-1579/chip-completada.png" alt="Chip Completada"></td>
+<td><img class="ico" src="iconos/11-circle-check-big.svg" alt="CheckCircle"> 11 <code>CheckCircle</code></td>
+<td><code>rgba(88, 202, 138, 0.1)</code></td>
+<td><code>--success-green</code> <code>#58CA8A</code></td>
+</tr>
+<tr>
+<td>Cancelada</td>
+<td><img class="chip" src="capturas-hu-1518-1579/chip-cancelada.png" alt="Chip Cancelada"></td>
+<td><img class="ico" src="iconos/12-circle-x.svg" alt="XCircle"> 12 <code>XCircle</code></td>
+<td><code>rgba(226, 3, 77, 0.1)</code></td>
+<td><code>--error-red</code> <code>#E05263</code></td>
+</tr>
+</tbody>
+</table>
+<p>Los chips de esa columna son la muestra real, recortada de la pantalla: ese es
+el color y ese es el ícono. Cada estado se reconoce por <strong>tres cosas a la vez</strong>
+(color, ícono y palabra), nunca por el color solo.</p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Clave visual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solicitud recibida</td>
+<td><code>solicitud recibida</code></td>
+</tr>
+<tr>
+<td>En revisión</td>
+<td><code>en progreso</code></td>
+</tr>
+<tr>
+<td>Cita programada</td>
+<td><code>agendado</code></td>
+</tr>
+<tr>
+<td>Completada</td>
+<td><code>finalizado</code></td>
+</tr>
+<tr>
+<td>Cancelada</td>
+<td><code>cancelado</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>Solicitud recibida</code> y <code>Cita programada</code> comparten el azul.</strong> Se distinguen
+por el ícono y por la palabra, no por el color.</p>
+<hr />
+<h2>1.3 Estados de los controles</h2>
+<p>No hay estado deshabilitado en esta entrega: un control que no tiene sentido
+no se muestra, no se apaga. El menú entero desaparece con la bandeja vacía, y
+<code>Marcar todas como leídas</code> desaparece cuando no queda ninguna sin leer.</p>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Reposo</th>
+<th>Al tocar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fila de notificación</td>
+<td>Transparente o <code>--amarillo-sin-leer</code></td>
+<td>Fondo <code>--gray-3</code>, con transición de color</td>
+</tr>
+<tr>
+<td>Papelera de la fila</td>
+<td>Ícono <code>--gray-40</code></td>
+<td>Opacidad 60 %</td>
+</tr>
+<tr>
+<td>Volver</td>
+<td>Blanco, borde 1 pt <code>--gray-20</code>, radio 10</td>
+<td>Opacidad 80 %</td>
+</tr>
+<tr>
+<td>Tres puntos</td>
+<td>Sin fondo ni borde</td>
+<td>Opacidad 80 %</td>
+</tr>
+<tr>
+<td>Acción de la hoja</td>
+<td>Texto <code>--primary-black</code></td>
+<td>Fondo <code>--gray-3</code></td>
+</tr>
+<tr>
+<td><code>Cancelar</code></td>
+<td>Blanco, borde 1 pt <code>--gray-20</code>, radio 10</td>
+<td>Opacidad</td>
+</tr>
+<tr>
+<td><code>Borrar todas</code></td>
+<td>Fondo <code>--error-red</code>, texto blanco, radio 10</td>
+<td>Opacidad</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Todo lo que se toca mide 44 px de lado como mínimo.</strong> Las dos pantallas se
+midieron en el DOM para comprobarlo.</p>
+<hr />
+<h2>1.4 Íconos</h2>
+<p>Los 12 íconos de esta entrega son <strong>assets propios</strong>: un archivo SVG por
+ícono, guardados en <strong>[UBICACIÓN DEL REPOSITORIO]</strong>, igual que las fotos de
+las categorías.</p>
+<p>Cada archivo va a <strong>24 × 24, trazo 2 y color heredado</strong>. El tamaño y el color
+de cada uso están más abajo, en la tabla de usos: el mismo archivo sirve para
+el negro del encabezado y para el gris de la papelera.</p>
+<p><img alt="Íconos de la entrega, numerados" class="lamina" src="capturas-hu-1518-1579/iconos.svg" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Ícono</th>
+<th>Nombre</th>
+<th>Archivo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td><img class="ico" src="iconos/01-arrow-left.svg" alt="ArrowLeft"></td>
+<td><code>ArrowLeft</code></td>
+<td><code>01-arrow-left.svg</code></td>
+</tr>
+<tr>
+<td>02</td>
+<td><img class="ico" src="iconos/02-ellipsis-vertical.svg" alt="MoreVertical"></td>
+<td><code>MoreVertical</code></td>
+<td><code>02-ellipsis-vertical.svg</code></td>
+</tr>
+<tr>
+<td>03</td>
+<td><img class="ico" src="iconos/03-bell.svg" alt="Bell"></td>
+<td><code>Bell</code></td>
+<td><code>03-bell.svg</code></td>
+</tr>
+<tr>
+<td>04</td>
+<td><img class="ico" src="iconos/04-user.svg" alt="User"></td>
+<td><code>User</code></td>
+<td><code>04-user.svg</code></td>
+</tr>
+<tr>
+<td>05</td>
+<td><img class="ico" src="iconos/05-trash-2.svg" alt="Trash2"></td>
+<td><code>Trash2</code></td>
+<td><code>05-trash-2.svg</code></td>
+</tr>
+<tr>
+<td>06</td>
+<td><img class="ico" src="iconos/06-check-check.svg" alt="CheckCheck"></td>
+<td><code>CheckCheck</code></td>
+<td><code>06-check-check.svg</code></td>
+</tr>
+<tr>
+<td>07</td>
+<td><img class="ico" src="iconos/07-x.svg" alt="X"></td>
+<td><code>X</code></td>
+<td><code>07-x.svg</code></td>
+</tr>
+<tr>
+<td>08</td>
+<td><img class="ico" src="iconos/08-inbox.svg" alt="Inbox"></td>
+<td><code>Inbox</code></td>
+<td><code>08-inbox.svg</code></td>
+</tr>
+<tr>
+<td>09</td>
+<td><img class="ico" src="iconos/09-clock.svg" alt="Clock"></td>
+<td><code>Clock</code></td>
+<td><code>09-clock.svg</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><img class="ico" src="iconos/10-calendar.svg" alt="Calendar"></td>
+<td><code>Calendar</code></td>
+<td><code>10-calendar.svg</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><img class="ico" src="iconos/11-circle-check-big.svg" alt="CheckCircle"></td>
+<td><code>CheckCircle</code></td>
+<td><code>11-circle-check-big.svg</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><img class="ico" src="iconos/12-circle-x.svg" alt="XCircle"></td>
+<td><code>XCircle</code></td>
+<td><code>12-circle-x.svg</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>El número manda.</strong> Es el mismo en la lámina, en el nombre del archivo y en
+la columna «Icono» de las tablas de la Parte 03. Un ícono se pide por su
+número, no por su descripción.</p>
+<p><strong>Los archivos son la fuente.</strong> Si un ícono cambia, se cambia el archivo: la
+lámina y las tablas de este documento lo muestran cambiado sin tocar nada
+más.</p>
+<h3>Tamaño y trazo</h3>
+<table>
+<thead>
+<tr>
+<th>Trazo</th>
+<th>Dónde</th>
+<th>Por qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.5</td>
+<td>El ícono de 12 del chip de estado</td>
+<td>A ese cuerpo, con trazo 2 se desarma</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Todo lo demás</td>
+<td>Es el trazo base</td>
+</tr>
+<tr>
+<td>1.5</td>
+<td>La campana de 48 del vacío</td>
+<td>A ese tamaño un trazo grueso pesa más que el texto</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Ícono</th>
+<th>#</th>
+<th>Dónde se ve</th>
+<th>Tamaño</th>
+<th>Trazo</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img class="ico" src="iconos/03-bell.svg" alt="Bell"></td>
+<td>03 <code>Bell</code></td>
+<td>Campana del encabezado del Inicio</td>
+<td>22</td>
+<td>2</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/04-user.svg" alt="User"></td>
+<td>04 <code>User</code></td>
+<td>Avatar, cuando no hay inicial válida</td>
+<td>la mitad del círculo: 22 en el avatar de 44</td>
+<td>2</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/01-arrow-left.svg" alt="ArrowLeft"></td>
+<td>01 <code>ArrowLeft</code></td>
+<td>Volver, en la barra superior</td>
+<td>20</td>
+<td>2</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/02-ellipsis-vertical.svg" alt="MoreVertical"></td>
+<td>02 <code>MoreVertical</code></td>
+<td>Más opciones, en la barra superior</td>
+<td>20</td>
+<td>2</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/05-trash-2.svg" alt="Trash2"></td>
+<td>05 <code>Trash2</code></td>
+<td>Eliminar, en la fila</td>
+<td>16</td>
+<td>2</td>
+<td><code>--gray-40</code></td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/08-inbox.svg" alt="Inbox"> <img class="ico" src="iconos/09-clock.svg" alt="Clock"> <img class="ico" src="iconos/10-calendar.svg" alt="Calendar"> <img class="ico" src="iconos/11-circle-check-big.svg" alt="CheckCircle"> <img class="ico" src="iconos/12-circle-x.svg" alt="XCircle"></td>
+<td>08 a 12</td>
+<td>Chip de estado, en la fila</td>
+<td>12</td>
+<td>2.5</td>
+<td>el del estado, ver 1.2</td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/03-bell.svg" alt="Bell"></td>
+<td>03 <code>Bell</code></td>
+<td>Bandeja vacía</td>
+<td>48</td>
+<td>1.5</td>
+<td><code>--gray-40</code></td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/06-check-check.svg" alt="CheckCheck"></td>
+<td>06 <code>CheckCheck</code></td>
+<td>Marcar todas como leídas, en el menú</td>
+<td>20</td>
+<td>2</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/06-check-check.svg" alt="CheckCheck"></td>
+<td>06 <code>CheckCheck</code></td>
+<td>Línea de estado, en el menú</td>
+<td>20</td>
+<td>2</td>
+<td><code>--gray-60</code></td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/05-trash-2.svg" alt="Trash2"></td>
+<td>05 <code>Trash2</code></td>
+<td>Borrar todas, en el menú</td>
+<td>20</td>
+<td>2</td>
+<td><code>--error-red</code></td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/07-x.svg" alt="X"></td>
+<td>07 <code>X</code></td>
+<td>Cerrar el menú de acciones</td>
+<td>18</td>
+<td>2</td>
+<td><code>--gray-60</code></td>
+</tr>
+<tr>
+<td><img class="ico" src="iconos/07-x.svg" alt="X"></td>
+<td>07 <code>X</code></td>
+<td>Cerrar la confirmación de borrado</td>
+<td>18</td>
+<td>2</td>
+<td><code>--gray-60</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>El ícono del estado no se elige en la pantalla.</strong> La fila lo toma del mapa
+de estados, que da ícono, color y fondo juntos. Por eso un estado se ve igual
+en la bandeja y en el historial, y por eso se cambia en un solo lugar.</p>
+<hr />
+<h2>1.5 Componentes</h2>
+<p>Controles que usan dos o más pantallas. Los propios de una sola se definen en
+su sección de la Parte 03.</p>
+<h3>Avatar de perfil</h3>
+<p>Un solo componente, <code>AvatarDePerfil</code>, para el encabezado del Inicio y para
+Perfil. Recibe un solo parámetro, <code>tamano</code>. Todo lo demás se deriva de ahí.</p>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contenedor</td>
+<td>Círculo · 44 en el Inicio, 88 en Perfil · borde 1 pt</td>
+<td>—</td>
+<td>—</td>
+<td><code>--primary-yellow</code> · borde <code>--gray-20</code></td>
+</tr>
+<tr>
+<td>Inicial</td>
+<td>Una letra, nunca dos · cuerpo <code>round(tamano × 0.41)</code> · interlínea 1</td>
+<td>—</td>
+<td><code>avatar/inicial</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>Sin inicial</td>
+<td>Ícono a <code>round(tamano × 0.5)</code></td>
+<td>04</td>
+<td>—</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>Botón que lo contiene</td>
+<td>44 × 44 · abre Perfil</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Por qué Helvetica y no Bebas:</strong> es una letra suelta, no un título. Con
+  Bebas se lee como un logotipo.</li>
+<li><strong>Por qué el cuerpo se calcula:</strong> para no tener un número suelto por cada
+  uso. Si aparece un tercer tamaño, la letra acompaña sola.</li>
+<li><strong>No hay fotos, ni emojis, ni dos iniciales.</strong> El componente no acepta una
+  URL de imagen: no es un parámetro que se pueda pasar por error.</li>
+</ul>
+<p>La regla de la inicial está escrita una sola vez, y con pruebas:</p>
+<ol>
+<li>Descarta los espacios del principio. <code>"  maría"</code> da <code>M</code>.</li>
+<li>Toma el primer carácter, nunca dos. <code>"María López"</code> da <code>M</code>.</li>
+<li>Pasa a mayúscula respetando el español. <code>"álvaro"</code> da <code>Á</code>, <code>"ñusta"</code> da
+   <code>Ñ</code>, <code>"óscar"</code> da <code>Ó</code>.</li>
+<li>Si ese carácter no es una letra, devuelve <code>null</code>. <code>"123"</code>, <code>"#maría"</code> y
+   <code>"_"</code> no dan inicial.</li>
+<li>Sin nombre devuelve <code>null</code>, y entonces se muestra el ícono 04.</li>
+</ol>
+<h3>Barra superior</h3>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contenedor</td>
+<td>Barra fija arriba · padding 20 / 24 / 16 · sombra <code>0 2px 10px rgba(0,0,0,0.05)</code></td>
+<td>—</td>
+<td>—</td>
+<td><code>--primary-white</code></td>
+</tr>
+<tr>
+<td>Volver</td>
+<td>Botón 44 × 44 · radio 10 · borde 1 pt</td>
+<td>01</td>
+<td>—</td>
+<td>ícono <code>--primary-black</code> · borde <code>--gray-20</code></td>
+</tr>
+<tr>
+<td>Título</td>
+<td>1 línea con elipsis · a 12 del botón</td>
+<td>—</td>
+<td><code>titulo/pantalla</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>Más opciones</td>
+<td>Botón 44 × 44 · sin fondo ni borde · al borde derecho</td>
+<td>02</td>
+<td>—</td>
+<td><code>--primary-black</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Fila de notificación</h3>
+<p>La fila entera es el botón. <strong>Sin chevron y sin ícono por tipo:</strong> lo dice el
+texto.</p>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contenedor</td>
+<td>Alto 98 con una línea de título · separador inferior 1 pt</td>
+<td>—</td>
+<td>—</td>
+<td>sin leer <code>--amarillo-sin-leer</code> · leída transparente</td>
+</tr>
+<tr>
+<td>Barra de sin leer</td>
+<td>3 pt al borde izquierdo, alto completo</td>
+<td>—</td>
+<td>—</td>
+<td><code>--primary-yellow</code></td>
+</tr>
+<tr>
+<td>Zona que abre</td>
+<td>346 × 98 · padding 14 / 4 / 14 / 24 · rejilla <code>8px 1fr</code> con hueco 10</td>
+<td>—</td>
+<td>—</td>
+<td>al tocar <code>--gray-3</code></td>
+</tr>
+<tr>
+<td>Punto de sin leer</td>
+<td>8 × 8 · círculo · a 6 del tope</td>
+<td>—</td>
+<td>—</td>
+<td><code>--primary-black</code> · leída transparente</td>
+</tr>
+<tr>
+<td>Encabezado del caso</td>
+<td>1 línea con elipsis</td>
+<td>—</td>
+<td><code>fila/encabezado</code></td>
+<td>sin leer <code>--gray-60</code> · leída <code>--gray-40</code></td>
+</tr>
+<tr>
+<td>Título</td>
+<td>Hasta 2 líneas · a 3 del encabezado</td>
+<td>—</td>
+<td><code>fila/titulo</code></td>
+<td>sin leer <code>--primary-black</code> · leída <code>--gray-80</code></td>
+</tr>
+<tr>
+<td>Fecha y hora</td>
+<td>A la derecha, en la línea base del título</td>
+<td>—</td>
+<td><code>fila/fecha</code></td>
+<td><code>--gray-40</code></td>
+</tr>
+<tr>
+<td>Chip de estado</td>
+<td>A 7 del título · ver abajo</td>
+<td>08 a 12</td>
+<td><code>chip/estado</code></td>
+<td>el del estado</td>
+</tr>
+<tr>
+<td>Papelera</td>
+<td>44 de ancho · alto completo · a 15 del tope</td>
+<td>05</td>
+<td>—</td>
+<td><code>--gray-40</code></td>
+</tr>
+<tr>
+<td>Separador</td>
+<td>1 pt entre filas, no antes de la primera</td>
+<td>—</td>
+<td>—</td>
+<td><code>--gray-8</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div class="aviso"><p>⚠️ <strong>Mirar el sombreado con la bandeja entera sin leer.</strong> El amarillo marca
+una fila contra las demás. Cuando ninguna se abrió aparece en todas y deja
+de señalar, que es lo que se ve en la captura de 3.2, con las diez sin leer.
+Se implementó así porque negocio lo pidió. Queda para revisar con bandejas
+reales, mezcladas.</p></div>
+</blockquote>
+<p><strong>Dónde va el sombreado:</strong> en el contenedor de la fila, no en la zona que
+abre. Así llega hasta la papelera y la fila se lee como una sola pieza.</p>
+<h3>Chip de estado</h3>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contenedor</td>
+<td>Alto automático · padding 3 / 8 · radio 999 · hueco 5</td>
+<td>—</td>
+<td>—</td>
+<td>el fondo del estado, ver 1.2</td>
+</tr>
+<tr>
+<td>Ícono</td>
+<td>12 · trazo 2.5</td>
+<td>08 a 12</td>
+<td>—</td>
+<td>el del estado</td>
+</tr>
+<tr>
+<td>Palabra</td>
+<td>Siempre escrita, nunca solo el color</td>
+<td>—</td>
+<td><code>chip/estado</code></td>
+<td>el del estado</td>
+</tr>
+</tbody>
+</table>
+<p>Los cinco, como se ven:</p>
+<p><img class="chip" src="capturas-hu-1518-1579/chip-solicitud-recibida.png" alt="Solicitud recibida">
+<img class="chip" src="capturas-hu-1518-1579/chip-en-revision.png" alt="En revisión">
+<img class="chip" src="capturas-hu-1518-1579/chip-cita-programada.png" alt="Cita programada">
+<img class="chip" src="capturas-hu-1518-1579/chip-completada.png" alt="Completada">
+<img class="chip" src="capturas-hu-1518-1579/chip-cancelada.png" alt="Cancelada"></p>
+<p><strong>El color acompaña, no informa solo.</strong> El chip lleva siempre la palabra del
+estado, además del color y del ícono.</p>
+<h3>Hoja de acciones</h3>
+<p>La misma hoja que usa el resto de la app.</p>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fondo</td>
+<td>Capa que cierra al tocar</td>
+<td>—</td>
+<td>—</td>
+<td><code>rgba(0, 0, 0, 0.45)</code></td>
+</tr>
+<tr>
+<td>Hoja</td>
+<td>Anclada abajo · radio superior 24 · alto máximo 80 % · sombra <code>0 -8px 30px rgba(0,0,0,0.15)</code></td>
+<td>—</td>
+<td>—</td>
+<td><code>--primary-white</code></td>
+</tr>
+<tr>
+<td>Agarre</td>
+<td>48 × 6 · radio completo</td>
+<td>—</td>
+<td>—</td>
+<td><code>--gray-20</code></td>
+</tr>
+<tr>
+<td>Título</td>
+<td>Con la X al lado · borde inferior 1 pt</td>
+<td>—</td>
+<td><code>titulo/hoja</code></td>
+<td><code>--primary-black</code> · borde <code>--gray-8</code></td>
+</tr>
+<tr>
+<td>Cerrar</td>
+<td>Botón 36 × 36</td>
+<td>07</td>
+<td>—</td>
+<td><code>--gray-60</code></td>
+</tr>
+<tr>
+<td>Acción</td>
+<td>Alto mínimo 52 · padding 8 / 24 · hueco 14 · ícono en columna de 24</td>
+<td>05 06</td>
+<td><code>accion/hoja</code></td>
+<td>normal <code>--primary-black</code> · destructiva <code>--error-red</code></td>
+</tr>
+<tr>
+<td>Línea de estado</td>
+<td>Misma fila, sin acción: no se toca</td>
+<td>06</td>
+<td><code>accion/hoja</code></td>
+<td><code>--gray-60</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Hoja de confirmación</h3>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fondo</td>
+<td>Capa que cierra al tocar</td>
+<td>—</td>
+<td>—</td>
+<td><code>rgba(0, 0, 0, 0.45)</code></td>
+</tr>
+<tr>
+<td>Hoja</td>
+<td>Anclada abajo · radio superior 24 · alto máximo 90 %</td>
+<td>—</td>
+<td>—</td>
+<td><code>--primary-white</code></td>
+</tr>
+<tr>
+<td>Agarre</td>
+<td>48 × 6 · radio completo</td>
+<td>—</td>
+<td>—</td>
+<td><code>--gray-20</code></td>
+</tr>
+<tr>
+<td>Título</td>
+<td>Hasta 2 líneas · con la X al lado</td>
+<td>—</td>
+<td><code>titulo/confirmacion</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>Texto</td>
+<td>Dice qué se pierde y que no se recupera</td>
+<td>—</td>
+<td><code>cuerpo/sm</code></td>
+<td><code>--gray-80</code></td>
+</tr>
+<tr>
+<td>Pie</td>
+<td>Dos botones · borde superior 1 pt</td>
+<td>—</td>
+<td>—</td>
+<td>fondo <code>--gray-3</code> · borde <code>--gray-8</code></td>
+</tr>
+<tr>
+<td>Secundaria</td>
+<td>Radio 10 · padding 12 / 18 · alto mínimo 44</td>
+<td>—</td>
+<td><code>boton</code></td>
+<td>blanca, borde <code>--gray-20</code>, texto <code>--primary-black</code></td>
+</tr>
+<tr>
+<td>Destructiva</td>
+<td>Radio 10 · padding 12 / 18 · alto mínimo 44</td>
+<td>—</td>
+<td><code>boton</code></td>
+<td><code>--error-red</code> con texto <code>--primary-white</code></td>
+</tr>
+</tbody>
+</table>
+<p>Se cierra con <code>Cancelar</code>, con la X, tocando afuera o con Escape.</p>
+<h3>Aviso</h3>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contenedor</td>
+<td>Flotante abajo, centrado · a 16 del borde seguro · radio 12 · padding 10 / 12 / 10 / 16 · hueco 16</td>
+<td>—</td>
+<td>—</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>Texto</td>
+<td>1 línea</td>
+<td>—</td>
+<td><code>aviso</code></td>
+<td><code>--primary-white</code></td>
+</tr>
+<tr>
+<td><code>Deshacer</code></td>
+<td>Alto mínimo 36 · solo cuando la acción se puede deshacer</td>
+<td>—</td>
+<td><code>aviso</code> peso 500</td>
+<td><code>--primary-yellow</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Aviso</th>
+<th>Dura</th>
+<th>Lleva <code>Deshacer</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Notificación eliminada</code></td>
+<td>6 s</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td><code>Borramos todas tus notificaciones</code></td>
+<td>4 s</td>
+<td>No, porque no se puede deshacer</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>02 · Navegación</h1>
+<table>
+<thead>
+<tr>
+<th>Pantalla</th>
+<th>Ruta</th>
+<th>En esta entrega</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inicio</td>
+<td><code>/</code></td>
+<td>3.1, solo el encabezado</td>
+</tr>
+<tr>
+<td>Notificaciones</td>
+<td><code>/notificaciones</code></td>
+<td>3.2</td>
+</tr>
+<tr>
+<td>Bandeja vacía</td>
+<td><code>/notificaciones</code></td>
+<td>3.3</td>
+</tr>
+<tr>
+<td>Menú de acciones</td>
+<td><code>/notificaciones</code></td>
+<td>3.4</td>
+</tr>
+<tr>
+<td>Confirmar borrado</td>
+<td><code>/notificaciones</code></td>
+<td>3.5</td>
+</tr>
+<tr>
+<td>Perfil</td>
+<td><code>/perfil</code></td>
+<td>Destino del avatar, sin cambios</td>
+</tr>
+<tr>
+<td>Detalle del servicio</td>
+<td><code>/servicios/{id}</code></td>
+<td>Destino de la fila, sin cambios</td>
+</tr>
+<tr>
+<td>Detalle del reclamo</td>
+<td><code>/reclamos/{id}</code></td>
+<td>Destino de la fila, sin cambios</td>
+</tr>
+</tbody>
+</table>
+<p>Todas las rutas van con <code>#</code>: el router es <code>createHashRouter</code>.</p>
+<p><strong>No se tocan Servicios, Garantía, Perfil, Productos ni la barra inferior.</strong></p>
+<hr />
+<h1>03 · Pantallas</h1>
+<p>Cada número al margen de la captura es una fila de la tabla.</p>
+<h2>3.1 Inicio · encabezado</h2>
+<p>Lo único que cambia del Inicio. La foto de perfil se reemplaza por la inicial
+del nombre sobre amarillo, y el avatar es el acceso a Perfil.</p>
+<p><img alt="Encabezado del Inicio" class="detalle" src="capturas-hu-1518-1579/p1-inicio-encabezado.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Avatar</td>
+<td>Avatar de perfil</td>
+<td>04 si no hay inicial</td>
+<td><code>avatar/inicial</code></td>
+<td><code>--primary-yellow</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>«Hola, María»</td>
+<td>Encabezado del Inicio</td>
+<td>—</td>
+<td><code>saludo</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>«¿Qué hacemos hoy en tu hogar?»</td>
+<td>Encabezado del Inicio</td>
+<td>—</td>
+<td><code>saludo/sub</code></td>
+<td><code>--gray-60</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Campana</td>
+<td>Botón 44 × 44</td>
+<td>03</td>
+<td>—</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Contador sin leer</td>
+<td>Pastilla 16 de alto · radio 4 · padding 0 / 3</td>
+<td>—</td>
+<td><code>campana/contador</code></td>
+<td><code>--error-red</code> con texto <code>--primary-white</code></td>
+</tr>
+</tbody>
+</table>
+<p>El avatar es <code>aria-hidden</code>: lo que se anuncia es el botón que lo contiene.</p>
+<table>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Rótulo del botón</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"María"</code></td>
+<td><code>Perfil de María</code></td>
+</tr>
+<tr>
+<td><code>"  María López  "</code></td>
+<td><code>Perfil de María López</code></td>
+</tr>
+<tr>
+<td>sin nombre</td>
+<td><code>Mi perfil</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.2 Notificaciones</h2>
+<p>Raíz de la bandeja. Lista las notificaciones agrupadas por fecha y ofrece las
+acciones de la bandeja. Al tocar una fila se abre el detalle del caso y la
+notificación queda leída.</p>
+<p><img alt="La bandeja" class="numerada" src="capturas-hu-1518-1579/p2-bandeja.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver</td>
+<td>Barra superior</td>
+<td>01</td>
+<td>—</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Título «Notificaciones»</td>
+<td>Barra superior</td>
+<td>—</td>
+<td><code>titulo/pantalla</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Más opciones</td>
+<td>Barra superior</td>
+<td>02</td>
+<td>—</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>«10 notificaciones sin leer»</td>
+<td>Contador · padding 12 / 24 / 2</td>
+<td>—</td>
+<td><code>contador</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>«Hoy», «Ayer», «Anteriores»</td>
+<td>Encabezado de grupo · línea al lado</td>
+<td>—</td>
+<td><code>titulo/grupo</code></td>
+<td>texto <code>--primary-black</code> · línea <code>--gray-8</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Una notificación</td>
+<td>Fila de notificación</td>
+<td>05 08 a 12</td>
+<td>ver 1.5</td>
+<td>ver 1.5</td>
+</tr>
+</tbody>
+</table>
+<p>La captura muestra los primeros 844 px. Lo que sigue hacia abajo son más
+filas iguales.</p>
+<h3>El contador</h3>
+<p>Aparece <strong>solo con pendientes</strong>. Con la bandeja al día no hay nada que contar,
+y «0 notificaciones sin leer» es ruido.</p>
+<table>
+<thead>
+<tr>
+<th>Sin leer</th>
+<th>Texto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>1 notificación sin leer</code></td>
+</tr>
+<tr>
+<td>2 o más</td>
+<td><code>10 notificaciones sin leer</code></td>
+</tr>
+<tr>
+<td>0</td>
+<td>no se muestra</td>
+</tr>
+</tbody>
+</table>
+<h3>Fecha y hora</h3>
+<table>
+<thead>
+<tr>
+<th>Grupo</th>
+<th>Qué muestra</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hoy y Ayer</td>
+<td>Solo la hora: <code>9:30 a. m.</code> El grupo ya dice el día</td>
+</tr>
+<tr>
+<td>Anteriores</td>
+<td>Las dos: <code>16 nov, 11:20 a. m.</code></td>
+</tr>
+</tbody>
+</table>
+<h3>La fila, en detalle</h3>
+<p><img alt="Una fila de notificación" class="detalle" src="capturas-hu-1518-1579/p3-fila.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Barra y sombreado de sin leer</td>
+<td>Fila de notificación</td>
+<td>—</td>
+<td>—</td>
+<td>barra <code>--primary-yellow</code> · fondo <code>--amarillo-sin-leer</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Punto de sin leer</td>
+<td>8 × 8 · círculo</td>
+<td>—</td>
+<td>—</td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>«Servicio · Instalación de aire acondicionado»</td>
+<td>Fila de notificación</td>
+<td>—</td>
+<td><code>fila/encabezado</code></td>
+<td><code>--gray-60</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>«Tu cita está programada»</td>
+<td>Fila de notificación</td>
+<td>—</td>
+<td><code>fila/titulo</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>«9:30 a. m.»</td>
+<td>Fila de notificación</td>
+<td>—</td>
+<td><code>fila/fecha</code></td>
+<td><code>--gray-40</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>«Cita programada»</td>
+<td>Chip de estado</td>
+<td>10</td>
+<td><code>chip/estado</code></td>
+<td><code>--info-blue</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Eliminar</td>
+<td>Botón 44 de ancho</td>
+<td>05</td>
+<td>—</td>
+<td><code>--gray-40</code></td>
+</tr>
+</tbody>
+</table>
+<p>La de garantía es la misma fila: lo único que cambia es la palabra del
+encabezado y el título.</p>
+<p><img alt="Una notificación de garantía" src="capturas-hu-1518-1579/04-notificacion-garantia.png" /></p>
+<h3>Leída y sin leer</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Sin leer</th>
+<th>Leída</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fondo de la fila</td>
+<td><code>--amarillo-sin-leer</code></td>
+<td>transparente</td>
+</tr>
+<tr>
+<td>Barra al borde</td>
+<td>3 pt <code>--primary-yellow</code></td>
+<td>sin barra</td>
+</tr>
+<tr>
+<td>Punto</td>
+<td><code>--primary-black</code></td>
+<td>sin punto</td>
+</tr>
+<tr>
+<td>Encabezado del caso</td>
+<td><code>--gray-60</code></td>
+<td><code>--gray-40</code></td>
+</tr>
+<tr>
+<td>Título</td>
+<td><code>--primary-black</code>, peso 500</td>
+<td><code>--gray-80</code>, peso 400</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sin notificación prioritaria.</strong> El amarillo marca lo que no se abrió, no una
+fila destacada. Manda la fecha.</p>
+<hr />
+<h2>3.3 Notificaciones · bandeja vacía</h2>
+<p>Campana, dos líneas de texto, centrado. <strong>Sin botón.</strong></p>
+<p><img alt="Bandeja vacía" class="numerada" src="capturas-hu-1518-1579/p4-vacio.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Campana</td>
+<td>Ícono 48 · trazo 1.5</td>
+<td>03</td>
+<td>—</td>
+<td><code>--gray-40</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>«No tienes notificaciones»</td>
+<td>Título del vacío · a 16 del ícono</td>
+<td>—</td>
+<td><code>titulo/pantalla</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>«Cuando tengamos información sobre tus servicios o garantías, la verás aquí.»</td>
+<td>Texto del vacío · a 8 del título · hasta 32 caracteres por línea</td>
+<td>—</td>
+<td><code>cuerpo/md</code></td>
+<td><code>--gray-60</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+
+<tbody>
+<tr>
+<td>Posición</td>
+<td>Centrado en el espacio que queda debajo del encabezado</td>
+</tr>
+<tr>
+<td>Rol</td>
+<td><code>role="status"</code></td>
+</tr>
+<tr>
+<td>Qué desaparece</td>
+<td>El contador y el botón de tres puntos. Queda la flecha de volver y el título</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sin CTA, sin ilustración, sin emojis.</strong> Una bandeja vacía no es un callejón
+ni una falla: es que está todo al día. No hay nada que ir a hacer.</p>
+<hr />
+<h2>3.4 Notificaciones · menú de acciones</h2>
+<p>Se abre con los tres puntos del encabezado. Dos acciones, y solo cuando tienen
+sentido.</p>
+<p><img alt="Menú de acciones" class="numerada" src="capturas-hu-1518-1579/p5-menu.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Título «Notificaciones»</td>
+<td>Hoja de acciones</td>
+<td>—</td>
+<td><code>titulo/hoja</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Cerrar</td>
+<td>Hoja de acciones</td>
+<td>07</td>
+<td>—</td>
+<td><code>--gray-60</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>«Marcar todas como leídas»</td>
+<td>Acción de la hoja</td>
+<td>06</td>
+<td><code>accion/hoja</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>«Borrar todas las notificaciones»</td>
+<td>Acción de la hoja, destructiva</td>
+<td>05</td>
+<td><code>accion/hoja</code></td>
+<td><code>--error-red</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Cuándo aparece</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Marcar todas como leídas</code></td>
+<td>Solo si hay al menos una sin leer</td>
+</tr>
+<tr>
+<td><code>Listo, no te queda ninguna sin leer</code></td>
+<td>En su lugar cuando no queda ninguna sin leer. <strong>No es un control:</strong> es una línea de estado, gris y sin acción</td>
+</tr>
+<tr>
+<td><code>Borrar todas las notificaciones</code></td>
+<td>Si hay al menos una notificación</td>
+</tr>
+<tr>
+<td>El menú entero</td>
+<td>Solo si hay al menos una notificación</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>La línea de estado es una decisión de esta implementación, no un pedido de
+la historia. Sin ella el menú se abre con una sola opción, y esa opción es
+la destructiva.</p>
+</blockquote>
+<hr />
+<h2>3.5 Notificaciones · confirmar borrado</h2>
+<p>Borrar todas <strong>sí</strong> pide confirmación, porque no hay vuelta atrás. Eliminar
+una, no.</p>
+<p><img alt="Confirmación de borrado" class="numerada" src="capturas-hu-1518-1579/p6-confirmacion.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>«¿Borrar todas las notificaciones?»</td>
+<td>Hoja de confirmación</td>
+<td>—</td>
+<td><code>titulo/confirmacion</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Cerrar</td>
+<td>Hoja de confirmación</td>
+<td>07</td>
+<td>—</td>
+<td><code>--gray-60</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>«Esta acción eliminará todas las notificaciones de tu bandeja. No podrás recuperarlas.»</td>
+<td>Hoja de confirmación</td>
+<td>—</td>
+<td><code>cuerpo/sm</code></td>
+<td><code>--gray-80</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>«Cancelar»</td>
+<td>Botón secundario</td>
+<td>—</td>
+<td><code>boton</code></td>
+<td>blanco con borde <code>--gray-20</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>«Borrar todas»</td>
+<td>Botón destructivo</td>
+<td>—</td>
+<td><code>boton</code></td>
+<td><code>--error-red</code> con texto <code>--primary-white</code></td>
+</tr>
+</tbody>
+</table>
+<p>Al confirmar:</p>
+<ul>
+<li>La bandeja queda vacía y aparece el estado vacío de 3.3.</li>
+<li>Sale el aviso <code>Borramos todas tus notificaciones</code>, que se va solo a los 4
+  segundos y <strong>no lleva <code>Deshacer</code></strong>.</li>
+</ul>
+<p><strong>No hay borrado de un toque.</strong> Eliminar una sola, en cambio, no pide
+confirmación: muestra <code>Notificación eliminada</code> con <code>Deshacer</code> durante 6
+segundos. Para una acción chica, en vez de frenar antes se puede volver atrás
+después.</p>
+<hr />
+<h1>04 · Contenido</h1>
+<h2>4.1 Qué es una notificación</h2>
+<p>Una notificación avisa que una solicitud <strong>cambió de estado</strong>. Nada más.</p>
+<p>Los estados son <strong>los mismos</strong> que ya usan el historial y los detalles. No hay
+vocabulario paralelo para la bandeja.</p>
+<pre><code>Solicitud recibida · En revisión · Cita programada · Completada · Cancelada
+</code></pre>
+<h3>Qué se retiró</h3>
+<table>
+<thead>
+<tr>
+<th>Se fue</th>
+<th>Motivo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Tu visita es mañana</code></td>
+<td>Es un recordatorio, no un cambio de estado. Nadie define hoy cuándo se dispara</td>
+</tr>
+<tr>
+<td><code>Técnico asignado</code></td>
+<td>El modelo no emite la asignación. Salía de una fijación</td>
+</tr>
+<tr>
+<td><code>Actualizamos tu reclamo</code></td>
+<td>No dice qué cambió. Lo reemplaza el estado concreto</td>
+</tr>
+<tr>
+<td>Encuestas y calificaciones</td>
+<td>No son un cambio de estado</td>
+</tr>
+<tr>
+<td>La notificación prioritaria</td>
+<td>La daba el recordatorio de visita. Sin él, ningún estado pesa más que otro</td>
+</tr>
+</tbody>
+</table>
+<p>Vuelven cuando se defina quién las emite y cuándo.</p>
+<h2>4.2 La matriz de títulos</h2>
+<p>Es <strong>cerrada</strong>: no hay título por defecto ni armado con plantilla. Un estado
+sin texto definido no compila, y eso es lo que impide notificarlo.</p>
+<p><strong>Servicio</strong></p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Título</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solicitud recibida</td>
+<td>Recibimos tu solicitud</td>
+</tr>
+<tr>
+<td>En revisión</td>
+<td>Estamos revisando tu solicitud</td>
+</tr>
+<tr>
+<td>Cita programada</td>
+<td>Tu cita está programada</td>
+</tr>
+<tr>
+<td>Completada</td>
+<td>Tu servicio fue completado</td>
+</tr>
+<tr>
+<td>Cancelada</td>
+<td>Tu solicitud fue cancelada</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Garantía</strong></p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Título</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solicitud recibida</td>
+<td>Recibimos tu solicitud de garantía</td>
+</tr>
+<tr>
+<td>En revisión</td>
+<td>Estamos revisando tu solicitud de garantía</td>
+</tr>
+<tr>
+<td>Cita programada</td>
+<td>Tu atención está programada</td>
+</tr>
+<tr>
+<td>Completada</td>
+<td>Tu solicitud fue completada</td>
+</tr>
+<tr>
+<td>Cancelada</td>
+<td>Tu solicitud fue cancelada</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Por qué las dos columnas no dicen lo mismo:</strong> en garantía la persona pidió
+ayuda por garantía, no «un servicio». La notificación tiene que sonar a lo que
+pidió.</p>
+<h2>4.3 Servicio o garantía, siempre en texto</h2>
+<table>
+<thead>
+<tr>
+<th>Tipo de caso</th>
+<th>Nombre del caso</th>
+<th>Encabezado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Servicio</td>
+<td>Instalación de aire acondicionado</td>
+<td><code>Servicio · Instalación de aire acondicionado</code></td>
+</tr>
+<tr>
+<td>Garantía</td>
+<td>Refrigeradora Samsung</td>
+<td><code>Garantía · Refrigeradora Samsung</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>No alcanza con el ícono ni con el color: un ícono se interpreta y un color
+  no se lee en voz alta.</li>
+<li>El nombre del caso sale del <strong>mismo servicio o reclamo al que la fila ya
+  navega</strong>. No es un campo nuevo.</li>
+<li>Si el servicio cambia de nombre, la bandeja lo refleja sola.</li>
+</ul>
+<h2>4.4 El modelo</h2>
+<pre><code class="language-ts">interface NotificacionCliente {
+  id: string;
+  tipoCaso: &quot;servicio&quot; | &quot;garantia&quot;;
+  estado: EstadoDeSolicitud;   // uno de los cinco
+  fecha: string;               // ISO con hora
+  servicioId?: string;         // uno de los dos, nunca los dos
+  reclamoId?: string;
+}
+</code></pre>
+<p><strong>El título no se guarda.</strong> Se deriva de <code>tipoCaso</code> más <code>estado</code>. Un cambio de
+copy se hace en un solo lugar y no deja notificaciones viejas con el texto
+anterior.</p>
+<h2>4.5 Orden y agrupación</h2>
+<ul>
+<li>Grupos <strong>Hoy, Ayer, Anteriores</strong>, en ese orden. Los vacíos no se muestran.</li>
+<li>Dentro de cada grupo, <strong>la más reciente arriba</strong>.</li>
+<li>Nada más. Ya no hay prioridad.</li>
+</ul>
+<h2>4.6 Terminología y accesibilidad</h2>
+<p>La palabra es <strong><code>notificaciones</code></strong>, en la app y en el código. <code>novedades</code> se
+retiró de las dos pantallas de esta entrega.</p>
+<blockquote>
+<div class="aviso"><p>⚠️ <strong><code>novedades</code> sigue viva en Garantía.</strong> No es alcance de esta HU, así que
+no se tocó.</p></div>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Qué se anuncia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Avatar del Inicio</td>
+<td><code>Perfil de María</code>, o <code>Mi perfil</code> sin nombre</td>
+</tr>
+<tr>
+<td>Campana</td>
+<td><code>Notificaciones, 10 sin leer</code>, o <code>Notificaciones</code> sin pendientes</td>
+</tr>
+<tr>
+<td>Fila</td>
+<td><code>Ver Instalación de aire acondicionado</code></td>
+</tr>
+<tr>
+<td>Papelera</td>
+<td><code>Eliminar Tu cita está programada</code></td>
+</tr>
+<tr>
+<td>Tres puntos</td>
+<td><code>Más opciones</code>, con <code>aria-haspopup="dialog"</code></td>
+</tr>
+<tr>
+<td>Bandeja vacía</td>
+<td><code>role="status"</code></td>
+</tr>
+<tr>
+<td>Avisos</td>
+<td><code>role="status"</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>Cuando este documento y el código no coincidan, manda el código.</strong></p>
+</main>
+</body>
+</html>

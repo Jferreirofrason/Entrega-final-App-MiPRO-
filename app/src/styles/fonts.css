@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Bebas Neue for Headers */
+
+/* Helvetica Neue alternatives - using system fonts as Helvetica Neue requires licensing */
+/* Using a combination of Arial and San Francisco (system fonts) which closely match Helvetica Neue */
+@font-face {
+  font-family: 'Helvetica Neue LT Std';
+  src: local('Helvetica Neue'), local('HelveticaNeue'), local('Arial');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue LT Std';
+  src: local('Helvetica Neue Medium'), local('HelveticaNeue-Medium'), local('Arial');
+  font-weight: 500;
+  font-style: normal;
+}

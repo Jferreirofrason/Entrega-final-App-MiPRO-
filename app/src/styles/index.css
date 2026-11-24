@@ -1,0 +1,105 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+/* Accesibilidad: con reducción de movimiento activa, las animaciones y
+   transiciones decorativas se desactivan en toda la app. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Entrada en cascada del Home: sutil, solo si el movimiento está permitido. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hogar-aparecer {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+  .hogar-entrada { animation: hogar-aparecer 360ms ease-out backwards; }
+
+  /* Transición de éxito del pago (components/pago/TransicionExito.tsx).
+     El círculo aparece, el check se traza y el texto entra detrás. Nada de
+     rebotes ni confeti. Con movimiento reducido no corre ninguna: la regla
+     de arriba las lleva a 0,01ms y todo se ve en su estado final, que es
+     el check ya dibujado. */
+  @keyframes mipro-exito-circulo {
+    from { opacity: 0; transform: scale(0.84); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes mipro-exito-trazo {
+    from { stroke-dashoffset: 48; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes mipro-exito-texto {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes mipro-exito-salida {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  .mipro-exito-circulo { animation: mipro-exito-circulo 420ms cubic-bezier(0.2, 0.7, 0.3, 1) backwards; }
+  .mipro-exito-trazo { animation: mipro-exito-trazo 440ms 240ms ease-out backwards; }
+  .mipro-exito-texto { animation: mipro-exito-texto 340ms 420ms ease-out backwards; }
+  .mipro-exito-saliendo { animation: mipro-exito-salida 280ms ease-in forwards; }
+}
+
+/* Marco de "teléfono" del shell (App.tsx): la silueta del iPhone 15 Pro
+   (393 × 852), que se achica entera si la ventana es más baja, SIN perder
+   la proporción.
+   El alto mínimo existe para que un teléfono real en horizontal (ancho
+   >640px pero apenas ~375-430px de alto) NO quede encerrado en un mockup
+   en miniatura: ahí conviene el modo fluido. OJO con el umbral: estuvo en
+   700px y dejaba sin marco a cualquier ventana de laptop de altura normal
+   (una ventana de 1280×650 mostraba la app estirada de borde a borde). El
+   corte va en 520px: por encima está cualquier ventana de escritorio, por
+   debajo solo teléfonos en horizontal (el más alto, 430px). */
+@media (min-width: 640px) and (min-height: 520px) {
+  /* Mismo umbral que .app-shell: el aire alrededor del marco solo tiene
+     sentido cuando el marco existe. En modo fluido (incluido un teléfono
+     horizontal) esto debe quedar en 0, si no el marco se ve empujado hacia
+     adentro por un padding que no correspondía. */
+  .app-shell-backdrop {
+    padding: 1rem;
+  }
+  .app-shell {
+    /* El teléfono mide SIEMPRE 393 × 852, la silueta del iPhone 15 Pro, y
+       en una ventana baja se dibuja más chico con scale.
+
+       Antes se recortaba el alto con max-height dejando el ancho en 393:
+       el teléfono se achataba y parecía una tablet. Reducir el ancho en vez
+       de escalar tampoco sirve, porque entonces la app se renderiza a un
+       ancho que ningún teléfono tiene (260-300 px) y lo que se revisa deja
+       de ser el diseño real. Escalando, el layout de adentro es siempre el
+       de 393 px. */
+    height: 852px;
+    width: 393px;
+    /* `zoom` y no `transform: scale()`: el transform no achica el espacio
+       que el elemento ocupa en el layout, así que el teléfono se salía por
+       abajo y la página quedaba con scroll. `zoom` sí lo achica, y el
+       centrado del backdrop sigue funcionando solo. */
+    zoom: min(1, calc(92vh / 852px));
+    /* Marco tipo iPhone: bisel fino y grafito en vez de un borde negro de
+       8 px, con el canto metálico en el primer anillo de la sombra y las
+       esquinas bien redondeadas, como las de un teléfono actual. */
+    border-radius: 48px;
+    border: 4px solid #1c1c1e;
+    box-shadow:
+      0 0 0 2px #48484a,
+      0 24px 48px -12px rgba(0, 0, 0, 0.3),
+      0 8px 16px -8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* El buscador ya tiene su propio botón de borrar: se oculta el nativo. */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}

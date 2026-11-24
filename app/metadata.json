@@ -1,0 +1,6 @@
+{
+  "name": "MiPRO - Gestión de Garantía",
+  "description": "Aplicación premium para la gestión de garantías y servicios de hogar. Permite registrar productos, solicitar reclamos de garantía con geolocalización y seguimiento de citas técnicas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

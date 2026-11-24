@@ -1,0 +1,5113 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiPRO — Detalles de diseño de la app</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amarillo: #FFEE00;
+    --negro: #000000;
+    --gris-80: #414141;
+    --gris-60: #717171;
+    --gris-40: #929292;
+    --gris-20: #D0D0D0;
+    --gris-8: #ECECEC;
+    --gris-3: #F6F6F5;
+    --rojo: #E05263;
+    --azul: #336DD0;
+    --oro: #8A7A00;
+    --texto: 'Helvetica Neue LT Std', Helvetica, Arial, sans-serif;
+    --titulo: 'Bebas Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--gris-3);
+    color: var(--negro);
+    font-family: var(--texto);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hoja {
+    max-width: 920px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 56px 64px 96px;
+  }
+
+  h1, h2, h3 { font-family: var(--titulo); text-transform: uppercase; letter-spacing: 1px; font-weight: 400; }
+  h1 { font-size: 46px; line-height: 1.05; margin: 0 0 8px; }
+  h1 + p, h1 + table { margin-top: 24px; }
+  h2 {
+    font-size: 30px;
+    margin: 64px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--amarillo);
+  }
+  h3 { font-size: 21px; margin: 40px 0 12px; }
+  h4 { font-family: var(--texto); font-size: 15px; font-weight: 600; margin: 24px 0 8px; }
+
+  p { margin: 0 0 14px; }
+  a { color: var(--azul); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  strong { font-weight: 600; }
+
+  hr { border: 0; border-top: 1px solid var(--gris-8); margin: 48px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 13.5px;
+    page-break-inside: auto;
+  }
+  th, td {
+    text-align: left;
+    vertical-align: top;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--gris-8);
+  }
+  th {
+    background: var(--gris-3);
+    font-weight: 600;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--gris-80);
+    border-bottom: 1px solid var(--gris-20);
+  }
+  tr:last-child td { border-bottom: 1px solid var(--gris-20); }
+  td code, th code, li code, p code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.88em;
+    background: var(--gris-3);
+    border: 1px solid var(--gris-8);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  pre {
+    background: var(--negro);
+    color: #fff;
+    border-radius: 8px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  pre code { background: none; border: 0; padding: 0; color: inherit; }
+
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li input[type=checkbox] { margin-right: 6px; }
+
+  blockquote {
+    margin: 16px 0;
+    padding: 12px 18px;
+    background: var(--gris-3);
+    border-left: 4px solid var(--gris-20);
+    border-radius: 0 8px 8px 0;
+    color: var(--gris-80);
+  }
+
+  img {
+    display: block;
+    width: 320px;
+    max-width: 100%;
+    border: 1px solid var(--gris-20);
+    border-radius: 12px;
+    margin: 8px 0 8px;
+  }
+
+  /* Los avisos "Pendiente de definición" e "Inconsistencia detectada" se
+     marcan solos: el Markdown ya los escribe con un signo al inicio. */
+  .aviso {
+    background: rgba(255, 238, 0, 0.12);
+    border-left: 4px solid var(--amarillo);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
+  }
+  .aviso p { margin: 0; }
+
+  @media print {
+    body { background: #fff; }
+    .hoja { max-width: none; padding: 0; }
+    /* Nada se empuja de página: las tablas cortan entre filas y solo las
+       imágenes y los avisos se mantienen enteros. Con break-inside: avoid en
+       las tablas quedaban páginas casi vacías. */
+    table, pre, thead, tbody, img { break-inside: auto; page-break-inside: auto; }
+    tr, .aviso { break-inside: avoid; page-break-inside: avoid; }
+    thead { display: table-row-group; }
+    p, li { orphans: 2; widows: 2; }
+    h1, h2, h3, h4 { break-after: auto; page-break-after: auto; }
+    h2 { margin-top: 32px; }
+    h3 { margin-top: 24px; }
+    hr { margin: 24px 0; }
+    /* Las capturas pueden cortarse en el corte de página y seguir en la
+       siguiente. Es lo que evita las páginas medio vacías. Sin radio, para
+       que el corte no parezca un error de render. */
+    img { width: 220px; border-radius: 0; }
+    a { color: var(--negro); }
+  }
+  @page { margin: 16mm 14mm; size: A4; }
+
+  @media (max-width: 720px) {
+    .hoja { padding: 32px 20px 64px; }
+    h1 { font-size: 34px; }
+    h2 { font-size: 24px; }
+    table { font-size: 12.5px; }
+    th, td { padding: 7px 8px; }
+  }
+</style>
+</head>
+<body>
+<main class="hoja">
+<h1>MiPRO — Detalles de diseño de la app</h1>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Actualizado</strong></td>
+<td>22 de septiembre de 2026</td>
+</tr>
+<tr>
+<td><strong>Versión del documento</strong></td>
+<td>1.0</td>
+</tr>
+<tr>
+<td><strong>Repositorio</strong></td>
+<td><code>Jferreirofrason/AppMiPRO</code> (privado)</td>
+</tr>
+<tr>
+<td><strong>Rama analizada</strong></td>
+<td><code>main</code>, commit <code>10ff9b2</code> más el commit local <code>3f49c3e</code> de ajustes de copy</td>
+</tr>
+<tr>
+<td><strong>App desplegada</strong></td>
+<td>https://app-mipro-app.vercel.app</td>
+</tr>
+<tr>
+<td><strong>Carpeta local analizada</strong></td>
+<td><code>~/Downloads/AppMiPRO</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>1. Propósito y alcance</h2>
+<p>Este documento describe <strong>lo que la app ya tiene implementado</strong>, para que desarrollo, QA y diseño trabajen sobre la misma referencia.</p>
+<h3>Qué cubre</h3>
+<ul>
+<li>El sistema visual: tipografía, color, espaciado, radios, bordes e íconos, tomados de <code>src/styles/theme.css</code> y de los estilos en línea de cada componente.</li>
+<li>Los componentes compartidos que existen hoy, con su archivo, sus variantes y sus estados.</li>
+<li>La navegación y las rutas tal como están declaradas en <code>src/app/routes.tsx</code>.</li>
+<li>El detalle de cada pantalla implementada, con captura y tabla de elementos.</li>
+<li>Las reglas funcionales que se ven en la interfaz.</li>
+<li>El inventario de textos de interfaz y dónde vive cada uno.</li>
+</ul>
+<h3>Qué NO cubre</h3>
+<ul>
+<li><strong>Integraciones reales.</strong> No hay backend: los datos salen de fixtures en <code>src/app/data/</code> y el estado de sesión vive en <code>sessionStorage</code>. Nada persiste entre recargas salvo lo que se indica.</li>
+<li><strong>Reglas de operación que no se ven en la interfaz</strong> (SLA, asignación de técnicos, matriz de cobertura de garantía).</li>
+<li><strong>Decisiones de backend</strong>: modelo de datos productivo, autenticación real, notificaciones push.</li>
+<li><strong>Contenido no implementado</strong>: fotos productivas del PIM, catálogo definitivo de estados de caso, textos legales finales.</li>
+</ul>
+<h3>Fuente de verdad</h3>
+<p>Si este documento y el código no coinciden, vale el código. Los archivos que hay que leer están listados en la sección 11.</p>
+<p><strong>Sobre las capturas.</strong> Salen de la app desplegada, sin retocar: 375 px de ancho, factor de escala 2 y el alto exacto de cada pantalla. Se toman con movimiento reducido, para que las animaciones de entrada no queden a mitad de camino, y esperando a que carguen todas las imágenes. Se regeneran con <code>node docs/capturar.mjs</code>.</p>
+<hr />
+<h2>2. Fundamentos visuales</h2>
+<h3>2.1 Tipografía</h3>
+<p>Dos familias, declaradas en <code>src/styles/fonts.css</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Familia</th>
+<th>Cómo se carga</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bebas Neue</strong></td>
+<td>Google Fonts (<code>@import</code>)</td>
+<td>Títulos. Siempre en caja alta, con <code>letter-spacing: 1px</code></td>
+</tr>
+<tr>
+<td><strong>Helvetica Neue LT Std</strong></td>
+<td><code>local()</code> con fallback a Arial</td>
+<td>Toda la interfaz y el cuerpo de texto</td>
+</tr>
+</tbody>
+</table>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> Helvetica Neue LT Std se carga con <code>local()</code>: si la máquina de la persona no la tiene instalada, cae a Arial. El <code>@font-face</code> declara solo los pesos 400 y 500. No hay archivos de fuente en el repositorio. Para producción hay que decidir si se licencia y se sirve la fuente o se adopta una alternativa. Archivo: <code>src/styles/fonts.css</code>.</p></div>
+<h4>Escala real</h4>
+<p>Los tamaños de la escala base están en <code>src/styles/theme.css</code> (bloque <code>@layer base</code>), pero <strong>la mayoría de los componentes fija su tamaño en estilos en línea</strong>, no con clases. Esta tabla refleja lo que se usa en pantalla:</p>
+<table>
+<thead>
+<tr>
+<th>Uso</th>
+<th>Familia</th>
+<th>Tamaño / línea</th>
+<th>Peso</th>
+<th>Caja</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Título de pantalla (header)</td>
+<td>Bebas Neue</td>
+<td>20px</td>
+<td>400</td>
+<td>ALTA, <code>letter-spacing: 1px</code></td>
+<td>Header de cada página</td>
+</tr>
+<tr>
+<td>Título de sección</td>
+<td>Bebas Neue</td>
+<td>18px</td>
+<td>400</td>
+<td>ALTA, <code>letter-spacing: 1px</code></td>
+<td><code>home/TituloSeccion.tsx</code></td>
+</tr>
+<tr>
+<td>Encabezado de fecha (notificaciones)</td>
+<td>Bebas Neue</td>
+<td>16px</td>
+<td>400</td>
+<td>ALTA, 1px</td>
+<td><code>pages/Notificaciones.tsx</code></td>
+</tr>
+<tr>
+<td>Nombre de producto o servicio en card</td>
+<td>Bebas Neue</td>
+<td>17–24px</td>
+<td>400</td>
+<td>ALTA, 1px</td>
+<td>Cards de reclamo, card negra del Home</td>
+</tr>
+<tr>
+<td>Cuerpo</td>
+<td>Helvetica</td>
+<td>14px / 1.5</td>
+<td>400</td>
+<td>normal</td>
+<td>Base <code>p</code> en <code>theme.css</code></td>
+</tr>
+<tr>
+<td>Título de fila / card</td>
+<td>Helvetica</td>
+<td>14–15px / 19–20px</td>
+<td>500</td>
+<td>normal</td>
+<td>Filas de catálogo, notificaciones</td>
+</tr>
+<tr>
+<td>Label de formulario</td>
+<td>Helvetica</td>
+<td>13px / 19px</td>
+<td>500</td>
+<td>normal</td>
+<td><code>garantia/Campo.tsx</code></td>
+</tr>
+<tr>
+<td>Texto de ayuda y secundario</td>
+<td>Helvetica</td>
+<td>12–13px / 18–19px</td>
+<td>400</td>
+<td>normal</td>
+<td>Ayudas de campo, mensajes de card</td>
+</tr>
+<tr>
+<td>Caption y metadatos</td>
+<td>Helvetica</td>
+<td>11–11.5px</td>
+<td>400</td>
+<td>normal</td>
+<td>Fechas, números de reclamo</td>
+</tr>
+<tr>
+<td>Marca de campo (<code>Obligatorio*</code> / <code>Opcional</code>)</td>
+<td>Helvetica</td>
+<td>11px</td>
+<td>400</td>
+<td>normal</td>
+<td><code>garantia/Campo.tsx</code>, en <code>MarcaCampo</code></td>
+</tr>
+<tr>
+<td>Botón</td>
+<td>Helvetica</td>
+<td>14px</td>
+<td>500</td>
+<td>normal</td>
+<td>Botones de acción principal</td>
+</tr>
+<tr>
+<td>Navegación (tab bar)</td>
+<td>Helvetica</td>
+<td>11px</td>
+<td>400 inactivo / 600 activo</td>
+<td>normal</td>
+<td><code>components/TabBar.tsx</code></td>
+</tr>
+<tr>
+<td>Chip de estado</td>
+<td>Helvetica</td>
+<td>10.5–11px</td>
+<td>500</td>
+<td>ALTA, <code>letter-spacing: 0.5px</code></td>
+<td>Cards de reclamo y de servicio</td>
+</tr>
+</tbody>
+</table>
+<h4>Reglas de mayúsculas</h4>
+<ul>
+<li><strong>Los títulos van en caja alta</strong> por la familia: Bebas Neue se usa siempre con <code>text-transform: uppercase</code>.</li>
+<li><strong>Los chips de estado van en caja alta</strong> con tracking de 0.5px.</li>
+<li><strong>La marca de campo obligatorio NO va en caja alta.</strong> Se lee <code>Obligatorio*</code> con el asterisco pegado a la palabra, en <code>--error-red</code>, dibujado a 16px y peso 700 aunque la etiqueta sea de 11px: a 11px el glifo queda arriba y casi no se ve. Los opcionales dicen <code>Opcional</code>, sin asterisco. Vive en <code>MarcaCampo</code> y lo usan garantía, el alta de dirección, la fecha del agendamiento, la configuración del servicio, la calificación y el alta de producto.</li>
+</ul>
+<h4>Truncado y responsive</h4>
+<table>
+<thead>
+<tr>
+<th>Regla</th>
+<th>Dónde</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>truncate</code> (una línea con elipsis)</td>
+<td>Títulos de header, número de reclamo, nombre de técnico</td>
+<td><code>text-overflow: ellipsis</code></td>
+</tr>
+<tr>
+<td><code>line-clamp-2</code></td>
+<td>Nombre y descripción en filas de catálogo, título y mensaje de notificación</td>
+<td>Dos líneas exactas</td>
+</tr>
+<tr>
+<td>Filas de alto fijo</td>
+<td>Filas del catálogo</td>
+<td><code>minHeight</code> por bloque (nombre 38px, descripción 34px) para que todas las filas midan igual con textos de distinto largo</td>
+</tr>
+<tr>
+<td>Espacio reservado con NBSP</td>
+<td>Fila de precio y de inspección en el catálogo</td>
+<td>Cuando el dato falta se escribe <code></code> para que la fila no cambie de alto</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>2.2 Colores y tokens</h3>
+<p>Todos los valores salen de <code>src/styles/theme.css</code>. La app <strong>no debe hardcodear color</strong>: se usa <code>var(--token)</code>.</p>
+<h4>Marca</h4>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Valor</th>
+<th>Uso</th>
+<th>Ejemplo de componente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--primary-yellow</code></td>
+<td><code>#FFEE00</code></td>
+<td>Acciones principales, selección, estados ON, acento de marca</td>
+<td>Botón "Ver todos los servicios", barra de la notificación prioritaria</td>
+</tr>
+<tr>
+<td><code>--primary-black</code></td>
+<td><code>#000000</code></td>
+<td>Títulos, íconos activos, superficie de la card destacada</td>
+<td>Card negra "Servicio en curso" del Home</td>
+</tr>
+<tr>
+<td><code>--primary-white</code></td>
+<td><code>#FFFFFF</code></td>
+<td>Superficies, fondo de inputs</td>
+<td>Cards, campos de formulario</td>
+</tr>
+<tr>
+<td><code>--primary-gray</code></td>
+<td><code>#575756</code></td>
+<td>Texto de cuerpo secundario</td>
+<td>Definido en el tema</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Prohibición del sistema:</strong> no se usa naranja. Todo destaque va en amarillo de marca (<code>guidelines/Guidelines.md</code>).</p>
+</blockquote>
+<h4>Escala de grises</h4>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Valor</th>
+<th>Uso</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--gray-80</code></td>
+<td><code>#414141</code></td>
+<td>Texto secundario fuerte, fondo de tooltips</td>
+<td>Mensaje de card leída</td>
+</tr>
+<tr>
+<td><code>--gray-60</code></td>
+<td><code>#717171</code></td>
+<td>Placeholder, texto de ayuda, metadatos</td>
+<td>Ayuda de campo, fechas</td>
+</tr>
+<tr>
+<td><code>--gray-40</code></td>
+<td><code>#929292</code></td>
+<td>Labels secundarios, íconos inactivos, estado pendiente</td>
+<td>Ícono de notificación leída, chevron</td>
+</tr>
+<tr>
+<td><code>--gray-20</code></td>
+<td><code>#D0D0D0</code></td>
+<td>Borde por defecto de input, bordes sin seleccionar</td>
+<td><code>estiloInput</code>, regla del encabezado de fecha</td>
+</tr>
+<tr>
+<td><code>--gray-8</code></td>
+<td><code>#ECECEC</code></td>
+<td>Divisores, hairlines, bordes decorativos</td>
+<td>Separadores de fila, borde de card</td>
+</tr>
+<tr>
+<td><code>--gray-3</code></td>
+<td><code>#F6F6F5</code></td>
+<td>Fondo de pantalla, superficie presionada</td>
+<td>Fondo de la app, <code>active:bg</code></td>
+</tr>
+</tbody>
+</table>
+<div class="aviso"><p>⚠️ <strong>Inconsistencia detectada.</strong> <code>guidelines/Guidelines.md</code> documenta <code>Gray/3: #F8F8F8</code>, y <code>theme.css</code> define <code>--gray-3: #F6F6F5</code>. Vale el código. Hay que decidir si se corrige el documento o el token. Archivos: <code>guidelines/Guidelines.md</code> y <code>src/styles/theme.css</code>.</p></div>
+<h4>Estados del sistema</h4>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Valor</th>
+<th>Uso</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--success-green</code></td>
+<td><code>#58CA8A</code></td>
+<td>Completado, válido</td>
+<td>Ícono de cita Completada</td>
+</tr>
+<tr>
+<td><code>--info-blue</code></td>
+<td><code>#336DD0</code></td>
+<td>Seguimiento activo, enlaces, progreso</td>
+<td>Enlaces de ayuda, cita confirmada</td>
+</tr>
+<tr>
+<td><code>--error-red</code></td>
+<td><code>#E05263</code></td>
+<td>Error, dato faltante</td>
+<td>Asterisco de campo obligatorio, mensaje de validación</td>
+</tr>
+<tr>
+<td><code>--destructive</code></td>
+<td><code>#E2034D</code></td>
+<td>Acción destructiva</td>
+<td>Definido en el tema</td>
+</tr>
+</tbody>
+</table>
+<div class="aviso"><p>⚠️ <strong>Inconsistencia detectada.</strong> Hay dos rojos: <code>--error-red: #E05263</code> (el que usa la interfaz) y <code>--destructive: #E2034D</code> (el que documentan las guidelines como Error/Red). Conviven sin criterio escrito de cuándo va cada uno. Archivo: <code>src/styles/theme.css</code>.</p></div>
+<h4>Navegación</h4>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Color</th>
+<th>Peso del texto</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tab activo</td>
+<td><code>--primary-black</code></td>
+<td>600</td>
+<td><code>components/TabBar.tsx</code></td>
+</tr>
+<tr>
+<td>Tab inactivo</td>
+<td><code>--gray-60</code></td>
+<td>400</td>
+<td><code>components/TabBar.tsx</code></td>
+</tr>
+</tbody>
+</table>
+<p>El ícono <strong>no cambia de forma</strong> al seleccionarse: es el mismo trazo en los dos estados y solo cambia el color. El estado activo nunca se comunica solo con color: lo acompaña el peso del texto.</p>
+<h4>Notificaciones</h4>
+<table>
+<thead>
+<tr>
+<th>Superficie</th>
+<th>Valor</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fila leída</td>
+<td><code>transparent</code> sobre blanco; ícono <code>--gray-40</code>; título <code>--gray-80</code> peso 400</td>
+<td><code>pages/Notificaciones.tsx</code></td>
+</tr>
+<tr>
+<td>Fila sin leer</td>
+<td><code>transparent</code>; ícono <code>--primary-black</code>; título <code>--primary-black</code> peso 500; punto de 6px en <code>--primary-yellow</code> con contorno <code>--gray-40</code> junto a la hora</td>
+<td>ídem</td>
+</tr>
+<tr>
+<td>Fila prioritaria</td>
+<td><code>rgba(255, 238, 0, 0.10)</code> + <code>inset 3px 0 0 var(--primary-yellow)</code></td>
+<td>ídem</td>
+</tr>
+</tbody>
+</table>
+<p>La barra amarilla y la superficie tenue son <strong>solo de la fila prioritaria</strong>. Lo no leído se marca con el punto y el peso del título.</p>
+<h4>Mapa de estado a color e ícono</h4>
+<p><code>src/app/utils/statusConfig.ts</code> es la única función que asigna color e ícono a un estado. Devuelve <code>{ bg, color, icon }</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Clave</th>
+<th>Color</th>
+<th>Ícono (lucide)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pendiente sincronizar</code></td>
+<td><code>--gray-60</code></td>
+<td><code>RefreshCw</code></td>
+</tr>
+<tr>
+<td><code>solicitud recibida</code></td>
+<td><code>--info-blue</code></td>
+<td><code>Inbox</code></td>
+</tr>
+<tr>
+<td><code>coordinado</code>, <code>visita coordinada</code></td>
+<td><code>--gray-80</code></td>
+<td><code>Calendar</code></td>
+</tr>
+<tr>
+<td><code>agendado</code></td>
+<td><code>--info-blue</code></td>
+<td><code>Calendar</code></td>
+</tr>
+<tr>
+<td><code>en camino</code></td>
+<td><code>--primary-black</code></td>
+<td><code>PlayCircle</code></td>
+</tr>
+<tr>
+<td><code>en progreso</code>, <code>en proceso</code></td>
+<td><code>#8A7A00</code></td>
+<td><code>Clock</code></td>
+</tr>
+<tr>
+<td><code>necesitamos información</code></td>
+<td><code>#8A7A00</code></td>
+<td><code>AlertCircle</code></td>
+</tr>
+<tr>
+<td><code>no cubierto</code></td>
+<td><code>--error-red</code></td>
+<td><code>XCircle</code></td>
+</tr>
+<tr>
+<td><code>en pausa</code></td>
+<td><code>--gray-60</code></td>
+<td><code>PauseCircle</code></td>
+</tr>
+<tr>
+<td><code>finalizado</code>, <code>completado</code></td>
+<td><code>--success-green</code></td>
+<td><code>CheckCircle</code></td>
+</tr>
+<tr>
+<td><code>cancelado</code></td>
+<td><code>--error-red</code></td>
+<td><code>XCircle</code></td>
+</tr>
+<tr>
+<td>cualquier otro</td>
+<td><code>--gray-60</code></td>
+<td><code>AlertCircle</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>#8A7A00</code> es un oro oscuro fuera de la escala de tokens. Existe porque el amarillo de marca no da contraste suficiente como <strong>texto</strong> sobre blanco: se usa para el texto y el ícono de los estados en curso. Está hardcodeado en <code>statusConfig.ts</code> y en dos avisos. <strong>Pendiente de definición:</strong> promoverlo a token (<code>--warning-text</code> o similar).</p>
+</blockquote>
+<hr />
+<h3>2.3 Espaciado, radios, bordes y elevaciones</h3>
+<h4>Espaciado</h4>
+<p>La app usa la escala de 4 en múltiplos de 4/8, aplicada con clases de Tailwind y con estilos en línea. Valores reales que se repiten:</p>
+<table>
+<thead>
+<tr>
+<th>Medida</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>24px</code></td>
+<td><strong>Padding horizontal de pantalla.</strong> <code>px-6</code> en headers, secciones y filas</td>
+</tr>
+<tr>
+<td><code>16px</code></td>
+<td>Padding interno de card; padding de fila de catálogo</td>
+</tr>
+<tr>
+<td><code>12–14px</code></td>
+<td>Padding vertical de fila</td>
+</tr>
+<tr>
+<td><code>6px</code></td>
+<td>Gap entre label, input y ayuda (<code>Campo.tsx</code>)</td>
+</tr>
+<tr>
+<td><code>8px</code></td>
+<td>Gap entre elementos de una fila</td>
+</tr>
+<tr>
+<td><code>16px</code> (<code>gap-4</code>)</td>
+<td>Gap vertical entre campos de un formulario</td>
+</tr>
+<tr>
+<td><code>24px</code> (<code>gap-6</code>)</td>
+<td>Gap vertical entre secciones</td>
+</tr>
+<tr>
+<td><code>32px</code></td>
+<td>Corte entre Promociones y Garantía, el más fuerte del Home</td>
+</tr>
+<tr>
+<td><code>26px</code></td>
+<td>Separación entre grupos de fecha en notificaciones</td>
+</tr>
+</tbody>
+</table>
+<h4>Radios</h4>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Radio</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base del tema</td>
+<td><code>8px</code> (<code>--radius</code>), <code>4px</code> en <code>sm</code></td>
+<td><code>theme.css</code></td>
+</tr>
+<tr>
+<td>Input</td>
+<td><code>8px</code></td>
+<td><code>estiloInput</code> en <code>Campo.tsx</code></td>
+</tr>
+<tr>
+<td>Botón de acción principal</td>
+<td><code>12px</code></td>
+<td>Botones de flujo</td>
+</tr>
+<tr>
+<td>Card estándar</td>
+<td><code>12px</code></td>
+<td>Cards de cita, historial</td>
+</tr>
+<tr>
+<td>Card de reclamo / sección</td>
+<td><code>14–16px</code></td>
+<td><code>TarjetaReclamoHub</code>, secciones del Home</td>
+</tr>
+<tr>
+<td>Card negra destacada</td>
+<td><code>16px</code></td>
+<td><code>home/AvisoProximaVisita.tsx</code></td>
+</tr>
+<tr>
+<td>Banner de promoción</td>
+<td><code>16px</code></td>
+<td><code>home/SeccionPromociones.tsx</code></td>
+</tr>
+<tr>
+<td>Chip de estado</td>
+<td><code>2px</code> (el punto) / <code>8px</code> (el chip del banner)</td>
+<td>Cards, promociones</td>
+</tr>
+<tr>
+<td>Bottom sheet</td>
+<td><code>24px</code> arriba (<code>rounded-t-[24px]</code>)</td>
+<td><code>AyudaSheet</code>, <code>LegalSheet</code></td>
+</tr>
+<tr>
+<td>Botón cuadrado de volver</td>
+<td><code>10px</code></td>
+<td>Headers</td>
+</tr>
+<tr>
+<td>Imagen de ficha</td>
+<td><code>14px</code></td>
+<td><code>DetalleCatalogo</code></td>
+</tr>
+</tbody>
+</table>
+<h4>Bordes y elevaciones</h4>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Borde de input</td>
+<td><code>1px solid var(--gray-20)</code>; en error <code>var(--error-red)</code></td>
+</tr>
+<tr>
+<td>Borde de card</td>
+<td><code>1px solid var(--gray-8)</code></td>
+</tr>
+<tr>
+<td>Divisor / hairline</td>
+<td><code>1px solid var(--gray-8)</code></td>
+</tr>
+<tr>
+<td>Sombra de header</td>
+<td><code>0 2px 10px rgba(0,0,0,0.05)</code></td>
+</tr>
+<tr>
+<td>Sombra de card negra</td>
+<td><code>0 8px 28px 0 rgba(0,0,0,0.18)</code></td>
+</tr>
+<tr>
+<td>Sombra de banner de promoción</td>
+<td><code>0 8px 28px 0 rgba(0,0,0,0.16)</code></td>
+</tr>
+<tr>
+<td>Sombra de bottom sheet</td>
+<td><code>0 -8px 30px rgba(0,0,0,0.15)</code></td>
+</tr>
+<tr>
+<td>Elevación del tema</td>
+<td><code>--elevation-sm: 0 4px 20px 0 rgba(0,0,0,0.04)</code></td>
+</tr>
+</tbody>
+</table>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> <code>--elevation-sm</code> está declarado en el tema pero <strong>no se usa en ningún componente</strong>: todas las sombras están escritas en línea. Hay que decidir si se tokenizan las cuatro sombras reales o se borra el token. Archivo: <code>src/styles/theme.css</code>.</p></div>
+<h4>Tamaño táctil mínimo</h4>
+<p><code>44px</code> es el mínimo aplicado: alto de input (<code>estiloInput</code>), alto de botón de acción, <code>minHeight: 44px</code> en los items del tab bar, en los enlaces de ayuda y en los botones de texto secundarios. El botón de volver del header mide <code>44×44</code> (<code>w-11 h-11</code>).</p>
+<hr />
+<h2>3. Iconografía y accesibilidad</h2>
+<h3>Librería</h3>
+<p><strong><code>lucide-react</code> 0.487.0</strong>, declarada en <code>package.json</code>. Es la única librería de íconos del proyecto.</p>
+<ul>
+<li><strong>No se agregan librerías nuevas.</strong></li>
+<li><strong>No se usan emojis como íconos de interfaz.</strong> Verificado: no hay emojis en los textos de interfaz de <code>src/app</code>.</li>
+<li>El único gráfico propio es el isotipo de MiPRO (<code>components/ManoMiPRO.tsx</code>, paths en <code>src/imports/svg-0uyjwt8dfn.ts</code>) y el diagrama del comprobante de garantía (<code>garantia/ReciboAyuda.tsx</code>), los dos SVG dibujados en el proyecto.</li>
+</ul>
+<h3>Tamaño y trazo por contexto</h3>
+<table>
+<thead>
+<tr>
+<th>Contexto</th>
+<th>Tamaño</th>
+<th>Trazo</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Navegación (tab bar)</td>
+<td>24px</td>
+<td>2</td>
+<td><code>components/TabBar.tsx</code></td>
+</tr>
+<tr>
+<td>Volver / header</td>
+<td>20px</td>
+<td>2</td>
+<td><code>ArrowLeft</code> en cada header</td>
+</tr>
+<tr>
+<td>Fila de notificación (tipo de novedad)</td>
+<td>20px</td>
+<td>2.5</td>
+<td><code>pages/Notificaciones.tsx</code></td>
+</tr>
+<tr>
+<td>Chevron de fila</td>
+<td>16–18px</td>
+<td>2</td>
+<td>Filas de catálogo, notificaciones</td>
+</tr>
+<tr>
+<td>Dentro de card (estado, fecha, técnico)</td>
+<td>13–16px</td>
+<td>2–2.5</td>
+<td>Cards de reclamo y de cita</td>
+</tr>
+<tr>
+<td>Ficha de categoría en el catálogo</td>
+<td>12px sobre sello negro de 22px; 24px sin foto</td>
+<td>2–2.2</td>
+<td><code>pages/CatalogoServicios.tsx</code></td>
+</tr>
+<tr>
+<td>Ícono de sección</td>
+<td>24px en caja de 48px</td>
+<td>2</td>
+<td><code>DetalleCatalogo</code></td>
+</tr>
+</tbody>
+</table>
+<p>El sistema de diseño pide trazo 2.5 con extremos redondeados; en la app conviven 2 y 2.5 según el contexto. <strong>Pendiente de definición:</strong> unificar el trazo por tamaño.</p>
+<h3>Reglas de accesibilidad aplicadas</h3>
+<table>
+<thead>
+<tr>
+<th>Regla</th>
+<th>Cómo está implementada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>El color nunca va solo</strong></td>
+<td>Cada estado lleva ícono <strong>y</strong> texto. El chip de estado combina punto de color, ícono y etiqueta escrita. El tab activo suma peso tipográfico al color</td>
+</tr>
+<tr>
+<td><strong>Toque mínimo de 44px</strong></td>
+<td>Ver la sección anterior</td>
+</tr>
+<tr>
+<td><strong>Contraste</strong></td>
+<td>El amarillo de marca no se usa como color de texto sobre blanco: para eso está el oro <code>#8A7A00</code>. El verde de éxito tampoco se usa como texto</td>
+</tr>
+<tr>
+<td><strong>Movimiento reducido</strong></td>
+<td><code>src/styles/index.css</code> desactiva animaciones y transiciones con <code>@media (prefers-reduced-motion: reduce)</code>, de forma global. Las animaciones decorativas (cascada del Home, pulso del punto) viven dentro de <code>@media (prefers-reduced-motion: no-preference)</code></td>
+</tr>
+<tr>
+<td><strong>Etiquetas accesibles</strong></td>
+<td>Documentadas abajo</td>
+</tr>
+</tbody>
+</table>
+<h3>Etiquetas accesibles presentes en el código</h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Etiqueta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Botón de volver</td>
+<td><code>aria-label={STR.&lt;pantalla&gt;.volver}</code></td>
+</tr>
+<tr>
+<td>Campana de notificaciones</td>
+<td><code>aria-label</code> = <code>"Notificaciones, N sin leer"</code> (<code>STR.notificaciones.abrir</code>)</td>
+</tr>
+<tr>
+<td>Fila de notificación</td>
+<td><code>aria-label</code> = <code>"No leída. &lt;título&gt;. &lt;mensaje&gt;"</code></td>
+</tr>
+<tr>
+<td>Item del tab bar</td>
+<td><code>aria-current="page"</code> en el activo</td>
+</tr>
+<tr>
+<td>Fila de catálogo</td>
+<td><code>aria-label</code> con nombre, descripción, aviso de inspección y acción</td>
+</tr>
+<tr>
+<td>Card de servicio y de reclamo</td>
+<td><code>aria-label</code> con nombre, estado y acción</td>
+</tr>
+<tr>
+<td>Dots del carrusel de promociones</td>
+<td><code>aria-label</code> = <code>"Ir a la promoción N"</code></td>
+</tr>
+<tr>
+<td>Posición del carrusel</td>
+<td>Texto <code>sr-only</code> con <code>"Promoción N de M"</code></td>
+</tr>
+<tr>
+<td>Mensaje de error de formulario</td>
+<td><code>role="alert"</code></td>
+</tr>
+<tr>
+<td>Bloques de carga</td>
+<td><code>role="status"</code> con <code>aria-busy="true"</code></td>
+</tr>
+<tr>
+<td>Estado vacío</td>
+<td><code>role="status"</code></td>
+</tr>
+<tr>
+<td>Íconos decorativos</td>
+<td><code>aria-hidden="true"</code> en todos</td>
+</tr>
+<tr>
+<td>Isotipo de marca</td>
+<td><code>aria-hidden="true"</code> (es decorativo; el nombre lo da el texto)</td>
+</tr>
+<tr>
+<td>Diagrama del comprobante</td>
+<td><code>role="img"</code> con <code>aria-label</code> que describe qué señala</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. Componentes compartidos</h2>
+<p>Son 33 componentes propios en <code>src/app/components/</code>, más 11 primitivas de <code>src/app/components/ui/</code> (shadcn sobre Radix) que sí se alcanzan: <code>button</code>, <code>calendar</code>, <code>command</code>, <code>dialog</code>, <code>drawer</code>, <code>input</code>, <code>label</code>, <code>popover</code>, <code>progress</code>, <code>skeleton</code>, <code>tabs</code>. De esas, <code>dialog</code> no lo importa la app: llega por dependencia de <code>command</code> y <code>drawer</code>.</p>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> En <code>src/app/components/ui/</code> hay <strong>35 primitivas más que no se importan en ningún lado</strong> (accordion, alert, carousel, chart, form, sidebar, table, etc.): son el volcado completo de shadcn, no decisiones de diseño. Sumadas a 8 componentes y páginas sin ruta, quedan <strong>43 de 117 archivos sin alcanzar</strong> desde <code>src/main.tsx</code>. Hay que decidir si se borran antes de producción. Detalle en la sección 10.</p></div>
+<h3>4.1 Estructura y navegación</h3>
+<h4><code>Layout</code> (<code>components/Layout.tsx</code>)</h4>
+<p>Contenedor de toda la app autenticada. Alto completo con <code>position: relative</code>; adentro, un envoltorio de scroll a <code>height: 100%</code> con <code>paddingBottom: TABBAR_HEIGHT</code> para que el contenido nunca quede tapado por la barra. Monta el hook de teclado (<code>lib/campoVisibleConTeclado.ts</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Variante</th>
+<th>Cuándo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Con tab bar</td>
+<td>Por defecto</td>
+</tr>
+<tr>
+<td>Sin tab bar</td>
+<td>Rutas que matchean <code>RUTAS_SIN_TABBAR</code>: <code>/notificaciones</code> y las etapas del agendamiento (<code>revisar-lugar</code>, <code>configurar</code>, <code>direccion</code>, <code>fecha</code>, <code>resumen</code>)</td>
+</tr>
+</tbody>
+</table>
+<h4><code>TabBar</code> (<code>components/TabBar.tsx</code>)</h4>
+<table>
+<thead>
+<tr>
+<th>Propiedad</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alto</td>
+<td><code>TABBAR_HEIGHT = calc(64px + env(safe-area-inset-bottom))</code>, exportado: es el que usa Layout</td>
+</tr>
+<tr>
+<td>Posición</td>
+<td><code>absolute; bottom: 0; z-index: 30</code></td>
+</tr>
+<tr>
+<td>Ítems</td>
+<td>4: Inicio (<code>Home</code>), Servicios (<code>Wrench</code>), Garantía (<code>ShieldCheck</code>), Perfil (<code>User</code>)</td>
+</tr>
+<tr>
+<td>Ícono</td>
+<td>24px, trazo 2</td>
+</tr>
+<tr>
+<td>Etiqueta</td>
+<td>11px</td>
+</tr>
+<tr>
+<td>Área táctil</td>
+<td><code>minHeight: 44px</code>, gap 4px entre ícono y texto</td>
+</tr>
+<tr>
+<td>Activo</td>
+<td>Negro, peso 600, <code>aria-current="page"</code></td>
+</tr>
+<tr>
+<td>Inactivo</td>
+<td><code>--gray-60</code>, peso 400</td>
+</tr>
+</tbody>
+</table>
+<h4><code>EncabezadoFlujo</code> (<code>components/agendar/EncabezadoFlujo.tsx</code>)</h4>
+<p>Header de las etapas del agendamiento. <code>sticky top-0</code>, padding <code>20px</code> arriba / <code>12px</code> abajo / <code>24px</code> a los lados, sombra <code>0 2px 10px rgba(0,0,0,0.05)</code>.</p>
+<ul>
+<li>Botón de volver 44×44, radio 10, borde <code>--gray-20</code>.</li>
+<li>Título del servicio: Bebas 20px, caja alta, <code>truncate</code>.</li>
+<li>Debajo, el paso <strong>en palabras</strong> (<code>"Paso 2 de 4 · Dirección"</code>, 14px medium + 13px gris) y una barra fina <code>ui/progress</code>.</li>
+<li><strong>No dibuja círculos numerados</strong>: la barra y el texto no se duplican.</li>
+<li>Props: <code>titulo</code>, <code>etapa: 1|2|3|4</code>, <code>onVolver</code>.</li>
+</ul>
+<h4><code>ProgresoPasos</code> (<code>components/garantia/ProgresoPasos.tsx</code>)</h4>
+<p>El otro indicador de pasos, el del flujo de garantía: cuatro círculos de 32px, radio 50%, gap 12px, centrados.</p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Fondo</th>
+<th>Número</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activo</td>
+<td><code>--primary-yellow</code></td>
+<td>Negro, 14px medium</td>
+</tr>
+<tr>
+<td>Completado</td>
+<td><code>--primary-black</code></td>
+<td>Amarillo</td>
+</tr>
+<tr>
+<td>Pendiente</td>
+<td><code>--gray-8</code></td>
+<td><code>--gray-60</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>role="status"</code> con <code>aria-label</code> = <code>"Paso N de 4: &lt;nombre&gt;"</code>. El número siempre visible: el color no es la única señal.</p>
+<div class="aviso"><p>⚠️ <strong>Inconsistencia detectada.</strong> Los dos flujos de cuatro pasos muestran el progreso de forma distinta: garantía con círculos numerados (<code>ProgresoPasos</code>) y agendamiento con texto + barra (<code>EncabezadoFlujo</code>). No hay criterio escrito de cuándo va cada uno. Archivos: <code>components/garantia/ProgresoPasos.tsx</code> y <code>components/agendar/EncabezadoFlujo.tsx</code>.</p></div>
+<h3>4.2 Formularios</h3>
+<h4><code>Campo</code> (<code>components/garantia/Campo.tsx</code>)</h4>
+<p>El campo de formulario de toda la app. Exporta tres cosas:</p>
+<p><strong><code>Campo</code></strong>: label, marca, control, ayuda y error. Gap vertical de 6px.</p>
+<table>
+<thead>
+<tr>
+<th>Props</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>etiqueta</code></td>
+<td>Texto del label (13px/19px, peso 500)</td>
+</tr>
+<tr>
+<td><code>obligatorio</code></td>
+<td>Muestra <code>Obligatorio*</code> u <code>Opcional</code></td>
+</tr>
+<tr>
+<td><code>ayuda</code></td>
+<td>Texto de apoyo, 12–13px <code>--gray-60</code></td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Mensaje con <code>role="alert"</code> en <code>--error-red</code>; el borde del input pasa a rojo</td>
+</tr>
+<tr>
+<td><code>children</code></td>
+<td>El control</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>MarcaCampo</code></strong>: la marca de obligatoriedad, usada también por <code>FechaServicio</code>, <code>GarantiaProblema</code>, <code>ConfigurarServicio</code>, <code>CalificacionServicio</code>, <code>AgregarProducto</code> y <code>ReclamoGarantia</code>. <code>Obligatorio</code> a 11px seguido de <code>*</code> a 16px peso 700 en <code>--error-red</code>, con <code>lineHeight: 0</code>, <code>top: 3px</code> y <code>marginLeft: 1px</code> para que el asterisco quede a la altura de la palabra y se vea. Los opcionales dicen <code>Opcional</code>, sin asterisco.</p>
+<p><strong><code>estiloInput(conError?)</code></strong>: el estilo compartido de todos los inputs.</p>
+<pre><code>height: 44px · borderRadius: 8px · border: 1px solid var(--gray-20) (o --error-red)
+background: var(--primary-white) · padding: 8px 12px · width: 100%
+Helvetica 14px · outline: none
+</code></pre>
+<h4><code>FormularioDireccion</code> (<code>components/agendar/FormularioDireccion.tsx</code>)</h4>
+<p><strong>Un solo formulario de dirección para toda la app.</strong> Lo usan <code>AgregarDireccion</code> (agendamiento) y <code>GarantiaAgregarDireccion</code> (garantía): mismos campos, mismo orden, misma validación, mismos textos. Cada pantalla aporta solo su encabezado y a dónde vuelve al guardar.</p>
+<p>11 campos, <strong>todos obligatorios</strong>: alias, provincia, distrito, corregimiento, barrio, calle, casa, edificio, piso, número y detalles. Validación en <code>validarDireccionNueva</code>. El único bloque opcional del alta es el de agregar otra persona de contacto.</p>
+<p>Props: <code>titulo</code>, <code>mensajeAyuda</code>, <code>onGuardar(direccion)</code>.</p>
+<h4><code>SelectorBuscable</code> (<code>components/garantia/SelectorBuscable.tsx</code>)</h4>
+<p>Selector predictivo (Popover + Command de Radix) para listas largas: provincia, distrito, corregimiento, marca, tipo de producto.</p>
+<table>
+<thead>
+<tr>
+<th>Decisión</th>
+<th>Implementación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Abre siempre hacia abajo</td>
+<td><code>side="bottom"</code></td>
+</tr>
+<tr>
+<td>No se sale del área de scroll</td>
+<td><code>collisionBoundary</code> = el <code>.overflow-y-auto</code> más cercano, <code>collisionPadding: 8</code></td>
+</tr>
+<tr>
+<td>Alto máximo real</td>
+<td><code>maxHeight: var(--radix-popover-content-available-height)</code>; <code>CommandList</code> con <code>max-h-none flex-1 min-h-0</code></td>
+</tr>
+<tr>
+<td>Si abajo no hay lugar</td>
+<td>Antes de abrir scrollea para dejar <code>ESPACIO_MINIMO = 220px</code></td>
+</tr>
+</tbody>
+</table>
+<h4><code>BuscadorDireccionMapa</code> (<code>components/agendar/BuscadorDireccionMapa.tsx</code>)</h4>
+<p>Búsqueda + mapa del alta de dirección, compartido entre agendamiento y garantía. Barra de 44px, radio 10, fondo <code>--gray-3</code>, borde <code>--gray-8</code>. Debajo, un recuadro de 130px con radio 12 y un pin dibujado.</p>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> El recuadro es un dibujo, no un mapa, y los lugares salen de <code>data/lugaresSimulados.ts</code>. Para producción hay que decidir el proveedor de geocodificación y de mapa. Archivos: <code>components/agendar/BuscadorDireccionMapa.tsx</code>, <code>src/app/data/lugaresSimulados.ts</code>.</p></div>
+<h4><code>BuscadorServicios</code> (<code>components/home/BuscadorServicios.tsx</code>)</h4>
+<p>No es un input: es un <strong>botón con forma de buscador</strong> que abre el catálogo con el teclado listo (<code>/catalogo?enfocar=1</code>). La búsqueda real está solo en el catálogo. 44px de alto, radio 10, fondo <code>--gray-3</code>, borde <code>--gray-8</code>, ícono <code>Search</code> 18px.</p>
+<h3>4.3 Cards de estado</h3>
+<p>Las cuatro cards comparten anatomía de expediente: cabecera con sello + referencia + chip de estado, cuerpo con el nombre y una frase de situación, pie con la acción.</p>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th>Archivo</th>
+<th>Dónde</th>
+<th>Particularidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TarjetaServicio</code></td>
+<td><code>servicios/TarjetaServicio.tsx</code></td>
+<td>Mis servicios</td>
+<td>Estructura única para los 7 estados: solo cambian chip, frase y metadatos. Ícono derivado del catálogo por nombre de servicio</td>
+</tr>
+<tr>
+<td><code>TarjetaReclamo</code></td>
+<td><code>reclamos/TarjetaReclamo.tsx</code></td>
+<td>Lista de reclamos</td>
+<td>Producto sin truncar; <code>Ver detalle</code> siempre visible</td>
+</tr>
+<tr>
+<td><code>TarjetaReclamoHub</code></td>
+<td><code>reclamos/TarjetaReclamoHub.tsx</code></td>
+<td>Hub de Garantía</td>
+<td>Filas de alto fijo para que todas midan lo mismo; botón amarillo solo cuando el usuario debe actuar</td>
+</tr>
+<tr>
+<td><code>TarjetaReclamoCompacta</code></td>
+<td><code>reclamos/TarjetaReclamoCompacta.tsx</code></td>
+<td>Home</td>
+<td>Versión mínima: estado, producto, una línea, referencia + acción</td>
+</tr>
+</tbody>
+</table>
+<p>Las tres cards de reclamo comparten un guard de doble toque (<code>useRef</code> + ventana de 600 ms) para que un tap repetido no navegue dos veces.</p>
+<h4><code>AvisoProximaVisita</code> (<code>components/home/AvisoProximaVisita.tsx</code>)</h4>
+<p>El resumen de servicios en el Home. El Home lo monta <strong>dos veces</strong> (<code>prioridad="alta"</code> debajo del saludo, <code>prioridad="media"</code> después de servicios) y cada instancia muestra solo el aviso que le corresponde: la prioridad se comunica por posición.</p>
+<table>
+<thead>
+<tr>
+<th>Variante</th>
+<th>Tratamiento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visita en curso</td>
+<td>Card destacada: fondo tonal amarillo, acento y chip con indicador de actividad</td>
+</tr>
+<tr>
+<td>Técnico en camino</td>
+<td>Card destacada en neutro (negro, radio 16, sombra <code>0 8px 28px rgba(0,0,0,0.18)</code>)</td>
+</tr>
+<tr>
+<td>Próxima visita / solicitud</td>
+<td>Card informativa</td>
+</tr>
+<tr>
+<td>Sin servicios</td>
+<td>Estado vacío con la acción de explorar (solo en la instancia <code>media</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><code>Ver todos</code> aparece solo con más de un servicio en curso.</p>
+<h4><code>HistorialCitas</code> (<code>components/reclamos/HistorialCitas.tsx</code>)</h4>
+<p>Historial de un reclamo: una card por cita con el tipo como título y, debajo, los cambios de estado con su fecha, punto y conector vertical. Pie con técnico y horario.</p>
+<h4><code>ListaCitasServicio</code> (<code>components/servicios/ListaCitasServicio.tsx</code>)</h4>
+<p>Una card por cita en el detalle del servicio. El orden de lectura es <strong>estado y después fecha</strong>: <code>"Cita confirmada · 12 de marzo"</code>. Reemplazó a <code>RecorridoVisitas</code>, que dibujaba un recorrido de etapas en lugar de una lista de citas.</p>
+<h3>4.4 Secciones del Home</h3>
+<p>Las tres secciones cargables (<code>SeccionServicios</code>, <code>SeccionPromociones</code>, <code>SeccionGarantia</code>) tienen las mismas tres fases: <code>cargando</code>, y después <code>ok</code> o <code>error</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Fase</th>
+<th>Qué se ve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cargando</code></td>
+<td><code>ui/skeleton</code> con la forma del contenido, <code>role="status"</code> y <code>aria-busy="true"</code></td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td><code>BloqueError</code>: card de radio 16, ícono <code>AlertCircle</code> 22px, mensaje 13px y botón de reintentar de 44px. <strong>No bloquea el resto del Home</strong></td>
+</tr>
+<tr>
+<td><code>ok</code></td>
+<td>El contenido</td>
+</tr>
+</tbody>
+</table>
+<h4><code>SeccionPromociones</code> (<code>components/home/SeccionPromociones.tsx</code>)</h4>
+<p>Carrusel horizontal nativo: <code>overflow-x-auto</code> con scroll-snap, sin librería. El autoavance calcula las posiciones desde los offsets de los hijos (<code>posiciones()</code>, <code>indiceActual()</code>), se pausa al tocar o al pasar el mouse y respeta <code>prefers-reduced-motion</code>. Una card completa por vez con ~20px de asomo de la siguiente. Banner de radio 16 y sombra <code>0 8px 28px rgba(0,0,0,0.16)</code>. Dots con <code>aria-label</code> y texto <code>sr-only</code> con la posición.</p>
+<div class="aviso"><p>⚠️ <strong>Inconsistencia detectada.</strong> El comentario de cabecera del archivo dice "Sin autoavance, sin loop", pero el componente <strong>sí</strong> autoavanza con <code>INTERVALO_CARRUSEL_MS</code>. El comentario quedó viejo. Archivos: <code>components/home/SeccionPromociones.tsx</code>, <code>src/app/logic/promociones.ts</code>.</p></div>
+<h4><code>TituloSeccion</code> (<code>components/home/TituloSeccion.tsx</code>)</h4>
+<p>Encabezado de sección del Home. Marca el ritmo vertical de arriba de cada sección y <strong>no reserva espacio vacío</strong>: una sección sin bajada mide solo su fila de título.</p>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Medida</th>
+<th>Constante exportada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fila del título y la acción</td>
+<td>27px de alto fijo</td>
+<td><code>ALTO_FILA_TITULO</code></td>
+</tr>
+<tr>
+<td>Gap del título a la bajada, cuando hay</td>
+<td>8px</td>
+<td><code>GAP_SEGUNDA_LINEA</code></td>
+</tr>
+<tr>
+<td>Bajada</td>
+<td>19px de línea</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Gap hasta el contenido de la sección</td>
+<td>16px</td>
+<td><code>GAP_CONTENIDO</code></td>
+</tr>
+</tbody>
+</table>
+<p>Título en Bebas 18px caja alta con tracking de 1px y <code>line-height</code> explícito de 27px; bajada en Helvetica 13px/19px <code>--gray-60</code>.</p>
+<p><strong>La fila del título tiene alto fijo y la acción no la estira.</strong> El botón "Ver todos" conserva sus 44px de alto tocable: sobresale de la fila, centrado, sin empujar nada. Sin ese alto fijo, la fila crecería a 44px y correría el contenido de la sección 17px hacia abajo.</p>
+<p><strong>El gap al contenido lo aplica la sección, no este componente.</strong> Cada sección del Home es un flex en columna, así que el encabezado no lleva <code>margin-bottom</code>. Ver 9.5 para el ritmo completo.</p>
+<h3>4.5 Sheets y contacto</h3>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th>Archivo</th>
+<th>Forma</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AyudaSheet</code></td>
+<td><code>garantia/AyudaSheet.tsx</code></td>
+<td>Bottom sheet propio. <code>rounded-t-[24px]</code>, <code>max-h-[80vh]</code>, sombra <code>0 -8px 30px rgba(0,0,0,0.15)</code>, agarre de 48×6, título Bebas 20px, cerrar 36×36. Acepta un diagrama opcional; <strong>sin diagrama es solo texto, nunca un recuadro de "pendiente"</strong></td>
+</tr>
+<tr>
+<td><code>LegalSheet</code></td>
+<td><code>LegalSheet.tsx</code></td>
+<td>Mismo patrón, <code>max-h-[85vh]</code>, título Bebas 22px. Dos variantes: <code>terms</code> y <code>privacy</code>, con el texto embebido en el componente</td>
+</tr>
+<tr>
+<td><code>ContactarMiPRO</code></td>
+<td><code>servicios/ContactarMiPRO.tsx</code></td>
+<td><code>ui/drawer</code> de Radix, <code>maxWidth: 393px</code> centrado. Dos canales reales (WhatsApp y teléfono), botones de 48px radio 12, más una acción terciaria de 44px para cerrar. Sin botones muertos</td>
+</tr>
+</tbody>
+</table>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> El texto legal de Términos y de Privacidad está <strong>escrito dentro de <code>LegalSheet.tsx</code></strong>. Falta el texto definitivo de legal y definir de dónde se sirve. Archivo: <code>components/LegalSheet.tsx</code>.</p></div>
+<h3>4.6 Marca y gráficos propios</h3>
+<h4><code>ManoMiPRO</code> (<code>components/ManoMiPRO.tsx</code>)</h4>
+<p>El isotipo. <strong>Palma siempre <code>--primary-white</code>, rayos siempre <code>--primary-yellow</code>.</strong> El color no es un parámetro del componente: el isotipo se usa sobre el fondo oscuro de la app y en negro no se lee. Para una versión sobre fondo claro hay que agregar otra función en este mismo archivo, con su propio nombre.</p>
+<p>Props: <code>ancho</code> (40), <code>alto</code> (60), <code>className</code>. Cada instancia genera su <code>clipPath</code> con <code>useId()</code>: con un id repetido, dos manos en la misma pantalla comparten recorte y una sale cortada. La usan <code>SolicitudEnviada</code>, <code>GarantiaEnviada</code>, <code>AgregarProducto</code> y <code>ReclamoGarantia</code>.</p>
+<h4><code>DiagramaRecibo</code> (<code>components/garantia/ReciboAyuda.tsx</code>)</h4>
+<p>SVG de un comprobante <strong>simulado, con datos inventados</strong>, que señala dónde está el número de factura o el código de producto. Dos variantes por prop <code>resaltar: "factura" | "codigo"</code>. Usa el logo real de Cochez (<code>imports/cochez-logo.svg</code>), tipografía monoespaciada para los datos, resalto <code>rgba(255,238,0,0.28)</code> con contorno oro <code>#8A7A00</code>, y <code>role="img"</code> con <code>aria-label</code> que describe qué señala.</p>
+<h4><code>ImageWithFallback</code> (<code>components/figma/ImageWithFallback.tsx</code>)</h4>
+<p><code>&lt;img&gt;</code> con estado de error: si la imagen no carga, muestra un placeholder SVG en línea sobre <code>bg-gray-100</code> y guarda la URL original en <code>data-original-url</code>. Viene del export de Figma Make. Es el componente de imagen del catálogo y de las promociones.</p>
+<h3>4.7 Otros</h3>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th>Archivo</th>
+<th>Nota</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CalificacionServicio</code></td>
+<td><code>servicios/CalificacionServicio.tsx</code></td>
+<td>Estrellas para el servicio <strong>y una fila por cada técnico</strong> que participó. Se envía una sola vez; si ya existe, muestra la confirmación. Comentario opcional</td>
+</tr>
+<tr>
+<td><code>DesgloseCosto</code></td>
+<td><code>servicios/DesgloseCosto.tsx</code></td>
+<td>Compartido entre configuración y resumen. Separa <strong>dos conceptos</strong>: el costo estimado (base × cantidad + adicionales), con su total a 20px peso 700, y la visita de evaluación aparte, porque no se suma: se paga antes y se descuenta de la cotización si se acepta</td>
+</tr>
+<tr>
+<td><code>BloqueError</code></td>
+<td><code>home/BloqueError.tsx</code></td>
+<td>Error de sección con reintento, <code>role="alert"</code></td>
+</tr>
+<tr>
+<td><code>HandLoader</code></td>
+<td><code>HandLoader.tsx</code></td>
+<td><strong>No se usa.</strong> Ver sección 10</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. Navegación y rutas</h2>
+<p>Router: <code>createHashRouter</code> (<code>src/app/routes.tsx</code>). Todas las URL llevan <code>#</code>: <code>https://app-mipro-app.vercel.app/#/garantia</code>. El hash evita que el hosting estático necesite reescrituras.</p>
+<h3>5.1 Estructura</h3>
+<ul>
+<li><strong>Fuera de <code>Layout</code></strong>: las cuatro pantallas de acceso. Sin tab bar, sin padding de barra.</li>
+<li><strong>Dentro de <code>Layout</code></strong>: todo el resto. Con tab bar salvo las rutas de <code>RUTAS_SIN_TABBAR</code>.</li>
+</ul>
+<h3>5.2 Tabla de rutas</h3>
+<table>
+<thead>
+<tr>
+<th>Ruta</th>
+<th>Componente</th>
+<th>Archivo</th>
+<th>Tab bar</th>
+<th>Entra desde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/welcome</code></td>
+<td><code>Welcome</code></td>
+<td><code>pages/Welcome.tsx</code></td>
+<td>no</td>
+<td>Arranque sin sesión</td>
+</tr>
+<tr>
+<td><code>/login</code></td>
+<td><code>Login</code></td>
+<td><code>pages/Login.tsx</code></td>
+<td>no</td>
+<td>Welcome</td>
+</tr>
+<tr>
+<td><code>/signup</code></td>
+<td><code>Signup</code></td>
+<td><code>pages/Signup.tsx</code></td>
+<td>no</td>
+<td>Welcome, Login</td>
+</tr>
+<tr>
+<td><code>/forgot-password</code></td>
+<td><code>ForgotPassword</code></td>
+<td><code>pages/ForgotPassword.tsx</code></td>
+<td>no</td>
+<td>Login</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td><code>Home</code></td>
+<td><code>pages/Home.tsx</code></td>
+<td><strong>sí</strong></td>
+<td>Tab Inicio, post-login</td>
+</tr>
+<tr>
+<td><code>/catalogo</code></td>
+<td><code>CatalogoServicios</code></td>
+<td><code>pages/CatalogoServicios.tsx</code></td>
+<td>sí</td>
+<td>Tab Servicios, buscador, "Ver todos"</td>
+</tr>
+<tr>
+<td><code>/catalogo/:id</code></td>
+<td><code>DetalleCatalogo</code></td>
+<td><code>pages/DetalleCatalogo.tsx</code></td>
+<td>sí</td>
+<td>Fila del catálogo, promoción, destacado</td>
+</tr>
+<tr>
+<td><code>/catalogo/:id/revisar-lugar</code></td>
+<td><code>RevisarLugar</code></td>
+<td><code>pages/RevisarLugar.tsx</code></td>
+<td><strong>no</strong></td>
+<td>Etapa 1 del agendamiento</td>
+</tr>
+<tr>
+<td><code>/catalogo/:id/configurar</code></td>
+<td><code>ConfigurarServicio</code></td>
+<td><code>pages/ConfigurarServicio.tsx</code></td>
+<td><strong>no</strong></td>
+<td>Etapa 1</td>
+</tr>
+<tr>
+<td><code>/catalogo/:id/direccion</code></td>
+<td><code>DireccionServicio</code></td>
+<td><code>pages/DireccionServicio.tsx</code></td>
+<td><strong>no</strong></td>
+<td>Etapa 2</td>
+</tr>
+<tr>
+<td><code>/catalogo/:id/direccion/nueva</code></td>
+<td><code>AgregarDireccion</code></td>
+<td><code>pages/AgregarDireccion.tsx</code></td>
+<td><strong>no</strong></td>
+<td>"Agregar nueva dirección"</td>
+</tr>
+<tr>
+<td><code>/catalogo/:id/fecha</code></td>
+<td><code>FechaServicio</code></td>
+<td><code>pages/FechaServicio.tsx</code></td>
+<td><strong>no</strong></td>
+<td>Etapa 3</td>
+</tr>
+<tr>
+<td><code>/catalogo/:id/resumen</code></td>
+<td><code>ResumenServicio</code></td>
+<td><code>pages/ResumenServicio.tsx</code></td>
+<td><strong>no</strong></td>
+<td>Etapa 4</td>
+</tr>
+<tr>
+<td><code>/solicitud-enviada</code></td>
+<td><code>SolicitudEnviada</code></td>
+<td><code>pages/SolicitudEnviada.tsx</code></td>
+<td>sí</td>
+<td>Confirmación del resumen</td>
+</tr>
+<tr>
+<td><code>/servicios/:id</code></td>
+<td><code>DetalleServicio</code></td>
+<td><code>pages/DetalleServicio.tsx</code></td>
+<td>sí</td>
+<td>Card de servicio (Home, Mis servicios)</td>
+</tr>
+<tr>
+<td><code>/proyectos</code></td>
+<td><code>ProyectosList</code></td>
+<td><code>pages/ProyectosList.tsx</code></td>
+<td>sí</td>
+<td>Tab Servicios, Mis servicios</td>
+</tr>
+<tr>
+<td><code>/garantia</code></td>
+<td><code>GarantiaHub</code></td>
+<td><code>pages/GarantiaHub.tsx</code></td>
+<td>sí</td>
+<td>Tab Garantía</td>
+</tr>
+<tr>
+<td><code>/garantia/producto</code></td>
+<td><code>GarantiaProducto</code></td>
+<td><code>pages/GarantiaProducto.tsx</code></td>
+<td>sí</td>
+<td>Paso 1</td>
+</tr>
+<tr>
+<td><code>/garantia/problema</code></td>
+<td><code>GarantiaProblema</code></td>
+<td><code>pages/GarantiaProblema.tsx</code></td>
+<td>sí</td>
+<td>Paso 2</td>
+</tr>
+<tr>
+<td><code>/garantia/revisar</code></td>
+<td><code>GarantiaRevisar</code></td>
+<td><code>pages/GarantiaRevisar.tsx</code></td>
+<td>sí</td>
+<td>Paso 3</td>
+</tr>
+<tr>
+<td><code>/garantia/direccion/nueva</code></td>
+<td><code>GarantiaAgregarDireccion</code></td>
+<td><code>pages/GarantiaAgregarDireccion.tsx</code></td>
+<td>sí</td>
+<td>Paso 3, al agregar dirección</td>
+</tr>
+<tr>
+<td><code>/garantia/confirmar</code></td>
+<td><code>GarantiaConfirmar</code></td>
+<td><code>pages/GarantiaConfirmar.tsx</code></td>
+<td>sí</td>
+<td>Paso 4</td>
+</tr>
+<tr>
+<td><code>/garantia/enviada</code></td>
+<td><code>GarantiaEnviada</code></td>
+<td><code>pages/GarantiaEnviada.tsx</code></td>
+<td>sí</td>
+<td>Confirmación del paso 4</td>
+</tr>
+<tr>
+<td><code>/reclamos</code></td>
+<td><code>ListaReclamos</code></td>
+<td><code>pages/ListaReclamos.tsx</code></td>
+<td>sí</td>
+<td>Hub de garantía</td>
+</tr>
+<tr>
+<td><code>/reclamos/:id</code></td>
+<td><code>DetalleReclamo</code></td>
+<td><code>pages/DetalleReclamo.tsx</code></td>
+<td>sí</td>
+<td>Card de reclamo</td>
+</tr>
+<tr>
+<td><code>/productos</code></td>
+<td><code>Productos</code></td>
+<td><code>pages/Productos.tsx</code></td>
+<td>sí</td>
+<td>Perfil</td>
+</tr>
+<tr>
+<td><code>/productos/agregar</code></td>
+<td><code>AgregarProducto</code></td>
+<td><code>pages/AgregarProducto.tsx</code></td>
+<td>sí</td>
+<td>Productos</td>
+</tr>
+<tr>
+<td><code>/productos/:id</code></td>
+<td><code>ProductoDetalle</code></td>
+<td><code>pages/ProductoDetalle.tsx</code></td>
+<td>sí</td>
+<td>Fila de producto</td>
+</tr>
+<tr>
+<td><code>/perfil</code></td>
+<td><code>Perfil</code></td>
+<td><code>pages/Perfil.tsx</code></td>
+<td>sí</td>
+<td>Tab Perfil</td>
+</tr>
+<tr>
+<td><code>/notificaciones</code></td>
+<td><code>Notificaciones</code></td>
+<td><code>pages/Notificaciones.tsx</code></td>
+<td><strong>no</strong></td>
+<td>Campana del Home</td>
+</tr>
+<tr>
+<td><code>/configuracion</code></td>
+<td><code>Configuracion</code></td>
+<td><code>pages/Configuracion.tsx</code></td>
+<td>sí</td>
+<td>Perfil</td>
+</tr>
+<tr>
+<td><code>/soporte</code></td>
+<td><code>Soporte</code></td>
+<td><code>pages/Soporte.tsx</code></td>
+<td>sí</td>
+<td>Perfil</td>
+</tr>
+<tr>
+<td><code>/sugerencias</code></td>
+<td><code>Sugerencias</code></td>
+<td><code>pages/Sugerencias.tsx</code></td>
+<td>sí</td>
+<td>Perfil</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td><code>NotFound</code></td>
+<td><code>pages/NotFound.tsx</code></td>
+<td>sí</td>
+<td>Cualquier ruta inexistente</td>
+</tr>
+</tbody>
+</table>
+<h3>5.3 Parámetros de consulta</h3>
+<table>
+<thead>
+<tr>
+<th>Parámetro</th>
+<th>Ruta</th>
+<th>Efecto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>?enfocar=1</code></td>
+<td><code>/catalogo</code></td>
+<td>Abre el catálogo con el buscador enfocado y el teclado listo</td>
+</tr>
+<tr>
+<td><code>?escenario=…</code></td>
+<td>Home y listados</td>
+<td>Cambia el fixture de datos para QA (ver sección 10)</td>
+</tr>
+</tbody>
+</table>
+<h3>5.4 Estado que viaja entre pantallas</h3>
+<p>Los dos flujos largos guardan <strong>borrador</strong>, así que volver atrás no pierde lo cargado.</p>
+<ul>
+<li><strong>Agendamiento</strong>: borrador en <code>logic/solicitudServicio.ts</code>; el alta de dirección vuelve con <code>state: { direccionId }</code> y <code>replace: true</code>.</li>
+<li><strong>Garantía</strong>: borrador en <code>logic/solicitudGarantia.ts</code>; igual patrón de vuelta al paso 3.</li>
+</ul>
+<p>Volver sin guardar <strong>no toca</strong> el borrador.</p>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> La vista de una categoría del catálogo (tocar una categoría y ver sus servicios) <strong>no tiene ruta propia</strong>: es estado interno de <code>CatalogoServicios.tsx</code>. No se puede compartir por link ni entrar directo desde una notificación, y el botón de volver del navegador no sale de la categoría. Archivo: <code>src/app/pages/CatalogoServicios.tsx</code>.</p></div>
+<hr />
+<h2>6. Detalle por pantalla</h2>
+<p><strong>Cómo leer las tablas.</strong> Los elementos van numerados en <strong>orden de lectura</strong>: de arriba hacia abajo y, dentro de una fila, de izquierda a derecha. La columna "Elemento" usa entre comillas el <strong>texto tal como aparece en pantalla</strong>, o el nombre del bloque cuando no tiene texto propio.</p>
+<p>Las capturas están en <code>docs/capturas/</code>. El alto de cada una es el de esa pantalla: 812 px cuando el contenido entra en el viewport del teléfono, o el alto del contenido cuando es más largo. El blanco que queda debajo del contenido en algunas pantallas es el de la app.</p>
+<hr />
+<h3>6.1 Inicio</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/Home.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Mostrar el estado de los servicios activos y dar acceso a lo que se puede pedir</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Inicio" src="capturas/01-inicio.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Avatar con la inicial</td>
+<td>Círculo amarillo 48px</td>
+<td>Inicial del nombre en Bebas</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"HOLA, MARÍA"</td>
+<td>Título</td>
+<td>Bebas 24px, caja alta</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"¿Qué hacemos hoy en tu hogar?"</td>
+<td>Bajada</td>
+<td>Helvetica 13px <code>--gray-60</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Campana con contador</td>
+<td>Botón</td>
+<td><code>aria-label</code> = <code>"Notificaciones, 7 sin leer"</code>. Globo rojo con el número. Va a <code>/notificaciones</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>"¿Qué necesitas resolver hoy?"</td>
+<td>Buscador (botón)</td>
+<td><code>BuscadorServicios</code>. Abre <code>/catalogo?enfocar=1</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>"MIS SERVICIOS" + "Ver todos"</td>
+<td>Encabezado de sección</td>
+<td><code>Ver todos</code> solo con más de un servicio en curso; va a <code>/proyectos</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Card negra del servicio activo</td>
+<td><code>AvisoProximaVisita</code> prioridad alta</td>
+<td>Chip "SERVICIO EN CURSO" amarillo, nombre en Bebas 24px blanco, técnico y "Ver progreso"</td>
+</tr>
+<tr>
+<td>8</td>
+<td>"SERVICIOS PARA TU HOGAR" + bajada</td>
+<td>Encabezado de sección</td>
+<td>Bajada: "Desliza para ver más y elige el que necesitas."</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Carrusel de servicios destacados</td>
+<td><code>SeccionServicios</code></td>
+<td>Cards con foto, nombre (2 líneas), <code>Desde $N</code> y "Puede requerir una inspección"</td>
+</tr>
+<tr>
+<td>10</td>
+<td>"Ver todos los servicios"</td>
+<td>Botón amarillo</td>
+<td>Ancho completo, va a <code>/catalogo</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>"PROMOCIONES"</td>
+<td>Encabezado de sección</td>
+<td>—</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Carrusel de promociones</td>
+<td><code>SeccionPromociones</code></td>
+<td>Banner negro con título en Bebas y botón amarillo con el servicio</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Puntos del carrusel</td>
+<td>Indicador</td>
+<td>El activo es una barra alargada; los otros, puntos</td>
+</tr>
+<tr>
+<td>14</td>
+<td>"GARANTÍA Y RECLAMOS" + "Ver todos"</td>
+<td>Encabezado de sección</td>
+<td><code>Ver todos</code> con más de un reclamo; va a <code>/garantia</code></td>
+</tr>
+<tr>
+<td>15</td>
+<td>"Solicitar ayuda por garantía"</td>
+<td>Fila tocable completa</td>
+<td>Sello negro con escudo; subtítulo truncado a una línea</td>
+</tr>
+<tr>
+<td>16</td>
+<td>"TU RECLAMO MÁS RECIENTE"</td>
+<td>Rótulo</td>
+<td>Bebas, caja alta, <code>--gray-40</code></td>
+</tr>
+<tr>
+<td>17</td>
+<td>Card del reclamo</td>
+<td><code>TarjetaReclamoCompacta</code></td>
+<td>Chip de estado, producto en Bebas, una línea de situación, referencia + "Ver detalle"</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Inicio activo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reglas de contenido y truncado</strong></p>
+<ul>
+<li>El nombre del servicio destacado se corta a <strong>2 líneas</strong> (<code>line-clamp-2</code>); las cards del carrusel tienen alto fijo para que todas midan igual.</li>
+<li>La fila de referencia del reclamo se trunca a una línea: en la captura se lee <code>REC-2024-0927 · Iniciado el 18 de …</code>.</li>
+<li>El subtítulo de "Solicitar ayuda por garantía" se trunca a una línea.</li>
+<li>El saludo usa solo el <strong>primer nombre</strong>.</li>
+</ul>
+<p><strong>Navegación.</strong> Campana lleva a <code>/notificaciones</code>. Buscador lleva a <code>/catalogo?enfocar=1</code>. Card de servicio lleva a <code>/servicios/:id</code>. "Ver todos" de servicios lleva a <code>/proyectos</code>. Card de catálogo lleva a <code>/catalogo/:id</code>. Promoción lleva al servicio asociado (<code>lib/navegacion.ts</code>). Fila de garantía lleva a <code>/garantia/producto</code>. Card de reclamo lleva a <code>/reclamos/:id</code>.</p>
+<p><strong>Estados</strong></p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Qué se ve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cargando</td>
+<td>Skeletons con la forma de cada sección</td>
+</tr>
+<tr>
+<td>Error de una sección</td>
+<td><code>BloqueError</code> en esa sección; el resto del Home sigue</td>
+</tr>
+<tr>
+<td>Sin servicios</td>
+<td>La instancia de prioridad media muestra el vacío con "Explorar servicios"</td>
+</tr>
+<tr>
+<td>Sin reclamos</td>
+<td>La sección de garantía deja solo la fila de acceso</td>
+</tr>
+<tr>
+<td>Sin notificaciones sin leer</td>
+<td>La campana va sin globo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> Los servicios destacados son una lista fija en <code>src/app/data/catalogo.ts</code>, no una selección de negocio. Hay que definir quién los elige y con qué criterio.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> El intervalo del carrusel de promociones es <code>INTERVALO_CARRUSEL_MS = 5000</code> y está marcado como provisional en <code>src/app/logic/promociones.ts</code>.</li>
+</ul>
+<hr />
+<h3>6.2 Servicios (catálogo)</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/catalogo</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/CatalogoServicios.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Encontrar un servicio, por categoría o buscando</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Catálogo" src="capturas/02-catalogo.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Botón de volver</td>
+<td>Botón 44×44</td>
+<td>Radio 10, borde <code>--gray-20</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>"SERVICIOS"</td>
+<td>Título</td>
+<td>Bebas 20px</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"9 categorías"</td>
+<td>Contador</td>
+<td>Helvetica 13px <code>--gray-60</code>, junto al título</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"¿Qué servicio necesitas?"</td>
+<td>Input de búsqueda</td>
+<td>44px, fondo <code>--gray-3</code>. Con <code>?enfocar=1</code> arranca enfocado</td>
+</tr>
+<tr>
+<td>5</td>
+<td>"Explora por categoría"</td>
+<td>Rótulo</td>
+<td>Helvetica 13–14px <code>--gray-60</code></td>
+</tr>
+<tr>
+<td>6–14</td>
+<td>Filas de categoría</td>
+<td>Lista en una card</td>
+<td>Sello negro 44px con ícono amarillo, nombre en Bebas, "N servicios", chevron</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Servicios activo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reglas de contenido y truncado</strong></p>
+<ul>
+<li>Las filas están dentro de <strong>una sola card</strong> con divisores de 1px <code>--gray-8</code>, no como cards separadas.</li>
+<li>El contador de cada categoría se escribe en singular cuando es 1 ("1 servicio").</li>
+<li>Al escribir en el buscador, la lista de categorías se reemplaza por resultados en vivo.</li>
+</ul>
+<p><strong>Navegación.</strong> La fila de categoría abre la categoría <strong>dentro de la misma pantalla</strong> (estado interno). Resultado de búsqueda lleva a <code>/catalogo/:id</code>.</p>
+<p><strong>Estados</strong>: lista completa, categoría abierta, resultados de búsqueda, búsqueda sin resultados.</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> La categoría abierta <strong>no tiene ruta propia</strong>: no se puede compartir por link, no se entra directo desde una notificación y el botón de volver del navegador no sale de la categoría. Archivo: <code>src/app/pages/CatalogoServicios.tsx</code>.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> Los conteos por categoría salen de los fixtures y son desparejos (165 en Instalación contra 1 en Jardinería). Falta el catálogo real.</li>
+</ul>
+<hr />
+<h3>6.3 Ficha del servicio</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/catalogo/:id</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/DetalleCatalogo.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Explicar qué incluye el servicio, cuánto cuesta y qué pasa después, antes de agendar</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Ficha del servicio" src="capturas/03-catalogo-ficha.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + "SERVICIOS"</td>
+<td>Header</td>
+<td>Mismo header que el catálogo</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Foto del servicio</td>
+<td>Imagen</td>
+<td>Radio 14, ancho completo. <code>ImageWithFallback</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sello con el ícono de la categoría</td>
+<td>Caja 48px</td>
+<td>Fondo <code>--gray-3</code>, ícono 24px</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"AIRE ACONDICIONADO DE 9,000 - 12,000 BTU"</td>
+<td>Título</td>
+<td>Bebas, 2 líneas cuando hace falta</td>
+</tr>
+<tr>
+<td>5</td>
+<td>"Instalación · Instalación de línea blanca"</td>
+<td>Ruta de categoría</td>
+<td>Helvetica 13px <code>--gray-40</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>"Desde $120"</td>
+<td>Precio</td>
+<td>Helvetica 20px</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Descripción</td>
+<td>Párrafo</td>
+<td>Helvetica 14px/1.5</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Bloque "IMPORTANTE"</td>
+<td>Card con acento</td>
+<td>Borde izquierdo amarillo de 4px, radio 16, borde <code>--gray-8</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>"Antes de confirmar, revisaremos algunas condiciones del lugar."</td>
+<td>Título del bloque</td>
+<td>Helvetica 14px medium</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Explicación de la inspección</td>
+<td>Párrafo</td>
+<td><code>avisoEvaluacion()</code> en <code>logic/catalogo.ts</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>"Costo de inspección: $20" + descuento</td>
+<td>Bloque separado por hairline</td>
+<td>La inspección <strong>no se suma</strong> al estimado</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Aviso de contacto</td>
+<td>Card <code>--gray-3</code> radio 10</td>
+<td>Ícono <code>Info</code> 14px + "Al enviar tu solicitud, nos comunicaremos contigo entre 1 y 2 días hábiles…"</td>
+</tr>
+<tr>
+<td>13</td>
+<td>"Agendar servicio"</td>
+<td>CTA fijo al pie</td>
+<td>Amarillo, ancho completo, sobre borde superior <code>--gray-8</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Servicios activo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reglas de contenido</strong></p>
+<ul>
+<li>El precio <strong>siempre</strong> se presenta como <code>Desde $N</code> (<code>presentarPrecio()</code> en <code>logic/catalogo.ts</code>), con la unidad cuando existe (<code>Desde $12 por m²</code>).</li>
+<li>El aviso de inspección lo decide <strong>una sola</strong> función, <code>avisoEvaluacion()</code>: no se escribe a mano por servicio.</li>
+<li>El costo de inspección va <strong>aparte</strong> del estimado, con la aclaración de que se descuenta si se acepta la cotización.</li>
+</ul>
+<p><strong>Navegación.</strong> "Agendar servicio" lleva a <code>/catalogo/:id/revisar-lugar</code> cuando el servicio necesita revisión del lugar; si no, <code>/catalogo/:id/configurar</code>.</p>
+<p><strong>Estados</strong>: con y sin inspección, precio cotizable (sin monto), servicio no encontrado (mensaje + vuelta).</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> Las fotos son de Unsplash, de demostración. Falta el set real del PIM, y con él la decisión de proporción y recorte. Archivo: <code>src/app/data/catalogo.ts</code>.</li>
+</ul>
+<hr />
+<h3>6.4 Agendar · Paso 1 · Configura el servicio</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/catalogo/:id/configurar</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/ConfigurarServicio.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Definir cuántas unidades y sumar contexto opcional (fotos y notas)</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Configurar" src="capturas/15-configurar.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + nombre del servicio</td>
+<td><code>EncabezadoFlujo</code></td>
+<td>Título <code>truncate</code>: "AIRE ACONDICIONADO …"</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"Paso 1 de 4 · Configura el servicio"</td>
+<td>Indicador de paso</td>
+<td>14px medium + 13px gris</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Barra de progreso</td>
+<td><code>ui/progress</code></td>
+<td>25% en este paso</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Card del servicio</td>
+<td>Resumen</td>
+<td>Miniatura, nombre en Bebas, "Precio del servicio: $120"</td>
+</tr>
+<tr>
+<td>5</td>
+<td>"Cantidad de equipos"</td>
+<td>Título de bloque</td>
+<td>Helvetica 16px medium</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Contador</td>
+<td>− / número / +</td>
+<td>El <code>+</code> es amarillo; el <code>−</code> gris y se deshabilita en 1. Número en Bebas</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"Costo estimado del servicio" + monto</td>
+<td>Fila de total</td>
+<td><code>DesgloseCosto</code>. Monto a 20px peso 700</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Aclaración del estimado</td>
+<td>Párrafo</td>
+<td>"Este es un valor estimado. La cotización final puede variar…"</td>
+</tr>
+<tr>
+<td>9</td>
+<td>"No incluye ITBMS."</td>
+<td>Nota</td>
+<td>Helvetica 12px <code>--gray-60</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>"Fotos" + <code>Opcional</code></td>
+<td>Label con marca</td>
+<td><code>MarcaCampo</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>"Agregar fotos"</td>
+<td>Botón con borde</td>
+<td>Ícono <code>Camera</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td>"Notas" + <code>Opcional</code></td>
+<td>Label con marca</td>
+<td><code>MarcaCampo</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Área de texto</td>
+<td>Textarea</td>
+<td>Redimensionable, radio 8</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Ayuda de las notas</td>
+<td>Párrafo</td>
+<td>"Cuéntanos algo que debamos saber del trabajo o del lugar. Si el trabajo es urgente, dínoslo acá."</td>
+</tr>
+<tr>
+<td>15</td>
+<td>"Continuar"</td>
+<td>CTA fijo al pie</td>
+<td>Amarillo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sin tab bar</strong> (ruta del flujo).</p>
+<p><strong>Navegación.</strong> "Continuar" lleva a <code>/catalogo/:id/direccion</code>. Volver lleva a la etapa anterior; el borrador persiste.</p>
+<p><strong>Estados</strong>: cantidad en 1 (menos deshabilitado), con adicional de desinstalación (aparece su fila en el desglose), servicio cotizable (sin monto).</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> "Agregar fotos" <strong>no abre selector de archivos</strong>: el prototipo no sube imágenes. Falta definir cantidad máxima, peso y formatos.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> Las notas <strong>no tienen límite de caracteres</strong>: quedó sin definir por decisión expresa. Hay que fijarlo antes de producción.</li>
+</ul>
+<hr />
+<h3>6.5 Agendar · Paso 3 · Fecha preferida</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/catalogo/:id/fecha</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/FechaServicio.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Elegir día y franja preferidos, sabiendo que MiPRO confirma después</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Fecha" src="capturas/16-fecha.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>EncabezadoFlujo</code></td>
+<td>Header</td>
+<td>"Paso 3 de 4 · Fecha preferida", barra al 75%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"Elige cuándo prefieres recibir la visita."</td>
+<td>Título</td>
+<td>Helvetica 16px medium</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"Día preferido" + <code>Obligatorio*</code></td>
+<td>Label con marca</td>
+<td><code>MarcaCampo</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Calendario</td>
+<td><code>ui/calendar</code></td>
+<td>Card radio 12, borde <code>--gray-8</code>. Mes con flechas ‹ ›</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Días anteriores a mañana</td>
+<td>Deshabilitados</td>
+<td><code>disabled={{ before: mañana }}</code>: hoy no es elegible</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"Horario preferido" + <code>Obligatorio*</code></td>
+<td>Label con marca</td>
+<td>—</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"En la mañana" / "En la tarde"</td>
+<td>Dos tarjetas de opción</td>
+<td>Íconos <code>Sun</code> y <code>Moon</code>; franjas "8:00 a. m. a 12:00 p. m." y "1:00 p. m. a 5:00 p. m."</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Aviso</td>
+<td>Card <code>--gray-3</code></td>
+<td>"Un agente de MiPRO se contactará contigo para confirmar la fecha y el horario."</td>
+</tr>
+<tr>
+<td>9</td>
+<td>"Continuar"</td>
+<td>CTA fijo al pie</td>
+<td>Amarillo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reglas de contenido.</strong> Las horas se escriben con el formato de Panamá: <code>8:00 a. m.</code>, con espacios finos y punto. La semana empieza en lunes y los nombres de día van en minúscula y abreviados a dos letras.</p>
+<p><strong>Navegación.</strong> "Continuar" lleva a <code>/catalogo/:id/resumen</code>.</p>
+<p><strong>Estados</strong>: sin elegir (el CTA valida al tocarlo y muestra el error), día elegido, franja elegida, ambos elegidos.</p>
+<hr />
+<h3>6.6 Agendar · Paso 4 · Revisa y confirma</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/catalogo/:id/resumen</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/ResumenServicio.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Revisar todo antes de confirmar, con acceso directo a corregir cada bloque</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Resumen" src="capturas/17-resumen.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>EncabezadoFlujo</code></td>
+<td>Header</td>
+<td>"Paso 4 de 4 · Revisa y confirma", barra al 100%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"Revisa tu solicitud"</td>
+<td>Título</td>
+<td>Helvetica 16px medium</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Bloque "SERVICIO" + "Editar"</td>
+<td>Card</td>
+<td>Rótulo en <code>--gray-40</code> caja alta; "Editar" en <code>--info-blue</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Contenido del servicio</td>
+<td>Miniatura + nombre + "Cantidad de unidades: N" + desglose</td>
+<td><code>DesgloseCosto</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Bloque "DIRECCIÓN" + "Editar"</td>
+<td>Card</td>
+<td>—</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Bloque "FECHA PREFERIDA" + "Editar"</td>
+<td>Card</td>
+<td>Incluye el aviso de confirmación</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Bloque "NOTAS Y FOTOS" + "Editar"</td>
+<td>Card</td>
+<td>"Sin notas" cuando está vacío</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Aviso de pago</td>
+<td>Card <code>--gray-3</code> radio 10</td>
+<td>"Un agente de MiPRO se contactará contigo para coordinar el pago y confirmar la visita."</td>
+</tr>
+<tr>
+<td>9</td>
+<td>"Confirmar solicitud"</td>
+<td>CTA fijo al pie</td>
+<td>56px de alto, radio 12, texto 16px</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reglas de contenido</strong></p>
+<ul>
+<li>Cada bloque que falta se escribe en primera persona del plural y en positivo: <code>"Falta elegir la dirección."</code>, <code>"Falta elegir la fecha."</code>.</li>
+<li>El pago <strong>se coordina fuera de la app</strong>: no hay pasarela ni monto a pagar acá.</li>
+</ul>
+<p><strong>Patrón de validación de toda la app.</strong> El CTA <strong>siempre está activo</strong>. Al tocarlo se valida y, si falta algo, aparece un error con <code>role="alert"</code> debajo del contenido: <code>"Revisa que la dirección y la fecha estén completas antes de confirmar."</code>. No se usan botones deshabilitados por formulario incompleto; <code>disabled</code> se reserva para el envío en curso.</p>
+<p><strong>Navegación.</strong> "Editar" de cada bloque lleva a la etapa correspondiente. "Confirmar solicitud" lleva a <code>/solicitud-enviada?id=&lt;id&gt;</code> con <code>replace: true</code>, así el botón de volver no regresa al formulario.</p>
+<p><strong>Estados</strong>: completo, incompleto (con el error), enviando.</p>
+<hr />
+<h3>6.7 Solicitud enviada</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/solicitud-enviada?id=&lt;id&gt;</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/SolicitudEnviada.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Confirmar que la solicitud llegó y dejar claro qué sigue</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Solicitud enviada" src="capturas/18-solicitud-enviada.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Bloque oscuro superior</td>
+<td>Fondo con gradiente</td>
+<td>Ocupa el tercio superior; la hoja blanca de abajo tiene radio arriba</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Isotipo de MiPRO</td>
+<td><code>ManoMiPRO</code></td>
+<td>Palma blanca, rayos amarillos. <strong>Nunca oscuro</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>"GRACIAS, MARÍA"</td>
+<td>Título</td>
+<td>Bebas, blanco, caja alta</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"SOLICITUD RECIBIDA"</td>
+<td>Chip de estado</td>
+<td>Amarillo con punto</td>
+</tr>
+<tr>
+<td>5</td>
+<td>"FECHA DE SOLICITUD"</td>
+<td>Rótulo</td>
+<td><code>--gray-40</code>, caja alta</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"22 de septiembre de 2026"</td>
+<td>Dato</td>
+<td>Helvetica 16px medium</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"¿Qué sigue?"</td>
+<td>Enlace</td>
+<td><code>--info-blue</code>; abre la explicación</td>
+</tr>
+<tr>
+<td>8</td>
+<td>"Volver al inicio"</td>
+<td>CTA amarillo</td>
+<td>—</td>
+</tr>
+<tr>
+<td>9</td>
+<td>"Ver progreso"</td>
+<td>Acción secundaria</td>
+<td>Va al detalle del servicio creado, o a <code>/proyectos</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Servicios activo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Navegación.</strong> "Volver al inicio" lleva a <code>/</code>. "Ver progreso" lleva a <code>/servicios/:id</code> con <code>replace: true</code>.</p>
+<hr />
+<h3>6.8 Mis servicios</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/proyectos</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/ProyectosList.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Ver todos los servicios, en curso y finalizados</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Mis servicios" src="capturas/05-mis-servicios.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + "MIS SERVICIOS"</td>
+<td>Header</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"En curso (7)" / "Finalizados (2)"</td>
+<td><code>ui/tabs</code></td>
+<td>Dos pestañas con el conteo. Fondo <code>--gray-3</code>, pestaña activa blanca</td>
+</tr>
+<tr>
+<td>3–9</td>
+<td>Cards de servicio</td>
+<td><code>TarjetaServicio</code></td>
+<td>Una por servicio</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Servicios activo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Anatomía de la card</strong> (igual para todos los estados, solo cambian chip, frase y metadatos):</p>
+<table>
+<thead>
+<tr>
+<th>Zona</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cabecera</td>
+<td>Sello negro con el ícono del servicio + número de reserva (<code>MPR-3042-2</code>) a la izquierda; chip de estado a la derecha</td>
+</tr>
+<tr>
+<td>Cuerpo</td>
+<td>Nombre en Bebas + <strong>una</strong> frase de situación</td>
+</tr>
+<tr>
+<td>Metadatos</td>
+<td>Avance ("2 de 4 visitas realizadas") cuando el plan está confirmado; fecha con ícono <code>CalendarDays</code></td>
+</tr>
+<tr>
+<td>Pie</td>
+<td>"Ver detalle" con chevron, sobre hairline</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Los siete estados y su frase</strong></p>
+<table>
+<thead>
+<tr>
+<th>Chip</th>
+<th>Color del chip</th>
+<th>Frase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SOLICITUD RECIBIDA</td>
+<td><code>--info-blue</code></td>
+<td>"Recibimos tu solicitud. Pronto coordinaremos tu visita."</td>
+</tr>
+<tr>
+<td>EN REVISIÓN</td>
+<td><code>--gray-80</code></td>
+<td>"Estamos coordinando tu próxima visita."</td>
+</tr>
+<tr>
+<td>CITA PROGRAMADA</td>
+<td><code>--info-blue</code></td>
+<td>"Tu próxima visita ya está coordinada."</td>
+</tr>
+<tr>
+<td>TÉCNICO EN CAMINO</td>
+<td><code>--primary-black</code></td>
+<td>"Tu técnico está en camino."</td>
+</tr>
+<tr>
+<td>SERVICIO EN CURSO</td>
+<td><code>#8A7A00</code></td>
+<td>"Estamos trabajando en tu servicio."</td>
+</tr>
+<tr>
+<td>SERVICIO FINALIZADO</td>
+<td><code>--success-green</code></td>
+<td>Cierre con su fecha</td>
+</tr>
+<tr>
+<td>SOLICITUD CANCELADA</td>
+<td><code>--error-red</code></td>
+<td>Cierre con su fecha</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reglas de contenido</strong></p>
+<ul>
+<li>La fecha de hoy se escribe <code>"Visita de hoy · 4:00 p. m."</code>; las otras, <code>"Miércoles 12 de marzo · 2:00–4:00 p. m."</code> (rango con guion corto).</li>
+<li>Sin fecha coordinada se muestra <code>"Solicitud creada el 15 de marzo"</code>.</li>
+<li>El propósito de la visita sale de la <strong>nomenclatura controlada</strong> de backoffice (<code>TIPOS_VISITA</code> en <code>logic/servicios.ts</code>), nunca de texto libre del operador.</li>
+</ul>
+<p><strong>Estados</strong>: en curso, finalizados, vacío, cargando, error. Los escenarios de QA se fuerzan con <code>?servicios=error|cargando|vacio|encamino|proxima|porasignar</code>.</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> "Próxima visita" aparece solo cuando el modelo confirma el plan (<code>totalVisitasConfirmado</code>). Falta acordar con backoffice cuándo se considera confirmado.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> "Técnico en camino" existe en la app y en <code>statusConfig</code>, pero el modelo actual no lo emite: se muestra solo desde un fixture.</li>
+</ul>
+<hr />
+<h3>6.9 Detalle del servicio</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/servicios/:id</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/DetalleServicio.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Ver el servicio completo con todas sus visitas y qué hacer si algo cambia</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Detalle del servicio" src="capturas/04-detalle-servicio.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + nombre del servicio</td>
+<td>Header</td>
+<td>Bebas 20px, <code>truncate</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Chip de estado</td>
+<td>Chip</td>
+<td>Bajo el header, alineado a la izquierda</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"DATOS DE TU SOLICITUD"</td>
+<td>Card de datos</td>
+<td>Rótulo en <code>--gray-40</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>"N.º de reserva: MPR-2214-7"</td>
+<td>Dato</td>
+<td>Etiqueta normal + valor en peso 500</td>
+</tr>
+<tr>
+<td>5</td>
+<td>"Dirección: …"</td>
+<td>Dato</td>
+<td>Hasta 2 líneas</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"Total estimado: $175"</td>
+<td>Dato</td>
+<td>—</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"VISITAS DE ESTE SERVICIO"</td>
+<td>Título de sección</td>
+<td>Bebas 18px</td>
+</tr>
+<tr>
+<td>8</td>
+<td>"AVANCE DEL SERVICIO" + "2 de 4 visitas realizadas"</td>
+<td>Bloque de avance</td>
+<td>Rótulo <code>--gray-40</code> + barra amarilla</td>
+</tr>
+<tr>
+<td>9–12</td>
+<td>Cards de visita</td>
+<td><code>ListaCitasServicio</code></td>
+<td>Una por cita</td>
+</tr>
+<tr>
+<td>13</td>
+<td>"¿Necesitas cambiar algo?"</td>
+<td>Card <code>--gray-3</code></td>
+<td>Con su explicación</td>
+</tr>
+<tr>
+<td>14</td>
+<td>"Contactar a MiPRO"</td>
+<td>Botón con borde</td>
+<td>Abre el drawer <code>ContactarMiPRO</code></td>
+</tr>
+<tr>
+<td>15</td>
+<td>"¿Quieres cancelar esta solicitud?"</td>
+<td>Enlace subrayado</td>
+<td>Abre el mismo drawer con el mensaje de cancelación</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Servicios activo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Card de visita.</strong> Título = propósito (<code>Inspección</code>, <code>Instalación</code>, <code>Control final</code>). Debajo, <strong>estado y después fecha</strong>: <code>"Completada · Lunes 3 de marzo, 10:00 a. m."</code>, con el ícono y el color del estado. Pie con <code>"Técnico: Juan Pérez"</code> cuando está asignado. Sin fecha: <code>"Por coordinar"</code>.</p>
+<p><strong>Vocabulario de estados de cita.</strong> Uno solo, en <code>src/app/logic/estadosCita.ts</code>: <code>Por coordinar</code>, <code>Cita confirmada</code>, <code>En curso</code>, <code>Completada</code>, <code>Cancelada</code>. El recorrido son los primeros cuatro (sin <code>Cancelada</code>). <code>normalizarEstadoCita</code> mapea los nombres viejos del backoffice.</p>
+<p><strong>Estados</strong>: con y sin avance confirmado, servicio finalizado (aparece <code>CalificacionServicio</code>), cancelado, no encontrado ("No encontramos este servicio." + "Volver a Mis servicios").</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Inconsistencia detectada.</strong> <code>"En pausa"</code> existe en <code>statusConfig.ts</code> pero <strong>no está mapeado</strong> en <code>EQUIVALENCIAS</code> de <code>estadosCita.ts</code>, porque no está definido a qué estado del cliente corresponde. Si el backoffice lo emite, la cita cae en el genérico. Archivos: <code>src/app/logic/estadosCita.ts</code>, <code>src/app/utils/statusConfig.ts</code>.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> Cancelar no cancela la solicitud: abre el canal de contacto. Falta definir si la cancelación va a ser autogestionada.</li>
+</ul>
+<hr />
+<h3>6.10 Garantía y reclamos (hub)</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/garantia</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/GarantiaHub.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Iniciar una solicitud de garantía y seguir las que ya existen</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Hub de garantía" src="capturas/06-garantia.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + "GARANTÍA Y RECLAMOS"</td>
+<td>Header</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Card de inicio</td>
+<td>Card blanca radio 14</td>
+<td>Sello negro con escudo + explicación de dos líneas</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"Solicitar ayuda por garantía"</td>
+<td>CTA amarillo</td>
+<td>Dentro de la card, ancho completo</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"En curso (5)" / "Finalizados (2)"</td>
+<td><code>ui/tabs</code></td>
+<td>Con conteo</td>
+</tr>
+<tr>
+<td>5–9</td>
+<td>Cards de reclamo</td>
+<td><code>TarjetaReclamoHub</code></td>
+<td>Una por caso</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Garantía activo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Anatomía de la card de reclamo</strong></p>
+<table>
+<thead>
+<tr>
+<th>Zona</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cabecera</td>
+<td>Fondo <code>--gray-3</code>: sello negro con escudo + número de caso (<code>REC-2024-0927</code>); chip de estado a la derecha</td>
+</tr>
+<tr>
+<td>Cuerpo</td>
+<td>Producto en Bebas (<strong>1 línea, truncado</strong>) + una frase de situación</td>
+</tr>
+<tr>
+<td>Metadatos</td>
+<td><code>"Iniciado el 18 de mayo"</code> y, cuando existe, <code>"Cita: 27 de mayo"</code></td>
+</tr>
+<tr>
+<td>Pie</td>
+<td>"Ver detalle" con chevron, sobre hairline. Botón amarillo <strong>solo</strong> cuando el usuario debe actuar</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Los cinco estados de caso</strong> (<code>ESTADOS_CASO_RECLAMO</code> en <code>logic/reclamos.ts</code>): Solicitud recibida, En revisión, Cita programada, Necesitamos información, Finalizado / No cubierto.</p>
+<p><strong>Reglas de contenido y truncado</strong></p>
+<ul>
+<li>El nombre del producto se corta a <strong>una línea</strong>: en la captura, <code>REFRIGERADORA DE LA CO…</code>.</li>
+<li>La frase de situación se corta a una línea: <code>Estamos revisando tu solicitud para coordinar la…</code>.</li>
+<li>Las filas tienen <strong>alto fijo</strong>: todas las cards del listado miden lo mismo.</li>
+</ul>
+<div class="aviso"><p>⚠️ <strong>Inconsistencia detectada.</strong> <code>TarjetaReclamo</code> (en <code>/reclamos</code>) muestra el producto <strong>sin truncar</strong> y <code>TarjetaReclamoHub</code> lo trunca a una línea. El mismo dato se corta distinto según la pantalla. Archivos: <code>components/reclamos/TarjetaReclamo.tsx</code>, <code>components/reclamos/TarjetaReclamoHub.tsx</code>.</p></div>
+<p><strong>Navegación.</strong> CTA lleva a <code>/garantia/producto</code>. Card lleva a <code>/reclamos/:id</code>.</p>
+<hr />
+<h3>6.11 Garantía · Paso 1 · Datos de la compra y del producto</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/garantia/producto</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/GarantiaProducto.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Reunir lo que define la cobertura: comprobante y producto</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Garantía paso 1" src="capturas/07-garantia-paso1.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Marca</th>
+<th>Control</th>
+<th>Ayuda</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>"N.º de factura"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input, <code>Ej.: FAC-001-2026</code></td>
+<td>"¿Dónde encuentro la factura?"</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"Fecha de compra"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de fecha nativo (<code>dd/mm/aaaa</code> + ícono)</td>
+<td>"DD/MM/AAAA o selecciona la fecha."</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"Comprado en"</td>
+<td><code>Obligatorio*</code></td>
+<td><code>SelectorBuscable</code>, "Selecciona un comercio"</td>
+<td>—</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"Marca"</td>
+<td><code>Obligatorio*</code></td>
+<td><code>SelectorBuscable</code>, "Selecciona una marca"</td>
+<td>—</td>
+</tr>
+<tr>
+<td>5</td>
+<td>"Tipo de producto"</td>
+<td><code>Obligatorio*</code></td>
+<td><code>SelectorBuscable</code>, "Selecciona un producto"</td>
+<td>—</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"Código de producto"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input, <code>Ej.: COD-987654</code></td>
+<td>"¿Dónde encuentro el código de producto?"</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"Modelo"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input, <code>Ej.: Deluxe 2000</code></td>
+<td>"¿Dónde encuentro el modelo?"</td>
+</tr>
+<tr>
+<td>8</td>
+<td>"Número de serie"</td>
+<td><strong><code>Opcional</code></strong></td>
+<td>Input, <code>Ej.: SN-123456789</code></td>
+<td>"¿Dónde encuentro el número de serie?"</td>
+</tr>
+<tr>
+<td>9</td>
+<td>"Nombre del producto"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input, <code>Ej.: Refrigeradora de la cocina</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td>10</td>
+<td>"Siguiente"</td>
+<td>—</td>
+<td>CTA amarillo fijo al pie</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Arriba, <code>ProgresoPasos</code> con el 1 activo. Header con el título <code>SOLICITAR AYUDA POR …</code> truncado.</p>
+<p><strong>Reglas de contenido</strong></p>
+<ul>
+<li><strong>El orden de los campos es este</strong>: "Marca" va entre "Comprado en" y "Tipo de producto".</li>
+<li><strong>"Número de serie" es el único opcional</strong> del formulario: es el dato más difícil de encontrar, porque la etiqueta es chica y a veces está detrás del equipo. El resto define la cobertura y la app no tiene cómo pedirlo después del envío.</li>
+<li>Si el producto se elige de los registrados, <strong>no se vuelve a pedir ningún dato</strong>.</li>
+<li>Los enlaces "¿Dónde encuentro…?" abren un <code>AyudaSheet</code> con el <code>DiagramaRecibo</code>: el mismo comprobante simulado, resaltando factura o código según el caso. La ayuda <strong>nunca dice que falta contenido</strong>.</li>
+<li>Los mensajes de error están en lenguaje claro, nunca "campo inválido": <code>"Elige un producto o ingresa sus datos para continuar."</code></li>
+</ul>
+<p><strong>Navegación.</strong> "Siguiente" lleva a <code>/garantia/problema</code>.</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> Las listas de comercios, marcas y tipos de producto son locales (<code>src/app/data/</code>). Falta la fuente real.</li>
+</ul>
+<hr />
+<h3>6.12 Garantía · Paso 2 · Problema reportado</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/garantia/problema</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/GarantiaProblema.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Clasificar la falla con una taxonomía cerrada</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Garantía paso 2" src="capturas/08-garantia-problema.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>ProgresoPasos</code></td>
+<td>Indicador</td>
+<td>1 completado (negro), 2 activo (amarillo), 3 y 4 pendientes</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"¿Qué está pasando con el producto?"</td>
+<td>Label + <code>Obligatorio*</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"Selecciona el problema"</td>
+<td>Selector</td>
+<td>7 categorías</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"Continuar"</td>
+<td>CTA amarillo fijo al pie</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Las siete categorías</strong> (<code>CATEGORIAS_PROBLEMA</code> en <code>logic/solicitudGarantia.ts</code>): No enciende, No funciona correctamente, Hace un ruido extraño, Pierde agua, Muestra un error, Está dañado, Otro problema.</p>
+<p><strong>Aviso de seguridad.</strong> Una categoría puede traer un aviso preventivo aprobado, que aparece al elegirla. Hoy solo lo tiene "Pierde agua": <em>"Por seguridad, desconecta el producto y no intentes repararlo por tu cuenta."</em></p>
+<p><strong>Estados</strong>: sin elegir (como en la captura), elegida, elegida con aviso de seguridad, "Otro problema" (habilita la descripción libre).</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> La taxonomía es una <strong>propuesta, no la lista productiva</strong>. Está marcada así en el código y hay que validarla con operaciones.</li>
+</ul>
+<hr />
+<h3>6.13 Garantía · Paso 3 · Contacto y dirección</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/garantia/revisar</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/GarantiaRevisar.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Confirmar a quién se contacta y dónde está el producto</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Garantía paso 3" src="capturas/09-garantia-contacto.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>ProgresoPasos</code></td>
+<td>Indicador</td>
+<td>3 activo</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"¿A QUIÉN CONTACTAMOS?"</td>
+<td>Rótulo de sección</td>
+<td><code>--gray-40</code>, caja alta</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Card del titular</td>
+<td>Card</td>
+<td>"María González" + "+507 6000-0000" + "Editar" en <code>--info-blue</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>"CONTACTO ALTERNATIVO"</td>
+<td>Rótulo de sección</td>
+<td>Con su explicación: "Opcional. Si no puedes atender tú, dinos a quién contactamos."</td>
+</tr>
+<tr>
+<td>5</td>
+<td>"Nombre"</td>
+<td>Label + <code>Opcional</code></td>
+<td>Input</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"Teléfono"</td>
+<td>Label + <code>Opcional</code></td>
+<td>Input</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"¿DÓNDE SE ENCUENTRA EL PRODUCTO?"</td>
+<td>Rótulo de sección</td>
+<td>—</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Direcciones guardadas</td>
+<td>Cards seleccionables</td>
+<td>Alias en peso 500 + dirección completa hasta 2 líneas</td>
+</tr>
+<tr>
+<td>9</td>
+<td>"Agregar otra dirección"</td>
+<td>Botón con borde</td>
+<td>Ícono <code>+</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Aviso</td>
+<td>Card <code>--gray-3</code></td>
+<td>"Usaremos esta dirección para coordinar la atención del producto si es necesario."</td>
+</tr>
+<tr>
+<td>11</td>
+<td>"Revisar solicitud"</td>
+<td>CTA amarillo fijo al pie</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reglas de contenido.</strong> El contacto alternativo es <strong>el único bloque opcional</strong> del flujo: marca <code>Opcional</code> en los dos campos.</p>
+<p><strong>Navegación.</strong> "Editar" abre los datos del titular. "Agregar otra dirección" lleva a <code>/garantia/direccion/nueva</code>. "Revisar solicitud" lleva a <code>/garantia/confirmar</code>.</p>
+<hr />
+<h3>6.14 Garantía · Paso 4 · Revisar y enviar</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/garantia/confirmar</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/GarantiaConfirmar.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Revisión final, con acceso a corregir cada bloque</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Garantía paso 4" src="capturas/09b-garantia-confirmar.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>ProgresoPasos</code></td>
+<td>Indicador</td>
+<td>1-2-3 completados, 4 activo</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"Revisar tu solicitud"</td>
+<td>Título</td>
+<td>Helvetica 16px medium</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Bloque "COMPRA" + "Editar"</td>
+<td>Card</td>
+<td>Factura y fecha</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Bloque "PRODUCTO" + "Editar"</td>
+<td>Card</td>
+<td>Marca, tipo, modelo, código, serie</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Bloque "PROBLEMA REPORTADO" + "Editar"</td>
+<td>Card</td>
+<td>Categoría y descripción</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Bloque "CONTACTO Y DIRECCIÓN" + "Editar"</td>
+<td>Card</td>
+<td>Titular, alternativo y dirección</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Nota de cierre</td>
+<td>Párrafo</td>
+<td>"Al enviar la solicitud, MiPRO revisará la información para confirmar la cobertura y te indicará cómo continuar."</td>
+</tr>
+<tr>
+<td>8</td>
+<td>"Enviar solicitud"</td>
+<td>CTA amarillo fijo al pie</td>
+<td><code>disabled</code> mientras envía</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>En la captura los cuatro bloques salen <strong>sin datos</strong> porque se entró por URL directa, sin borrador. Con el flujo recorrido, cada bloque muestra sus valores.</p>
+</blockquote>
+<p><strong>Navegación.</strong> "Enviar solicitud" lleva a <code>/garantia/enviada</code>. Desde ahí, al caso creado (<code>/reclamos/:id</code>) o al listado.</p>
+<p><strong>Estados</strong>: completo, enviando (CTA deshabilitado), error de envío.</p>
+<hr />
+<h3>6.15 Agregar dirección</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Rutas</strong></td>
+<td><code>/garantia/direccion/nueva</code> y <code>/catalogo/:id/direccion/nueva</code></td>
+</tr>
+<tr>
+<td><strong>Archivos</strong></td>
+<td><code>pages/GarantiaAgregarDireccion.tsx</code>, <code>pages/AgregarDireccion.tsx</code>, <code>components/agendar/FormularioDireccion.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Dar de alta una dirección completa, una sola vez y de una sola forma</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Agregar dirección" src="capturas/14-direccion-nueva.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Marca</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Título del bloque</td>
+<td>—</td>
+<td>"Agregar otra dirección" (garantía) o "Agregar dirección" (agendamiento)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"Busca tu dirección o un punto cercano"</td>
+<td>—</td>
+<td>Barra de búsqueda, 44px, fondo <code>--gray-3</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Mapa</td>
+<td>—</td>
+<td>Recuadro de 130px radio 12 con un pin y el mensaje del contexto ("Elige un punto para ubicar el producto" / "…el servicio")</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"Nombre de la dirección"</td>
+<td><code>Obligatorio*</code></td>
+<td>Único campo con placeholder: "Por ejemplo, Casa"</td>
+</tr>
+<tr>
+<td>5</td>
+<td>"Provincia"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de texto</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"Distrito"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de texto</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"Corregimiento"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de texto</td>
+</tr>
+<tr>
+<td>8</td>
+<td>"Barrio o barriada"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de texto</td>
+</tr>
+<tr>
+<td>9</td>
+<td>"Calle"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de texto</td>
+</tr>
+<tr>
+<td>10</td>
+<td>"Casa o edificio"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de texto</td>
+</tr>
+<tr>
+<td>11</td>
+<td>"Nombre del edificio"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de texto</td>
+</tr>
+<tr>
+<td>12</td>
+<td>"Piso"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de texto</td>
+</tr>
+<tr>
+<td>13</td>
+<td>"Número de casa o apartamento"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de texto</td>
+</tr>
+<tr>
+<td>14</td>
+<td>"Detalles adicionales"</td>
+<td><code>Obligatorio*</code></td>
+<td>Input de texto</td>
+</tr>
+<tr>
+<td>15</td>
+<td>"Guardar dirección"</td>
+<td>—</td>
+<td>CTA amarillo fijo al pie, 44px</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reglas de contenido</strong></p>
+<ul>
+<li><strong>Los once campos son obligatorios.</strong> Con un campo faltante, la dirección puede no alcanzar para llegar, y la app no tiene cómo pedirlo después.</li>
+<li>Elegir un lugar en el mapa <strong>autocompleta</strong> los campos que ese lugar conoce.</li>
+<li>La validación es <code>validarDireccionNueva</code>: muestra el <strong>primer</strong> error faltante, con <code>role="alert"</code>.</li>
+<li>Es <strong>un solo formulario</strong> para los dos flujos. Antes había dos (once campos en agendamiento, cuatro en garantía).</li>
+</ul>
+<p><strong>Navegación.</strong> Al guardar, vuelve al paso que lo abrió con la nueva dirección ya elegida (<code>state: { direccionId }</code>, <code>replace: true</code>). Volver sin guardar <strong>no toca</strong> el borrador.</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Inconsistencia detectada.</strong> Provincia, distrito y corregimiento son <strong>campos de texto libre</strong>, aunque la app ya tiene el componente <code>SelectorBuscable</code> y datos geográficos en <code>data/lugaresSimulados.ts</code>. Escritos a mano no se pueden validar ni usar para asignar cobertura. Archivo: <code>components/agendar/FormularioDireccion.tsx</code>.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> "Detalles adicionales" es obligatorio y no tiene ayuda que explique qué se espera ahí.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> El mapa es un dibujo. Falta el proveedor real.</li>
+</ul>
+<hr />
+<h3>6.16 Detalle del reclamo</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/reclamos/:id</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/DetalleReclamo.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Saber en qué está el caso y qué sigue</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Detalle del reclamo" src="capturas/10-detalle-reclamo.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + "DETALLE DEL RECLAMO"</td>
+<td>Header</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Chip de estado</td>
+<td>Chip</td>
+<td>"SOLICITUD RECIBIDA" en <code>--info-blue</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Nombre del producto</td>
+<td>Título</td>
+<td>Bebas, caja alta, <strong>sin truncar</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>"Reclamo REC-2024-0892"</td>
+<td>Referencia</td>
+<td>Helvetica 13px <code>--gray-60</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Card de situación</td>
+<td>Card tonal</td>
+<td>Fondo tenue del color del estado + ícono + la frase en peso 500</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"Iniciado el 10 de mayo"</td>
+<td>Metadato</td>
+<td>Con ícono <code>CalendarDays</code> 14px</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"Última actualización el 16 de mayo"</td>
+<td>Metadato</td>
+<td>Ídem</td>
+</tr>
+<tr>
+<td>8</td>
+<td>"¿Quieres cancelar esta solicitud?"</td>
+<td>Enlace subrayado</td>
+<td>Abre <code>ContactarMiPRO</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Garantía activo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Con cita coordinada</strong> se suma <code>HistorialCitas</code>: una card por cita con el tipo como título, los cambios de estado con su fecha (punto + conector vertical) y el pie con técnico y horario. El historial usa el del backoffice cuando existe; si no, lo deriva de los estados alcanzados (<code>historialCita()</code> en <code>logic/reclamos.ts</code>).</p>
+<p><strong>Modalidades de atención</strong> (<code>ModalidadAtencion</code>): <code>taller-visita</code>, <code>cliente-lleva</code>, <code>deja-en-tienda</code>. Cambian el texto de la cita, no la estructura.</p>
+<p><strong>Estados</strong>: los cinco de caso; con y sin historial; el caso que requiere acción muestra el CTA amarillo.</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> El catálogo de estados de caso es el de la app, no el del backoffice. Hay que cerrarlo y confirmar quién lo emite.</li>
+</ul>
+<hr />
+<h3>6.17 Notificaciones</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/notificaciones</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/Notificaciones.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Repasar las novedades en orden y saber qué queda sin leer</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Notificaciones" src="capturas/11-notificaciones.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + "NOTIFICACIONES"</td>
+<td>Header</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"7 sin leer"</td>
+<td>Contador</td>
+<td>Helvetica 13px <code>--gray-60</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>"Marcar todas como leídas"</td>
+<td>Acción de texto</td>
+<td>Negro peso 500 con <strong>subrayado amarillo</strong> de 2px. <code>minHeight: 44px</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>"HOY"</td>
+<td>Encabezado de fecha</td>
+<td>Bebas 16px caja alta + hairline <code>--gray-20</code> hasta el borde</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Fila prioritaria</td>
+<td>Fila</td>
+<td>Superficie <code>rgba(255,238,0,0.10)</code> + barra <code>inset 3px 0 0</code> amarilla</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Filas sin leer</td>
+<td>Fila</td>
+<td>Ícono negro, título peso 500, punto amarillo de 6px junto a la hora</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"AYER" / "ANTERIORES"</td>
+<td>Encabezados de fecha</td>
+<td>Ídem</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Filas leídas</td>
+<td>Fila</td>
+<td>Ícono <code>--gray-40</code>, título <code>--gray-80</code> peso 400, sin punto</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Tab bar</td>
+<td><strong>No hay</strong></td>
+<td><code>/notificaciones</code> está en <code>RUTAS_SIN_TABBAR</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Anatomía de la fila.</strong> Grid de <code>22px 1fr 16px</code> con gap 12 y padding <code>14px 24px</code>; filas separadas por <code>1px solid var(--gray-8)</code>. <strong>No son cards</strong>: es un registro continuo. Columna 1 el ícono del tipo (20px, trazo 2.5), columna 2 título + mensaje, columna 3 el chevron.</p>
+<p><strong>Los siete tipos y su ícono</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Ícono (lucide)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solicitud recibida</td>
+<td><code>Inbox</code></td>
+</tr>
+<tr>
+<td>Técnico asignado</td>
+<td><code>UserRound</code></td>
+</tr>
+<tr>
+<td>Visita coordinada</td>
+<td><code>CalendarCheck</code></td>
+</tr>
+<tr>
+<td>Solicitud en revisión</td>
+<td><code>RefreshCw</code></td>
+</tr>
+<tr>
+<td>Recordatorio de visita</td>
+<td><code>BellRing</code></td>
+</tr>
+<tr>
+<td>Novedad de garantía</td>
+<td><code>ShieldCheck</code></td>
+</tr>
+<tr>
+<td>Pedido de calificación</td>
+<td><code>Star</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reglas de contenido y truncado</strong></p>
+<ul>
+<li>Título y mensaje se cortan a <strong>2 líneas</strong> cada uno (<code>line-clamp-2</code>).</li>
+<li>La hora del día se muestra en las de hoy y ayer (<code>9:30 a. m.</code>); en las anteriores, la fecha corta (<code>19 sept</code>).</li>
+<li>Los grupos de fecha van separados por 26px.</li>
+</ul>
+<p><strong>Jerarquía de la fila.</strong> Lo no leído se marca con el ícono negro, el título en peso 500 y el punto amarillo. La barra amarilla y la superficie tenue quedan reservadas para la fila prioritaria.</p>
+<p><strong>Estados</strong>: con novedades, todo leído, vacío (estado tipográfico, sin ilustración), cargando.</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> Las notificaciones son locales: no hay push ni persistencia. "Marcar todas como leídas" se pierde al recargar.</li>
+</ul>
+<hr />
+<h3>6.18 Mi perfil</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/perfil</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/Perfil.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Datos de la cuenta y accesos a configuración y soporte</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Mi perfil" src="capturas/12-perfil.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + "MI PERFIL"</td>
+<td>Header</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"María González"</td>
+<td>Nombre</td>
+<td>Helvetica 20px peso 500, centrado</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"maria.gonzalez@email.com"</td>
+<td>Dato</td>
+<td><code>--gray-60</code>, centrado</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"+507 6123-4567"</td>
+<td>Dato</td>
+<td><code>--gray-60</code>, centrado</td>
+</tr>
+<tr>
+<td>5</td>
+<td>"CUENTA"</td>
+<td>Rótulo de grupo</td>
+<td>Bebas caja alta</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"Configuración"</td>
+<td>Fila con ícono <code>Settings</code></td>
+<td>Card blanca radio 14, chevron</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"SOPORTE"</td>
+<td>Rótulo de grupo</td>
+<td>—</td>
+</tr>
+<tr>
+<td>8</td>
+<td>"Contactar a soporte"</td>
+<td>Fila con ícono <code>Headphones</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td>9</td>
+<td>"Enviar sugerencia"</td>
+<td>Fila con ícono <code>MessageSquare</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td>10</td>
+<td>"Cerrar sesión"</td>
+<td>Botón con borde</td>
+<td>Texto e ícono <code>LogOut</code> en <code>--error-red</code>, centrado</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Perfil activo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Navegación.</strong> <code>/configuracion</code>, <code>/soporte</code>, <code>/sugerencias</code>. "Cerrar sesión" pide confirmación y va a <code>/welcome</code>.</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Inconsistencia detectada.</strong> "Cerrar sesión" usa <code>--error-red</code> (#E05263), no <code>--destructive</code> (#E2034D), que es el token de acción destructiva y <strong>no se usa en ninguna parte</strong>. Archivos: <code>src/app/pages/Perfil.tsx</code>, <code>src/styles/theme.css</code>.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> Desde Perfil <strong>no se llega a "Mis productos"</strong>. Ver 6.21.</li>
+</ul>
+<hr />
+<h3>6.19 Configuración</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/configuracion</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/Configuracion.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Editar los datos de la cuenta</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Configuración" src="capturas/20-configuracion.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + "CONFIGURACIÓN"</td>
+<td>Header</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"Información personal"</td>
+<td>Fila con sello <code>--gray-3</code></td>
+<td>Subtítulo con el valor actual: "María González"</td>
+</tr>
+<tr>
+<td>3</td>
+<td>"Direcciones"</td>
+<td>Fila</td>
+<td>Subtítulo: "2 direcciones guardadas"</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"Cambiar contraseña"</td>
+<td>Fila</td>
+<td>Subtítulo con puntos, sin revelar nada</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Perfil activo</td>
+</tr>
+</tbody>
+</table>
+<p>Cada fila es una <strong>card independiente</strong> (radio 14, borde <code>--gray-8</code>), a diferencia del catálogo, donde las filas viven dentro de una sola card.</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> No hay preferencias de notificación, ni idioma, ni datos de facturación. Falta definir si van en este nivel.</li>
+</ul>
+<hr />
+<h3>6.20 Enviar sugerencia</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/sugerencias</code></td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/Sugerencias.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Recoger una calificación general y un comentario</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Enviar sugerencia" src="capturas/13-sugerencias.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + "ENVIAR SUGERENCIA"</td>
+<td>Header</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"¿Cómo calificarías tu experiencia?"</td>
+<td>Pregunta en card</td>
+<td>Helvetica 14px <code>--gray-80</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Cinco estrellas</td>
+<td>Radiogroup</td>
+<td><code>aria-checked</code>. Vacías en <code>--gray-20</code>; elegidas en <code>--primary-yellow</code> (contorno y relleno)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"¿En qué podemos mejorar?"</td>
+<td>Pregunta en card</td>
+<td>—</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Área de texto</td>
+<td>Textarea</td>
+<td>Placeholder "Comparte tus comentarios o cualquier detalle sobre tu experiencia…"</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"0 caracteres"</td>
+<td>Contador</td>
+<td>Alineado a la derecha, <code>--gray-60</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>"Enviar"</td>
+<td>CTA amarillo fijo al pie</td>
+<td>Con ícono <code>Send</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reglas de contenido.</strong> Las dos preguntas son <strong>obligatorias</strong>: la calificación (<code>"Por favor califica tu experiencia."</code>) y el comentario con al menos 10 caracteres (<code>"Escribe al menos 10 caracteres."</code>).</p>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Inconsistencia detectada.</strong> Los dos campos son obligatorios pero <strong>no llevan la marca <code>Obligatorio*</code></strong>, que sí se aplica en los flujos de servicio, garantía y producto. Lo mismo pasa en las cuatro pantallas de acceso (<code>Welcome</code>, <code>Login</code>, <code>Signup</code>, <code>ForgotPassword</code>). Archivos: <code>src/app/pages/Sugerencias.tsx</code>, <code>src/app/pages/Login.tsx</code>, <code>src/app/pages/Signup.tsx</code>, <code>src/app/pages/ForgotPassword.tsx</code>.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> El contador no tiene techo: el <strong>límite de caracteres sigue sin definir</strong>, por decisión expresa.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> El envío no se guarda: no hay endpoint.</li>
+</ul>
+<hr />
+<h3>6.21 Mis productos</h3>
+<table>
+
+<tbody>
+<tr>
+<td><strong>Ruta</strong></td>
+<td><code>/productos</code> (más <code>/productos/agregar</code> y <code>/productos/:id</code>)</td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td><code>src/app/pages/Productos.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Objetivo</strong></td>
+<td>Tener los productos registrados a mano para pedir garantía sin volver a cargar sus datos</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Mis productos" src="capturas/19-productos.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Tipo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Volver + "MIS PRODU…"</td>
+<td>Header</td>
+<td>El título <strong>se trunca</strong> al convivir con el botón "Agregar"</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"+ Agregar"</td>
+<td>Botón amarillo en el header</td>
+<td>Va a <code>/productos/agregar</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>"Buscar mis productos"</td>
+<td>Input de búsqueda</td>
+<td>44px, fondo <code>--gray-3</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>"Todos" / "Aires acondicionados"</td>
+<td>Chips de filtro</td>
+<td>Píldoras; la activa amarilla, las otras <code>--gray-8</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Card de producto</td>
+<td>Card radio 14</td>
+<td>Miniatura 72px, categoría en <code>--info-blue</code> caja alta, nombre truncado, chip negro con la marca + comercio, chevron en círculo</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Tab bar</td>
+<td>Navegación</td>
+<td>Perfil activo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pendientes</strong></p>
+<ul>
+<li>⚠️ <strong>Inconsistencia detectada.</strong> <code>/productos</code> <strong>no tiene ningún acceso en la interfaz</strong>: ni Perfil ni el Home ni Garantía llevan ahí. Solo se llega escribiendo la URL. Las tres rutas de productos están implementadas y quedan inalcanzables. Archivos: <code>src/app/pages/Perfil.tsx</code>, <code>src/app/routes.tsx</code>.</li>
+<li>⚠️ <strong>Inconsistencia detectada.</strong> Esta pantalla usa un lenguaje visual propio que no aparece en el resto de la app: <strong>chips con forma de píldora</strong> y <strong>categoría en azul</strong> (el azul está reservado para enlaces y seguimiento). Archivo: <code>src/app/pages/Productos.tsx</code>.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> El título del header se trunca a "MIS PRODU…" por el botón "Agregar". Hay que decidir si el título se acorta o la acción se mueve.</li>
+</ul>
+<hr />
+<h2>7. Reglas funcionales visibles en la interfaz</h2>
+<p>Las reglas que se ven en pantalla. Cada una está implementada en un solo lugar del código.</p>
+<h3>7.1 Precio</h3>
+<table>
+<thead>
+<tr>
+<th>Regla</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>El precio <strong>siempre</strong> se presenta como <code>Desde $N</code>, nunca como monto cerrado</td>
+<td><code>presentarPrecio()</code> en <code>src/app/logic/catalogo.ts</code></td>
+</tr>
+<tr>
+<td>Con unidad, se suma al final: <code>Desde $12 por m²</code></td>
+<td>ídem</td>
+</tr>
+<tr>
+<td>Sin precio cargado se usa <code>PRECIO_BASE_REFERENCIAL_USD</code></td>
+<td>ídem</td>
+</tr>
+<tr>
+<td>El estimado es <code>precio × cantidad</code> más los adicionales con precio real (por ejemplo la desinstalación)</td>
+<td><code>totalEstimado()</code>, <code>totalConAdicionales()</code> en <code>logic/solicitudServicio.ts</code></td>
+</tr>
+<tr>
+<td>La <strong>visita de evaluación no se suma</strong> al estimado: se muestra aparte, con la aclaración de que se descuenta de la cotización si se acepta</td>
+<td><code>components/servicios/DesgloseCosto.tsx</code></td>
+</tr>
+<tr>
+<td>Siempre se aclara <code>"No incluye ITBMS."</code></td>
+<td><code>DesgloseCosto</code></td>
+</tr>
+<tr>
+<td>El pago se coordina <strong>fuera de la app</strong>: no hay pasarela</td>
+<td><code>pages/ResumenServicio.tsx</code></td>
+</tr>
+</tbody>
+</table>
+<h3>7.2 Inspección y evaluación</h3>
+<p>Una sola función decide si el servicio avisa que puede necesitar inspección: <strong><code>avisoEvaluacion()</code></strong> en <code>src/app/logic/catalogo.ts</code>. Considera tres flags del servicio: <code>requiereInspeccion</code>, <code>inspeccionObligatoria</code> y <code>precioCotizable</code>. El texto no se escribe a mano por servicio.</p>
+<p>El costo de inspección es <code>PRECIO_INSPECCION_USD</code> (<code>logic/solicitudServicio.ts</code>) y siempre va acompañado de la regla del descuento.</p>
+<h3>7.3 Estados de cita</h3>
+<p><strong>Un solo vocabulario</strong>, en <code>src/app/logic/estadosCita.ts</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>En el recorrido</th>
+<th>Notas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Por coordinar</td>
+<td>sí</td>
+<td>Sin fecha ni técnico</td>
+</tr>
+<tr>
+<td>Cita confirmada</td>
+<td>sí</td>
+<td>Con fecha; el técnico puede faltar</td>
+</tr>
+<tr>
+<td>En curso</td>
+<td>sí</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Completada</td>
+<td>sí</td>
+<td>Cierra el recorrido</td>
+</tr>
+<tr>
+<td>Cancelada</td>
+<td><strong>no</strong></td>
+<td>Sale del recorrido</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>normalizarEstadoCita()</code> traduce los nombres viejos del backoffice con el mapa <code>EQUIVALENCIAS</code>.</li>
+<li><code>debeMostrarFecha()</code> y <code>debeMostrarTecnico()</code> deciden qué metadato aparece: <strong>no se muestra un dato vacío con un rótulo</strong>.</li>
+<li><code>estadosAlcanzados()</code> arma el recorrido; <code>claveVisualCita()</code> da la clave para <code>statusConfig</code>.</li>
+<li>El orden de lectura es <strong>estado y después fecha</strong>: <code>"Cita confirmada · 12 de marzo"</code>.</li>
+</ul>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> <code>"En pausa"</code> no está en <code>EQUIVALENCIAS</code>: falta definir qué significa para el cliente.</p></div>
+<h3>7.4 Estados de caso de garantía</h3>
+<p><code>ESTADOS_CASO_RECLAMO</code> en <code>src/app/logic/reclamos.ts</code>: Solicitud recibida, En revisión, Cita programada, Necesitamos información, Finalizado / No cubierto.</p>
+<ul>
+<li>El estado del caso <strong>nunca se escribe a mano</strong> en los fixtures: lo deriva <code>estadoGeneralReclamo()</code> de las citas, la cancelación o la resolución.</li>
+<li><code>reclamoRequiereAccion()</code> decide si aparece el botón amarillo: la acción destacada solo existe cuando el usuario tiene algo que hacer.</li>
+<li><code>citaRelevante()</code> elige la cita más próxima entre las coordinadas.</li>
+<li><code>historialCita()</code> usa el historial del backoffice cuando existe; si no, lo deriva de los estados alcanzados.</li>
+</ul>
+<h3>7.5 Campos obligatorios</h3>
+<table>
+<thead>
+<tr>
+<th>Regla</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Marca única</td>
+<td><code>Obligatorio*</code> con el asterisco pegado, en <code>--error-red</code>; los opcionales, <code>Opcional</code> sin asterisco</td>
+</tr>
+<tr>
+<td>Dirección</td>
+<td><strong>Los once campos son obligatorios</strong></td>
+</tr>
+<tr>
+<td>Garantía paso 1</td>
+<td>Todo obligatorio <strong>menos "Número de serie"</strong></td>
+</tr>
+<tr>
+<td>Garantía paso 3</td>
+<td>El contacto alternativo es el único bloque opcional</td>
+</tr>
+<tr>
+<td>Configurar servicio</td>
+<td>Fotos y notas son opcionales</td>
+</tr>
+<tr>
+<td>Producto ya registrado</td>
+<td>No se vuelve a pedir ningún dato</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Validación al enviar, no botón deshabilitado.</strong> El CTA está siempre activo; al tocarlo se valida y aparece el primer error faltante con <code>role="alert"</code>, en lenguaje claro (<code>"Elige un producto o ingresa sus datos para continuar."</code>), nunca "campo inválido". <code>disabled</code> se reserva para el envío en curso.</p>
+<h3>7.6 Borradores y persistencia</h3>
+<table>
+<thead>
+<tr>
+<th>Qué</th>
+<th>Dónde</th>
+<th>Vida</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Borrador de solicitud de servicio</td>
+<td><code>logic/solicitudServicio.ts</code></td>
+<td><code>sessionStorage</code></td>
+</tr>
+<tr>
+<td>Borrador de solicitud de garantía</td>
+<td><code>logic/solicitudGarantia.ts</code></td>
+<td><code>sessionStorage</code></td>
+</tr>
+<tr>
+<td>Direcciones agregadas en la sesión</td>
+<td><code>data/direcciones.ts</code></td>
+<td><code>sessionStorage</code></td>
+</tr>
+<tr>
+<td>Reclamos creados en la sesión</td>
+<td><code>data/reclamos.ts</code>, clave <code>mipro-reclamos-sesion</code></td>
+<td><code>sessionStorage</code></td>
+</tr>
+<tr>
+<td>Calificaciones enviadas</td>
+<td><code>data/calificaciones.ts</code></td>
+<td><code>sessionStorage</code></td>
+</tr>
+</tbody>
+</table>
+<p>Volver atrás <strong>no borra</strong> el borrador. Al recargar la pestaña se pierde todo: no hay backend.</p>
+<h3>7.7 Fechas y horas</h3>
+<p><code>src/app/logic/fechas.ts</code> centraliza el formato:</p>
+<table>
+<thead>
+<tr>
+<th>Función</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>formatearFecha</code></td>
+<td><code>18 de mayo</code></td>
+</tr>
+<tr>
+<td><code>formatearFechaHora</code></td>
+<td><code>Lunes 3 de marzo, 10:00 a. m.</code></td>
+</tr>
+<tr>
+<td><code>formatearFechaRango</code></td>
+<td><code>Miércoles 12 de marzo · 2:00–4:00 p. m.</code></td>
+</tr>
+<tr>
+<td><code>formatearFechaRangoCompacto</code></td>
+<td>Versión corta para cards</td>
+</tr>
+<tr>
+<td><code>formatearHora</code></td>
+<td><code>4:00 p. m.</code></td>
+</tr>
+</tbody>
+</table>
+<p>Convenciones: <code>a. m.</code> / <code>p. m.</code> con espacios y puntos (formato de Panamá), semana que empieza en lunes, días abreviados a dos letras y en minúscula, y <code>"Visita de hoy"</code> en lugar de la fecha cuando es hoy.</p>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> Conviven la fecha larga (<code>22 de septiembre de 2026</code>), la media (<code>Lunes 3 de marzo</code>) y la corta (<code>19 sept</code>). El criterio por contexto no está escrito.</p></div>
+<h3>7.8 Navegación y guardas</h3>
+<table>
+<thead>
+<tr>
+<th>Regla</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>El tab activo se deriva de la ruta, no del click</td>
+<td><code>logic/tabs.ts</code> (<code>seccionActiva</code>)</td>
+</tr>
+<tr>
+<td>Las rutas del agendamiento y notificaciones ocultan la barra</td>
+<td><code>RUTAS_SIN_TABBAR</code> en <code>components/Layout.tsx</code></td>
+</tr>
+<tr>
+<td>Tras confirmar se navega con <code>replace: true</code> para que volver no regrese al formulario</td>
+<td><code>ResumenServicio</code>, <code>AgregarDireccion</code>, <code>GarantiaAgregarDireccion</code></td>
+</tr>
+<tr>
+<td>Doble toque protegido con una ventana de 600 ms</td>
+<td>Las tres cards de reclamo, <code>SeccionServicios</code></td>
+</tr>
+<tr>
+<td>El campo enfocado se vuelve a centrar cuando aparece el teclado</td>
+<td><code>lib/campoVisibleConTeclado.ts</code> (escucha <code>visualViewport</code>, reacciona a los 150 ms)</td>
+</tr>
+<tr>
+<td>La apertura de promociones está centralizada</td>
+<td><code>lib/navegacion.ts</code></td>
+</tr>
+</tbody>
+</table>
+<h3>7.9 Contenido provisional</h3>
+<p><strong>La app no muestra que falta contenido.</strong> Cuando una foto es de referencia o una descripción es provisional, los flags internos (<code>imagenProvisional</code>, <code>descripcionProvisional</code> en <code>data/catalogo.ts</code>) quedan como marca para el equipo y <strong>no se renderizan</strong>. En <code>AyudaSheet</code> pasa lo mismo: sin diagrama, la ayuda es solo texto, sin recuadro de "pendiente".</p>
+<hr />
+<h2>8. Inventario de contenido</h2>
+<h3>8.1 Dónde vive el texto</h3>
+<p>El texto de interfaz está en dos lugares distintos:</p>
+<table>
+<thead>
+<tr>
+<th>Fuente</th>
+<th>Qué cubre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/app/i18n/strings.ts</code> (<code>STR</code>)</td>
+<td><strong>464 claves en 14 grupos.</strong> Home, catálogo, agendamiento, garantía, servicios, notificaciones, promociones, buscador</td>
+</tr>
+<tr>
+<td><code>src/app/i18n/estados.ts</code></td>
+<td>Presentación de estados: <code>presentarEstadoServicio</code>, <code>presentarEstadoCasoReclamo</code>, etiquetas y claves visuales</td>
+</tr>
+<tr>
+<td>Texto escrito dentro del componente</td>
+<td>Las 15 pantallas de la tabla de abajo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Claves por grupo</strong></p>
+<table>
+<thead>
+<tr>
+<th>Grupo</th>
+<th>Claves</th>
+<th>Cubre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>garantiaFlujo</code></td>
+<td>108</td>
+<td>Los cuatro pasos de la solicitud de garantía</td>
+</tr>
+<tr>
+<td><code>servicios</code></td>
+<td>81</td>
+<td>Mis servicios y el detalle</td>
+</tr>
+<tr>
+<td><code>agendar</code></td>
+<td>67</td>
+<td>Las cuatro etapas del agendamiento</td>
+</tr>
+<tr>
+<td><code>garantia</code></td>
+<td>49</td>
+<td>Hub y reclamos</td>
+</tr>
+<tr>
+<td><code>lugar</code></td>
+<td>41</td>
+<td>Cuestionario de revisión del lugar</td>
+</tr>
+<tr>
+<td><code>catalogo</code></td>
+<td>34</td>
+<td>Catálogo y ficha</td>
+</tr>
+<tr>
+<td><code>solicitud</code></td>
+<td>23</td>
+<td>Confirmación de solicitud</td>
+</tr>
+<tr>
+<td><code>serviciosHogar</code></td>
+<td>12</td>
+<td>Sección de destacados del Home</td>
+</tr>
+<tr>
+<td><code>avisoCita</code></td>
+<td>11</td>
+<td>Card de servicio activo del Home</td>
+</tr>
+<tr>
+<td><code>notificaciones</code></td>
+<td>11</td>
+<td>Bandeja</td>
+</tr>
+<tr>
+<td><code>misCitas</code></td>
+<td>10</td>
+<td>Resumen de citas</td>
+</tr>
+<tr>
+<td><code>promociones</code></td>
+<td>8</td>
+<td>Carrusel</td>
+</tr>
+<tr>
+<td><code>buscador</code></td>
+<td>5</td>
+<td>Acceso a la búsqueda</td>
+</tr>
+<tr>
+<td><code>home</code></td>
+<td>4</td>
+<td>Saludo y encabezados</td>
+</tr>
+</tbody>
+</table>
+<div class="aviso"><p>⚠️ <strong>Inconsistencia detectada.</strong> Estas 15 pantallas <strong>no usan <code>STR</code></strong>: tienen el texto escrito adentro. Un cambio de copy se hace en dos lugares distintos según la pantalla.</p></div>
+<p><code>AgregarProducto</code>, <code>Configuracion</code>, <code>EmptyHome</code>, <code>ForgotPassword</code>, <code>Login</code>, <code>NotFound</code>, <code>Perfil</code>, <code>ProductoDetalle</code>, <code>Productos</code>, <code>ProyectoDetalle</code>, <code>ReclamoGarantia</code>, <code>Signup</code>, <code>Soporte</code>, <code>Sugerencias</code>, <code>Welcome</code></p>
+<p>El <strong>texto legal completo</strong> (Términos y Privacidad) está embebido en <code>components/LegalSheet.tsx</code>.</p>
+<h3>8.2 Textos clave y su regla</h3>
+<table>
+<thead>
+<tr>
+<th>Texto</th>
+<th>Dónde aparece</th>
+<th>Regla</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Hola, &lt;nombre&gt;</code></td>
+<td>Home, confirmaciones</td>
+<td>Solo el primer nombre</td>
+</tr>
+<tr>
+<td><code>¿Qué hacemos hoy en tu hogar?</code></td>
+<td>Home</td>
+<td>Bajada del saludo</td>
+</tr>
+<tr>
+<td><code>¿Qué necesitas resolver hoy?</code></td>
+<td>Buscador del Home</td>
+<td>Es un botón, no un input</td>
+</tr>
+<tr>
+<td><code>¿Qué servicio necesitas?</code></td>
+<td>Catálogo</td>
+<td>Placeholder del buscador real</td>
+</tr>
+<tr>
+<td><code>Desde $N</code></td>
+<td>Todo el catálogo</td>
+<td>Nunca monto cerrado</td>
+</tr>
+<tr>
+<td><code>Puede requerir una inspección</code></td>
+<td>Cards y ficha</td>
+<td>Lo decide <code>avisoEvaluacion()</code></td>
+</tr>
+<tr>
+<td><code>Costo de inspección: $N</code> + <code>Si aceptas la cotización, ese monto se descuenta del costo final.</code></td>
+<td>Ficha, desglose</td>
+<td>La inspección va aparte del estimado</td>
+</tr>
+<tr>
+<td><code>Este es un valor estimado. La cotización final puede variar si se necesitan materiales o trabajos adicionales.</code></td>
+<td>Configurar, resumen</td>
+<td>Acompaña siempre al total</td>
+</tr>
+<tr>
+<td><code>No incluye ITBMS.</code></td>
+<td>Configurar, resumen</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Al enviar tu solicitud, nos comunicaremos contigo entre 1 y 2 días hábiles para coordinar la visita.</code></td>
+<td>Ficha, notificaciones</td>
+<td>Plazo único</td>
+</tr>
+<tr>
+<td><code>Un agente de MiPRO se contactará contigo para confirmar la fecha y el horario.</code></td>
+<td>Fecha, resumen</td>
+<td>La app no confirma la cita</td>
+</tr>
+<tr>
+<td><code>Un agente de MiPRO se contactará contigo para coordinar el pago y confirmar la visita.</code></td>
+<td>Resumen</td>
+<td>El pago es fuera de la app</td>
+</tr>
+<tr>
+<td><code>Obligatorio*</code> / <code>Opcional</code></td>
+<td>Todos los formularios de los flujos</td>
+<td>Marca única, ver 7.5</td>
+</tr>
+<tr>
+<td><code>Falta elegir la dirección.</code> / <code>Falta elegir la fecha.</code></td>
+<td>Resumen</td>
+<td>En positivo, en primera persona del plural</td>
+</tr>
+<tr>
+<td><code>Revisa que la dirección y la fecha estén completas antes de confirmar.</code></td>
+<td>Resumen</td>
+<td>Error al confirmar</td>
+</tr>
+<tr>
+<td><code>Elige un producto o ingresa sus datos para continuar.</code></td>
+<td>Garantía paso 1</td>
+<td>Lenguaje claro, nunca "campo inválido"</td>
+</tr>
+<tr>
+<td><code>Por seguridad, desconecta el producto y no intentes repararlo por tu cuenta.</code></td>
+<td>Garantía paso 2</td>
+<td>Único aviso de seguridad aprobado, en "Pierde agua"</td>
+</tr>
+<tr>
+<td><code>Al enviar la solicitud, MiPRO revisará la información para confirmar la cobertura y te indicará cómo continuar.</code></td>
+<td>Garantía paso 4</td>
+<td>No promete cobertura</td>
+</tr>
+<tr>
+<td><code>Si un producto presenta una falla, revisaremos si está cubierto por la garantía.</code></td>
+<td>Home, hub</td>
+<td>No promete cobertura</td>
+</tr>
+<tr>
+<td><code>¿Dónde encuentro la factura?</code> / <code>el código de producto</code> / <code>el modelo</code> / <code>el número de serie</code></td>
+<td>Garantía paso 1</td>
+<td>Abren <code>AyudaSheet</code></td>
+</tr>
+<tr>
+<td><code>Recibimos tu solicitud. Pronto coordinaremos tu visita.</code></td>
+<td>Card de servicio</td>
+<td>Estado Solicitud recibida</td>
+</tr>
+<tr>
+<td><code>Estamos coordinando tu próxima visita.</code></td>
+<td>Card de servicio</td>
+<td>En revisión</td>
+</tr>
+<tr>
+<td><code>Tu próxima visita ya está coordinada.</code></td>
+<td>Card de servicio</td>
+<td>Cita programada</td>
+</tr>
+<tr>
+<td><code>Tu técnico está en camino.</code></td>
+<td>Card de servicio</td>
+<td>Técnico en camino</td>
+</tr>
+<tr>
+<td><code>Estamos trabajando en tu servicio.</code></td>
+<td>Card de servicio</td>
+<td>Servicio en curso</td>
+</tr>
+<tr>
+<td><code>Coordinamos tu cita. Revisa la fecha y el horario.</code></td>
+<td>Card de reclamo</td>
+<td>Cita programada</td>
+</tr>
+<tr>
+<td><code>Estamos revisando tu solicitud para coordinar la atención.</code></td>
+<td>Card de reclamo</td>
+<td>En revisión</td>
+</tr>
+<tr>
+<td><code>Recibimos tu solicitud. Te avisaremos cuando tengamos novedades.</code></td>
+<td>Card y detalle de reclamo</td>
+<td>Solicitud recibida</td>
+</tr>
+<tr>
+<td><code>¿Necesitas cambiar algo?</code> + <code>Para cambiar o cancelar una visita, comunícate con nuestro equipo.</code></td>
+<td>Detalle del servicio</td>
+<td>Cancelar abre el canal de contacto</td>
+</tr>
+<tr>
+<td><code>¿Quieres cancelar esta solicitud?</code></td>
+<td>Detalle de servicio y de reclamo</td>
+<td>Enlace, no botón destructivo</td>
+</tr>
+<tr>
+<td><code>Marcar todas como leídas</code></td>
+<td>Notificaciones</td>
+<td>Acción de texto con subrayado amarillo</td>
+</tr>
+<tr>
+<td><code>No encontramos este servicio.</code> + <code>Volver a Mis servicios</code></td>
+<td>Detalle del servicio</td>
+<td>Vacío por id inexistente</td>
+</tr>
+<tr>
+<td><code>Algo salió mal</code> + <code>La aplicación encontró un error inesperado.</code> + <code>Recargar aplicación</code></td>
+<td><code>App.tsx</code></td>
+<td>Único texto de la app <strong>en el <code>ErrorBoundary</code></strong>, fuera de <code>STR</code></td>
+</tr>
+</tbody>
+</table>
+<h3>8.3 Vocabulario</h3>
+<table>
+<thead>
+<tr>
+<th>Se dice</th>
+<th>No se dice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>cita</strong></td>
+<td>turno, appointment</td>
+</tr>
+<tr>
+<td><strong>visita</strong></td>
+<td>ídem</td>
+</tr>
+<tr>
+<td><strong>servicio</strong></td>
+<td>proyecto (aunque la ruta se llame <code>/proyectos</code>)</td>
+</tr>
+<tr>
+<td><strong>reclamo</strong> / <strong>caso</strong></td>
+<td>ticket</td>
+</tr>
+<tr>
+<td><strong>solicitud</strong></td>
+<td>orden, pedido</td>
+</tr>
+<tr>
+<td><strong>técnico</strong></td>
+<td>operario, handyman</td>
+</tr>
+<tr>
+<td><strong>Obligatorio*</strong></td>
+<td>requerido, required</td>
+</tr>
+</tbody>
+</table>
+<div class="aviso"><p>⚠️ <strong>Inconsistencia detectada.</strong> La ruta <code>/proyectos</code> y los archivos <code>ProyectosList.tsx</code> / <code>ProyectoDetalle.tsx</code> conservan el nombre "proyecto", que la interfaz ya no usa: en pantalla dice "Mis servicios". Archivos: <code>src/app/routes.tsx</code>, <code>src/app/pages/ProyectosList.tsx</code>.</p></div>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> "visita" y "cita" se usan como sinónimos parciales: la card dice "Próxima visita" y el detalle titula "Visitas de este servicio", mientras el estado dice "Cita confirmada". Hay que elegir una.</p></div>
+<hr />
+<h2>9. Responsive y dispositivos</h2>
+<h3>9.1 El shell tiene dos modos</h3>
+<p>Definidos en <code>src/app/App.tsx</code> y <code>src/styles/index.css</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Modo</th>
+<th>Cuándo</th>
+<th>Qué se ve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fluido</strong></td>
+<td>Por defecto</td>
+<td>La app ocupa todo el viewport: <code>w-full h-[100dvh]</code></td>
+</tr>
+<tr>
+<td><strong>Marco de teléfono</strong></td>
+<td><code>@media (min-width: 640px) and (min-height: 520px)</code></td>
+<td>Marco fijo de <strong>393 × 852</strong>, <code>max-height: 92vh</code>, radio 32px, borde de 8px <code>#111827</code>, sombra, centrado sobre <code>bg-gray-100</code> con 1rem de aire</td>
+</tr>
+</tbody>
+</table>
+<p><strong>El umbral de alto es 520px</strong> porque un teléfono en horizontal supera los 640px de ancho pero no llega a 520px de alto, y ahí corresponde el modo fluido. Con el umbral en 700px, una ventana de laptop de 1280×650 quedaba sin marco y la app se veía estirada de borde a borde.</p>
+<p><strong>Se usa <code>100dvh</code>, no <code>100vh</code>.</strong> En móvil, <code>100vh</code> es el viewport más grande posible, con la barra del navegador oculta, mientras el marco sigue el viewport actual. Si difieren, el fondo queda más alto que el marco y lo descentra cada vez que la barra aparece o desaparece.</p>
+<h3>9.2 Medidas de referencia</h3>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ancho de diseño</td>
+<td><strong>375–393 px</strong></td>
+</tr>
+<tr>
+<td>Marco de escritorio</td>
+<td>393 × 852</td>
+</tr>
+<tr>
+<td>Padding horizontal de pantalla</td>
+<td>24 px</td>
+</tr>
+<tr>
+<td>Alto de la barra inferior</td>
+<td><code>calc(64px + env(safe-area-inset-bottom))</code></td>
+</tr>
+<tr>
+<td>Ancho máximo de los sheets</td>
+<td><code>max-w-lg</code>; <code>ContactarMiPRO</code> usa 393 px</td>
+</tr>
+<tr>
+<td>Capturas de este documento</td>
+<td>375 px de ancho, factor de escala 2, alto real de cada pantalla</td>
+</tr>
+</tbody>
+</table>
+<h3>9.3 Safe areas</h3>
+<p><code>env(safe-area-inset-bottom)</code> se suma al alto de la barra inferior, y Layout reserva ese mismo alto como <code>padding-bottom</code> del contenido, así nada queda tapado. La barra es <code>position: absolute; bottom: 0</code> sobre un padre <code>relative</code> de alto completo: queda pegada al borde inferior <strong>siempre</strong>, con contenido o sin él.</p>
+<h3>9.4 Teclado</h3>
+<p><code>src/app/lib/campoVisibleConTeclado.ts</code> escucha <code>visualViewport</code> y <code>window</code>; 150 ms después del cambio vuelve a centrar el elemento editable enfocado con <code>scrollIntoView({ block: "center" })</code>. Sin esto, el teclado tapa el campo que se está llenando en los formularios largos.</p>
+<p>Los selectores buscables (<code>SelectorBuscable</code>) están limitados por el contenedor de scroll: abren hacia abajo y, si no hay lugar, scrollean antes para dejar 220 px libres.</p>
+<h3>9.5 Ritmo vertical del Home</h3>
+<p>El Home usa <strong>solo la escala de 8, 16, 24 y 32</strong>, siempre con <code>gap</code> de flex y sin un solo margen manual. Los bordes que piden otra distancia se resuelven agrupando, no con márgenes propios de cada sección: el buscador va con "Mis servicios" en un grupo de 16, y Promociones con Garantía en uno de 32.</p>
+<table>
+<thead>
+<tr>
+<th>Distancia</th>
+<th>Medida</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header al buscador</td>
+<td>16px</td>
+</tr>
+<tr>
+<td>Buscador al encabezado "Mis servicios"</td>
+<td>16px</td>
+</tr>
+<tr>
+<td>Título y "Ver todos" al banner negro</td>
+<td>16px</td>
+</tr>
+<tr>
+<td>Banner al encabezado "Servicios para tu hogar"</td>
+<td>24px</td>
+</tr>
+<tr>
+<td>Título al subtítulo</td>
+<td>8px</td>
+</tr>
+<tr>
+<td>Subtítulo al carrusel de cards</td>
+<td>16px</td>
+</tr>
+<tr>
+<td>Carrusel al botón "Ver todos los servicios"</td>
+<td>24px</td>
+</tr>
+<tr>
+<td>Botón a "Promociones"</td>
+<td>24px</td>
+</tr>
+<tr>
+<td>Título "Promociones" al carrusel</td>
+<td>16px</td>
+</tr>
+<tr>
+<td>Carrusel a los indicadores</td>
+<td>16px</td>
+</tr>
+<tr>
+<td>Indicadores a "Garantía y reclamos"</td>
+<td>32px</td>
+</tr>
+<tr>
+<td>Encabezado a la card "Solicitar ayuda por garantía"</td>
+<td>16px</td>
+</tr>
+<tr>
+<td>Card a la etiqueta "Tu reclamo más reciente"</td>
+<td>16px</td>
+</tr>
+<tr>
+<td>Etiqueta a la card del reclamo</td>
+<td>8px</td>
+</tr>
+<tr>
+<td>Del final del contenido al final del scroll</td>
+<td>80px: el alto de la barra más 16</td>
+</tr>
+</tbody>
+</table>
+<p>Las quince distancias son las mismas a 375px, a 390px y a 1440px de ancho.</p>
+<p>El contenido scrollea por detrás de la barra inferior: el envoltorio de scroll de <code>Layout</code> reserva <code>TABBAR_HEIGHT</code> y la columna del Home suma 16px de padding abajo.</p>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> Dos reservas de espacio quedaron dentro de las cards, no en el ritmo de secciones: la fila del técnico del banner negro tiene <code>min-height: 20px</code> y un <code>margin-top: 12px</code> propios, y las descripciones de las cards del carrusel usan <code>min-height</code> para que todas midan igual. La segunda es deliberada; la primera habría que revisarla. Archivos: <code>components/home/AvisoProximaVisita.tsx</code>, <code>components/home/SeccionServicios.tsx</code>.</p></div>
+<h3>9.6 Lo que no está resuelto</h3>
+<ul>
+<li>⚠️ <strong>Pendiente de definición.</strong> <strong>No hay diseño de tablet ni de escritorio.</strong> A partir de 640×520 se muestra el mockup de teléfono. Si el proyecto necesita una versión ancha, es trabajo nuevo.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> No hay modo oscuro. <code>theme.css</code> no declara tokens para <code>prefers-color-scheme: dark</code>.</li>
+<li>⚠️ <strong>Pendiente de definición.</strong> No se probó con el tamaño de letra del sistema aumentado. La app fija los tamaños en <code>px</code>.</li>
+</ul>
+<hr />
+<h2>10. Checklist para desarrollo y QA</h2>
+<h3>10.1 Cómo correr el proyecto</h3>
+<pre><code class="language-bash">npm install
+npm run dev      # Vite en modo desarrollo
+npm run lint     # tsc --noEmit
+npm test         # 188 pruebas con el runner de Node
+npm run build    # vite build --emptyOutDir
+</code></pre>
+<p>Las 188 pruebas de <code>pruebas/</code> cubren la lógica, no la interfaz: estados de cita, estados de caso, precios, fechas, validaciones de los dos flujos, notificaciones, búsqueda, promociones y tabs. <strong>Pasan las 188.</strong></p>
+<h3>10.2 Escenarios de QA por URL</h3>
+<p>Se fuerzan con query sobre el hash. Ninguno requiere backend.</p>
+<table>
+<thead>
+<tr>
+<th>Query</th>
+<th>Dónde</th>
+<th>Valores</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>?citas=</code></td>
+<td>Home</td>
+<td><code>sin</code> · <code>una</code> · <code>varias</code> · <code>error</code> · <code>cargando</code></td>
+</tr>
+<tr>
+<td><code>?estado=</code></td>
+<td>Home</td>
+<td><code>pendiente-sincronizar</code> · <code>solicitud-recibida</code> · <code>visita-coordinada</code> · <code>en-progreso</code> · <code>completado</code> · <code>cancelado-con-tecnico</code> · <code>cancelado-sin-tecnico</code></td>
+</tr>
+<tr>
+<td><code>?reclamos=</code></td>
+<td>Home</td>
+<td><code>sin</code> · <code>accion</code> · <code>visita</code> · <code>finalizados</code> · <code>largo</code> · <code>error</code> · <code>cargando</code></td>
+</tr>
+<tr>
+<td><code>?promos=</code></td>
+<td>Home</td>
+<td><code>error</code> · <code>cargando</code> · <code>sin</code> · <code>una</code> · <code>larga</code></td>
+</tr>
+<tr>
+<td><code>?destacados=</code></td>
+<td>Home</td>
+<td><code>error</code> · <code>cargando</code> · <code>sin</code></td>
+</tr>
+<tr>
+<td><code>?servicios=</code></td>
+<td><code>/proyectos</code></td>
+<td><code>error</code> · <code>cargando</code> · <code>vacio</code> · <code>encamino</code> · <code>proxima</code> · <code>porasignar</code></td>
+</tr>
+<tr>
+<td><code>?lugar=</code></td>
+<td>Revisión del lugar</td>
+<td><code>error</code> · <code>cargando</code></td>
+</tr>
+<tr>
+<td><code>?enfocar=1</code></td>
+<td><code>/catalogo</code></td>
+<td>Abre con el buscador enfocado</td>
+</tr>
+</tbody>
+</table>
+<h3>10.3 Checklist visual</h3>
+<ul>
+<li>[ ] Ningún color escrito a mano: todo con <code>var(--token)</code>.</li>
+<li>[ ] Ningún naranja. Los destaques van en <code>--primary-yellow</code>.</li>
+<li>[ ] Los títulos en Bebas Neue, en caja alta, con <code>letter-spacing: 1px</code>.</li>
+<li>[ ] El amarillo de marca <strong>no</strong> se usa como color de texto sobre blanco.</li>
+<li>[ ] Inputs de 44 px, radio 8, borde <code>--gray-20</code>.</li>
+<li>[ ] Toda zona tocable con al menos 44 px de alto.</li>
+<li>[ ] El isotipo con la palma clara. <strong>Nunca oscuro.</strong></li>
+<li>[ ] Ningún emoji como ícono; íconos solo de <code>lucide-react</code>.</li>
+<li>[ ] Las cards de un listado miden todas lo mismo.</li>
+<li>[ ] Ningún rótulo con su valor vacío al lado.</li>
+</ul>
+<h3>10.4 Checklist de accesibilidad</h3>
+<ul>
+<li>[ ] Cada estado lleva ícono y texto, no solo color.</li>
+<li>[ ] El tab activo suma peso tipográfico al color y tiene <code>aria-current="page"</code>.</li>
+<li>[ ] Botones sin texto con <code>aria-label</code>; la campana incluye el conteo sin leer.</li>
+<li>[ ] Errores de formulario con <code>role="alert"</code>.</li>
+<li>[ ] Bloques de carga con <code>role="status"</code> y <code>aria-busy="true"</code>.</li>
+<li>[ ] Íconos decorativos con <code>aria-hidden="true"</code>.</li>
+<li>[ ] La app funciona con <code>prefers-reduced-motion: reduce</code>.</li>
+<li>[ ] El campo enfocado queda visible cuando aparece el teclado.</li>
+</ul>
+<h3>10.5 Checklist funcional</h3>
+<ul>
+<li>[ ] El precio siempre dice <code>Desde $N</code>.</li>
+<li>[ ] La inspección se muestra aparte del estimado, con la regla del descuento.</li>
+<li>[ ] Los once campos de dirección son obligatorios.</li>
+<li>[ ] En garantía, todo obligatorio menos el número de serie.</li>
+<li>[ ] La marca es <code>Obligatorio*</code> o <code>Opcional</code>, con ese formato exacto.</li>
+<li>[ ] El CTA valida al tocarlo y muestra el primer error; no se deshabilita por formulario incompleto.</li>
+<li>[ ] Volver atrás no pierde el borrador.</li>
+<li>[ ] Después de confirmar, volver no regresa al formulario.</li>
+<li>[ ] El estado va antes de la fecha: <code>"Cita confirmada · 12 de marzo"</code>.</li>
+<li>[ ] La app nunca dice que falta contenido del negocio.</li>
+</ul>
+<h3>10.6 Código sin alcanzar</h3>
+<p>De 117 componentes y páginas, <strong>74 se alcanzan</strong> desde <code>src/main.tsx</code> (contando el alias <code>@/*</code> de <code>tsconfig.json</code>). Los 43 restantes:</p>
+<p><strong>8 componentes y páginas propios</strong></p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Nota</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>components/HandLoader.tsx</code></td>
+<td>Cargador con el isotipo, sin usar</td>
+</tr>
+<tr>
+<td><code>components/home/CitaCard.tsx</code></td>
+<td>Reemplazado por <code>AvisoProximaVisita</code></td>
+</tr>
+<tr>
+<td><code>components/home/EstadoCita.tsx</code></td>
+<td>ídem</td>
+</tr>
+<tr>
+<td><code>components/home/SeccionMisCitas.tsx</code></td>
+<td>ídem</td>
+</tr>
+<tr>
+<td><code>pages/EmptyHome.tsx</code></td>
+<td>El vacío se resuelve dentro de cada sección</td>
+</tr>
+<tr>
+<td><code>pages/GarantiaIntro.tsx</code></td>
+<td>Reemplazada por <code>GarantiaHub</code></td>
+</tr>
+<tr>
+<td><code>pages/ProyectoDetalle.tsx</code></td>
+<td>Reemplazada por <code>DetalleServicio</code></td>
+</tr>
+<tr>
+<td><code>pages/ReclamoGarantia.tsx</code></td>
+<td>Flujo anterior, reemplazado por los cuatro pasos</td>
+</tr>
+</tbody>
+</table>
+<p><strong>35 primitivas de <code>components/ui/</code></strong> que no se importan (accordion, alert, carousel, chart, form, sidebar, table y el resto del volcado de shadcn). Las que <strong>sí</strong> se alcanzan son 11: <code>button</code>, <code>calendar</code>, <code>command</code>, <code>dialog</code>, <code>drawer</code>, <code>input</code>, <code>label</code>, <code>popover</code>, <code>progress</code>, <code>skeleton</code>, <code>tabs</code>; de esas, <code>dialog</code> no lo importa la app, llega por dependencia de <code>command</code> y <code>drawer</code>.</p>
+<div class="aviso"><p>⚠️ <strong>Pendiente de definición.</strong> Hay que decidir si esto se borra antes de producción. No afecta al bundle final, porque Vite hace tree-shaking, pero sí a la lectura del proyecto: hay dos cards de cita y una no se usa.</p></div>
+<h3>10.7 Todos los pendientes e inconsistencias, en una lista</h3>
+<p><strong>Inconsistencias entre lo documentado y el código (7)</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Qué</th>
+<th>Archivos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>--gray-3</code> es <code>#F6F6F5</code> y las guidelines dicen <code>#F8F8F8</code></td>
+<td><code>guidelines/Guidelines.md</code>, <code>src/styles/theme.css</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Dos rojos: <code>--error-red</code> (#E05263) se usa para acciones destructivas y <code>--destructive</code> (#E2034D), el que documentan las guidelines, no se usa en ninguna parte</td>
+<td><code>src/styles/theme.css</code>, <code>src/app/pages/Perfil.tsx</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>--elevation-sm</code> está declarado y no se usa: las cuatro sombras reales están escritas en línea</td>
+<td><code>src/styles/theme.css</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Los dos flujos de cuatro pasos muestran el progreso distinto: círculos numerados en garantía, texto y barra en agendamiento</td>
+<td><code>components/garantia/ProgresoPasos.tsx</code>, <code>components/agendar/EncabezadoFlujo.tsx</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>El comentario de <code>SeccionPromociones</code> dice "sin autoavance" y el componente autoavanza</td>
+<td><code>components/home/SeccionPromociones.tsx</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>El mismo producto se trunca a una línea en el hub y no se trunca en el listado de reclamos</td>
+<td><code>components/reclamos/TarjetaReclamoHub.tsx</code>, <code>components/reclamos/TarjetaReclamo.tsx</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>La ruta y los archivos dicen "proyecto"; la interfaz dice "servicio"</td>
+<td><code>src/app/routes.tsx</code>, <code>src/app/pages/ProyectosList.tsx</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Huecos de interfaz (5)</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Qué</th>
+<th>Archivos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td><code>/productos</code> no tiene ningún acceso en la app: tres rutas implementadas e inalcanzables</td>
+<td><code>src/app/pages/Perfil.tsx</code>, <code>src/app/routes.tsx</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>"Mis productos" usa píldoras y azul de categoría, un lenguaje visual que no aparece en el resto de la app</td>
+<td><code>src/app/pages/Productos.tsx</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>La categoría abierta del catálogo no tiene ruta propia: no se comparte ni se entra directo</td>
+<td><code>src/app/pages/CatalogoServicios.tsx</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>La marca <code>Obligatorio*</code> no llega a "Enviar sugerencia" ni a las cuatro pantallas de acceso, que también tienen campos obligatorios</td>
+<td><code>src/app/pages/Sugerencias.tsx</code>, <code>Login.tsx</code>, <code>Signup.tsx</code>, <code>ForgotPassword.tsx</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td>El título del header de "Mis productos" se trunca a "MIS PRODU…" por el botón "Agregar"</td>
+<td><code>src/app/pages/Productos.tsx</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decisiones de producto abiertas (10)</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Qué</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>13</td>
+<td>Catálogo de estados de caso de garantía: cerrarlo y confirmar quién lo emite</td>
+<td><code>logic/reclamos.ts</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>"En pausa"</code> no está mapeado a ningún estado de cliente</td>
+<td><code>logic/estadosCita.ts</code></td>
+</tr>
+<tr>
+<td>15</td>
+<td>Cuándo se considera confirmado el plan de visitas (<code>totalVisitasConfirmado</code>), que habilita "Próxima visita"</td>
+<td><code>data/servicios.ts</code></td>
+</tr>
+<tr>
+<td>16</td>
+<td>"Técnico en camino" no lo emite el modelo: hoy sale solo de un fixture</td>
+<td><code>data/servicios.ts</code></td>
+</tr>
+<tr>
+<td>17</td>
+<td>Límite de caracteres de notas y sugerencias: <strong>sin definir por decisión expresa</strong></td>
+<td><code>ConfigurarServicio.tsx</code>, <code>Sugerencias.tsx</code></td>
+</tr>
+<tr>
+<td>18</td>
+<td>Intervalo del carrusel de promociones (5000 ms, marcado provisional) y el mapeo de promoción a servicio</td>
+<td><code>logic/promociones.ts</code>, <code>data/promotions.ts</code></td>
+</tr>
+<tr>
+<td>19</td>
+<td>Elegir entre "visita" y "cita"</td>
+<td>Todo</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Formato de fecha por contexto: conviven larga, media y corta</td>
+<td><code>logic/fechas.ts</code></td>
+</tr>
+<tr>
+<td>21</td>
+<td>Taxonomía de problemas: es una propuesta, no la lista productiva</td>
+<td><code>logic/solicitudGarantia.ts</code></td>
+</tr>
+<tr>
+<td>22</td>
+<td>Qué hacen "Cancelar solicitud" y "Agregar fotos": hoy abren el contacto y nada</td>
+<td><code>DetalleServicio.tsx</code>, <code>ConfigurarServicio.tsx</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dependencias externas que faltan (7)</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Qué</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>23</td>
+<td>Licencia y hosting de Helvetica Neue LT Std: hoy se carga con <code>local()</code> y cae a Arial</td>
+<td><code>src/styles/fonts.css</code></td>
+</tr>
+<tr>
+<td>24</td>
+<td>Fotos reales del catálogo: las actuales son de Unsplash, de demostración</td>
+<td><code>data/catalogo.ts</code></td>
+</tr>
+<tr>
+<td>25</td>
+<td>Catálogo real de servicios y sus conteos por categoría</td>
+<td><code>data/catalogo.ts</code></td>
+</tr>
+<tr>
+<td>26</td>
+<td>Listas reales de comercios, marcas y tipos de producto</td>
+<td><code>src/app/data/</code></td>
+</tr>
+<tr>
+<td>27</td>
+<td>Proveedor de mapa y geocodificación: hoy el mapa es un dibujo y los lugares son simulados</td>
+<td><code>BuscadorDireccionMapa.tsx</code>, <code>data/lugaresSimulados.ts</code></td>
+</tr>
+<tr>
+<td>28</td>
+<td>Texto legal definitivo de Términos y Privacidad, hoy embebido en el componente</td>
+<td><code>components/LegalSheet.tsx</code></td>
+</tr>
+<tr>
+<td>29</td>
+<td>Backend, autenticación real y notificaciones push: todo vive en <code>sessionStorage</code></td>
+<td>Todo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Alcance no cubierto (3)</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30</td>
+<td>No hay diseño de tablet ni de escritorio: a partir de 640×520 se muestra el mockup de teléfono</td>
+</tr>
+<tr>
+<td>31</td>
+<td>No hay modo oscuro</td>
+</tr>
+<tr>
+<td>32</td>
+<td>No se probó con el tamaño de letra del sistema aumentado</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>11. Archivos que son fuente de verdad</h2>
+<p>Si este documento y el código no coinciden, vale el código. Estos son los archivos a leer:</p>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Archivo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tokens de color, tipografía, radios, sombras</strong></td>
+<td><code>src/styles/theme.css</code></td>
+</tr>
+<tr>
+<td>Carga de fuentes</td>
+<td><code>src/styles/fonts.css</code></td>
+</tr>
+<tr>
+<td>Movimiento reducido y marco de teléfono</td>
+<td><code>src/styles/index.css</code></td>
+</tr>
+<tr>
+<td>Sistema de diseño documentado</td>
+<td><code>guidelines/Guidelines.md</code></td>
+</tr>
+<tr>
+<td>Shell y modos responsive</td>
+<td><code>src/app/App.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Rutas</strong></td>
+<td><code>src/app/routes.tsx</code></td>
+</tr>
+<tr>
+<td>Barra inferior y su alto</td>
+<td><code>src/app/components/TabBar.tsx</code></td>
+</tr>
+<tr>
+<td>Contenedor, scroll y rutas sin barra</td>
+<td><code>src/app/components/Layout.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Campos, marca de obligatorio y estilo de input</strong></td>
+<td><code>src/app/components/garantia/Campo.tsx</code></td>
+</tr>
+<tr>
+<td>Formulario de dirección (único)</td>
+<td><code>src/app/components/agendar/FormularioDireccion.tsx</code></td>
+</tr>
+<tr>
+<td>Selector predictivo</td>
+<td><code>src/app/components/garantia/SelectorBuscable.tsx</code></td>
+</tr>
+<tr>
+<td>Isotipo</td>
+<td><code>src/app/components/ManoMiPRO.tsx</code></td>
+</tr>
+<tr>
+<td><strong>Color e ícono de cada estado</strong></td>
+<td><code>src/app/utils/statusConfig.ts</code></td>
+</tr>
+<tr>
+<td>Vocabulario de estados de cita</td>
+<td><code>src/app/logic/estadosCita.ts</code></td>
+</tr>
+<tr>
+<td>Estados de caso de garantía</td>
+<td><code>src/app/logic/reclamos.ts</code></td>
+</tr>
+<tr>
+<td>Precio y aviso de inspección</td>
+<td><code>src/app/logic/catalogo.ts</code></td>
+</tr>
+<tr>
+<td>Etapas, totales y validación del agendamiento</td>
+<td><code>src/app/logic/solicitudServicio.ts</code></td>
+</tr>
+<tr>
+<td>Pasos, taxonomía y validación de garantía</td>
+<td><code>src/app/logic/solicitudGarantia.ts</code></td>
+</tr>
+<tr>
+<td>Formato de fechas y horas</td>
+<td><code>src/app/logic/fechas.ts</code></td>
+</tr>
+<tr>
+<td>Tab activo por ruta</td>
+<td><code>src/app/logic/tabs.ts</code></td>
+</tr>
+<tr>
+<td>Intervalo del carrusel</td>
+<td><code>src/app/logic/promociones.ts</code></td>
+</tr>
+<tr>
+<td><strong>Textos de interfaz</strong></td>
+<td><code>src/app/i18n/strings.ts</code></td>
+</tr>
+<tr>
+<td>Presentación de estados</td>
+<td><code>src/app/i18n/estados.ts</code></td>
+</tr>
+<tr>
+<td>Campo visible con el teclado</td>
+<td><code>src/app/lib/campoVisibleConTeclado.ts</code></td>
+</tr>
+<tr>
+<td>Apertura de promociones</td>
+<td><code>src/app/lib/navegacion.ts</code></td>
+</tr>
+<tr>
+<td>Fixtures y escenarios de QA</td>
+<td><code>src/app/data/</code></td>
+</tr>
+<tr>
+<td>Pruebas de la lógica</td>
+<td><code>pruebas/</code></td>
+</tr>
+<tr>
+<td>Capturas de este documento</td>
+<td><code>docs/capturas/</code>, regeneradas con <code>docs/capturar.mjs</code></td>
+</tr>
+</tbody>
+</table>
+</main>
+</body>
+</html>

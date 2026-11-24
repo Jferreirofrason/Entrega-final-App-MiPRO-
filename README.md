@@ -6,7 +6,8 @@ https://app-mipro-app.vercel.app
 
 ## Contenido de la entrega
 
-- Código y archivos de la aplicación.
+- **`app/`: el proyecto vivo**, con su código, sus pruebas y su documentación. Es lo que hay que mirar.
+- Código y archivos de la aplicación, en ZIP (la foto de septiembre).
 - Recursos visuales utilizados.
 - ZIP de la aplicación completa.
 - ZIP de iconos.
@@ -32,7 +33,8 @@ entrega-final-app-mipro/
 ├── README.md                    este archivo
 ├── .gitignore                   exclusiones de credenciales, builds y archivos de sistema
 ├── manifest.json                inventario del paquete, con hash de cada ZIP
-├── App-MiPRO-completa.zip       el proyecto entero, listo para instalar y correr
+├── app/                         el proyecto vivo: código, pruebas y documentación
+├── App-MiPRO-completa.zip       el proyecto en septiembre, listo para instalar y correr
 ├── Iconos-MiPRO.zip             los 80 íconos que usa la app, en SVG
 ├── Imagenes-MiPRO.zip           todas las imágenes que muestra la app
 └── fuentes/                     lo mismo que los dos últimos ZIP, sin comprimir
@@ -42,7 +44,19 @@ entrega-final-app-mipro/
 
 `fuentes/` está para poder mirar los recursos sin descomprimir nada. El contenido es idéntico al de los ZIP.
 
-La documentación de diseño (`docs/mipro-design-handoff.md` y su versión en PDF, más las capturas de las 20 pantallas) viaja dentro de `App-MiPRO-completa.zip`.
+La documentación de diseño vive en `app/docs/`, al día:
+
+- `mipro-design-handoff.md` y su PDF: las 20 pantallas del prototipo.
+- `hu-1518-1579-notificaciones-handoff.md` y su PDF: el detalle de diseño de Notificaciones y del encabezado de Inicio, con las capturas numeradas.
+- `iconos/`: los 12 íconos de esa entrega, un SVG por archivo.
+
+El ZIP sigue siendo la foto de septiembre y se deja como estaba.
+
+## Qué cambió desde la primera entrega
+
+- **Encabezado de Inicio.** La foto de perfil es ahora la inicial del nombre sobre amarillo, y el avatar es el acceso a Perfil.
+- **Notificaciones.** Pantalla rehecha: contrato de contenido cerrado, filas con estado, sombreado de lo no leído, estado vacío, menú de acciones y confirmación de borrado.
+- **Documentación.** El detalle de diseño de esas dos pantallas, con sistema visual, navegación y una tabla por pantalla.
 
 ## Stack
 
@@ -54,7 +68,7 @@ La documentación de diseño (`docs/mipro-design-handoff.md` y su versión en PD
 | Estilos | Tailwind CSS 4.1.12, más tokens propios en `src/styles/theme.css` |
 | Ruteo | react-router 7.13.0, con `createHashRouter`: todas las URL llevan `#` |
 | Componentes base | Radix UI, con las primitivas de shadcn en `src/app/components/ui/` |
-| Íconos | lucide-react 0.487.0 |
+| Íconos | lucide-react 0.487.0, licencia ISC |
 | Gestor de paquetes | npm, con `package-lock.json` |
 
 No es Next.js. Es una SPA de Vite que se sirve como estático.
@@ -64,8 +78,7 @@ No es Next.js. Es una SPA de Vite que se sirve como estático.
 Hace falta Node 20 o más y npm. Probado con Node 24.14.1.
 
 ```bash
-unzip App-MiPRO-completa.zip
-cd App-MiPRO
+cd app
 npm install
 npm run dev
 ```
@@ -75,9 +88,9 @@ Vite imprime la URL local, normalmente `http://localhost:5173`. La app abre en l
 Los otros comandos del proyecto:
 
 ```bash
-npm run lint     # tsc --noEmit, chequeo de tipos
-npm test         # 188 pruebas de la lógica, con el runner de Node
-npm run build    # vite build --emptyOutDir, deja el estático en dist/
+npm run lint                      # tsc --noEmit, chequeo de tipos
+npx tsx --test pruebas/*.test.ts  # 333 pruebas de la lógica
+npm run build                     # vite build --emptyOutDir, deja el estático en dist/
 ```
 
 ## Build y deploy
