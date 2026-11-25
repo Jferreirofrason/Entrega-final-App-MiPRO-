@@ -1,0 +1,257 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="770" height="422"
+     viewBox="0 0 770 422" role="img"
+     aria-label="Íconos de servicios de MiPRO, numerados">
+  <rect width="770" height="422" fill="#F6F6F5" />
+
+  <g transform="translate(16 16)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">01</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Wrench</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Instalación</text>
+  </g>
+
+  <g transform="translate(166 16)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">02</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Settings</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Mantenimiento</text>
+  </g>
+
+  <g transform="translate(316 16)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">03</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9" /><path d="m18 15 4-4" /><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Hammer</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Reparación</text>
+  </g>
+
+  <g transform="translate(466 16)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">04</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="m8 2 1.88 1.88" /><path d="M14.12 3.88 16 2" /><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1" /><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6" /><path d="M12 20v-9" /><path d="M6.53 9C4.6 8.8 3 7.1 3 5" /><path d="M6 13H2" /><path d="M3 21c0-2.1 1.7-3.9 3.8-4" /><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4" /><path d="M22 13h-4" /><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Bug</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Fumigación</text>
+  </g>
+
+  <g transform="translate(616 16)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">05</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Sparkles</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Limpieza</text>
+  </g>
+
+  <g transform="translate(16 150)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">06</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="m14.622 17.897-10.68-2.913" /><path d="M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0z" /><path d="M9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Paintbrush</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Pintura</text>
+  </g>
+
+  <g transform="translate(166 150)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">07</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3" /><path d="M3 16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V11a2 2 0 0 0-4 0z" /><path d="M5 18v2" /><path d="M19 18v2" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Armchair</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Mobiliario</text>
+  </g>
+
+  <g transform="translate(316 150)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">08</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" /><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Leaf</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Jardinería</text>
+  </g>
+
+  <g transform="translate(466 150)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">09</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" /><path d="M15 18H9" /><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" /><circle cx="17" cy="18" r="2" /><circle cx="7" cy="18" r="2" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Truck</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Mudanza</text>
+  </g>
+
+  <g transform="translate(616 150)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">10</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M12.8 19.6A2 2 0 1 0 14 16H2" /><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2" /><path d="M9.8 4.4A2 2 0 1 1 11 8H2" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Wind</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Aire acondicionado</text>
+  </g>
+
+  <g transform="translate(16 284)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">11</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M10.827 16.379a6.082 6.082 0 0 1-8.618-7.002l5.412 1.45a6.082 6.082 0 0 1 7.002-8.618l-1.45 5.412a6.082 6.082 0 0 1 8.618 7.002l-5.412-1.45a6.082 6.082 0 0 1-7.002 8.618l1.45-5.412Z" /><path d="M12 12v.01" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Fan</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Ventilación</text>
+  </g>
+
+  <g transform="translate(166 284)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">12</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z" /><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Droplets</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Plomería y agua</text>
+  </g>
+
+  <g transform="translate(316 284)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">13</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Zap</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Electricidad</text>
+  </g>
+
+  <g transform="translate(466 284)">
+    <rect x="0" y="0" width="138" height="122" rx="12"
+          fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
+    <circle cx="18" cy="18" r="11" fill="#FFEE00" />
+    <text x="18" y="22.5" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
+          font-weight="600" fill="#000000">14</text>
+    <g transform="translate(49 36)">
+      <rect width="40" height="40" rx="10" fill="#000000" />
+      <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+         stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" /></g>
+    </g>
+    <text x="69" y="97" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="#000000">Flame</text>
+    <text x="69" y="112" text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">Gas y calor</text>
+  </g>
+</svg>

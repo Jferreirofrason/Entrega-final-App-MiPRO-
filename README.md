@@ -49,6 +49,7 @@ La documentación de diseño vive en `app/docs/`, al día:
 - `mipro-design-handoff.md` y su PDF: las 20 pantallas del prototipo.
 - `hu-1518-1579-notificaciones-handoff.md` y su PDF: el detalle de diseño de Notificaciones y del encabezado de Inicio, con las capturas numeradas.
 - `iconos/`: los 12 íconos de esa entrega, un SVG por archivo.
+- `iconos-servicios/`: los 14 íconos que la app dibuja en amarillo en el catálogo, en dos variantes (el glifo solo y el sello negro), con su lámina y su índice.
 
 El ZIP sigue siendo la foto de septiembre y se deja como estaba.
 

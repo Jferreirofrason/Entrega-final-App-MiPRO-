@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+     viewBox="0 0 40 40" role="img" aria-label="Aire acondicionado">
+  <rect width="40" height="40" rx="10" fill="#000000" />
+  <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="#FFEE00"
+     stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M12.8 19.6A2 2 0 1 0 14 16H2" /><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2" /><path d="M9.8 4.4A2 2 0 1 1 11 8H2" /></g>
+</svg>
