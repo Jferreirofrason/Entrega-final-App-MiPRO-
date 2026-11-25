@@ -1371,6 +1371,11 @@ estado, además del color y del ícono.</p>
 <td>3.5</td>
 </tr>
 <tr>
+<td>Detalle de la notificación</td>
+<td><code>/notificaciones</code></td>
+<td>3.6, a confirmar</td>
+</tr>
+<tr>
 <td>Perfil</td>
 <td><code>/perfil</code></td>
 <td>Destino del avatar, sin cambios</td>
@@ -1659,6 +1664,8 @@ y «0 notificaciones sin leer» es ruido.</p>
 </tr>
 </tbody>
 </table>
+<p>Cuando el texto no entra en la fila, el detalle completo se lee en un modal.
+Está en 3.6.</p>
 <p>La de garantía es la misma fila: lo único que cambia es la palabra del
 encabezado y el título.</p>
 <p><img alt="Una notificación de garantía" src="capturas-hu-1518-1579/04-notificacion-garantia.png" /></p>
@@ -1913,6 +1920,153 @@ una, no.</p>
 confirmación: muestra <code>Notificación eliminada</code> con <code>Deshacer</code> durante 6
 segundos. Para una acción chica, en vez de frenar antes se puede volver atrás
 después.</p>
+<hr />
+<h2>3.6 Notificaciones · detalle de la notificación</h2>
+<blockquote>
+<div class="aviso"><p>⚠️ <strong>Esta pantalla no está en el prototipo.</strong> La captura es de la versión
+actual de la app, que negocio pasó como referencia. Las medidas de abajo
+están <strong>derivadas de esa captura, no medidas en pantalla</strong>, y por eso van
+marcadas con ≈. Todo lo demás de este documento sí está medido. Antes de
+construirlo hay que cerrar los puntos del final de esta sección.</p></div>
+</blockquote>
+<p>Cuando el texto de la notificación no entra en la fila, la fila lo corta con
+puntos suspensivos y el texto completo se lee acá. <strong>Es para leer, no para
+navegar:</strong> se abre, se lee y se cierra en el mismo lugar.</p>
+<p><img alt="Detalle de la notificación" class="numerada" src="capturas-hu-1518-1579/p7-modal-detalle.png" /></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Elemento</th>
+<th>Componente</th>
+<th>Icono</th>
+<th>Fuente</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Ícono del tipo</td>
+<td>Círculo ≈ 38 · glifo ≈ 20</td>
+<td>03</td>
+<td>—</td>
+<td>fondo <code>--gray-3</code> · glifo <code>--primary-black</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Título del estado</td>
+<td>En mayúsculas, a 12 del ícono</td>
+<td>—</td>
+<td><code>titulo/hoja</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Cerrar</td>
+<td>Botón 44 × 44 al borde derecho</td>
+<td>07</td>
+<td>—</td>
+<td><code>--gray-60</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Texto completo</td>
+<td>Sin corte, crece hacia abajo</td>
+<td>—</td>
+<td><code>cuerpo/md</code></td>
+<td><code>--primary-black</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Fecha y hora</td>
+<td>Día, mes, año y hora</td>
+<td>—</td>
+<td><code>cuerpo/sm</code></td>
+<td><code>--gray-40</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>«Cerrar»</td>
+<td>Botón primario · ancho completo · alto ≈ 48 · radio ≈ 14</td>
+<td>—</td>
+<td><code>boton</code></td>
+<td><code>--primary-yellow</code> con texto <code>--primary-black</code></td>
+</tr>
+</tbody>
+</table>
+<h3>La tarjeta</h3>
+<table>
+
+<tbody>
+<tr>
+<td>Ancho</td>
+<td>≈ 330, centrada, a ≈ 30 de cada borde</td>
+</tr>
+<tr>
+<td>Radio</td>
+<td>≈ 24</td>
+</tr>
+<tr>
+<td>Fondo de la tarjeta</td>
+<td><code>--primary-white</code></td>
+</tr>
+<tr>
+<td>Fondo de atrás</td>
+<td>Capa oscura sobre la bandeja, que queda visible</td>
+</tr>
+<tr>
+<td>Alto</td>
+<td>Lo que pida el texto</td>
+</tr>
+</tbody>
+</table>
+<h3>Cómo se comporta</h3>
+<table>
+
+<tbody>
+<tr>
+<td>Qué lo abre</td>
+<td>Tocar la fila</td>
+</tr>
+<tr>
+<td>Cómo se cierra</td>
+<td>El botón <code>Cerrar</code>, la X, tocar afuera y Escape</td>
+</tr>
+<tr>
+<td>Qué pasa al cerrar</td>
+<td>Vuelve a la bandeja, en el mismo lugar. No navega a ningún otro lado</td>
+</tr>
+<tr>
+<td>Qué muestra la fila</td>
+<td>El mensaje a una línea, cortado con puntos suspensivos</td>
+</tr>
+<tr>
+<td>Qué muestra el modal</td>
+<td>El mensaje entero, sin corte</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dos salidas para lo mismo.</strong> La X y el botón <code>Cerrar</code> hacen exactamente lo
+mismo. El botón está porque es la acción esperada al terminar de leer y
+porque la X sola, arriba a la derecha, es un blanco chico.</p>
+<h3>Lo que hay que cerrar antes de construirlo</h3>
+<ol>
+<li><strong>A partir de cuándo se corta.</strong> Hoy la fila corta a una línea. Falta
+   definir si el corte es por líneas o por caracteres, y qué pasa con un
+   texto corto que entra entero: si igual abre el modal o no abre nada.</li>
+<li><strong>Qué pasa con el detalle del caso.</strong> En el prototipo, tocar la fila
+   <strong>navega al servicio o al reclamo</strong>. Si ahora abre este modal, hay que
+   decidir si el acceso al caso se pierde, si el modal suma un segundo botón
+   para ir al caso, o si conviven las dos cosas.</li>
+<li><strong>El título.</strong> En la captura el título del modal y el de la fila son el
+   mismo texto. Conviene confirmar que siempre lo son: si no, hace falta un
+   campo más en el modelo de la notificación.</li>
+<li><strong>La fecha.</strong> La fila de la captura muestra la fecha larga siempre. El
+   prototipo agrupa por Hoy, Ayer y Anteriores y muestra solo la hora en los
+   dos primeros. Hay que elegir uno de los dos criterios para toda la
+   pantalla.</li>
+</ol>
 <hr />
 <h1>04 · Contenido</h1>
 <h2>4.1 Qué es una notificación</h2>

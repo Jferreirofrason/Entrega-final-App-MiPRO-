@@ -367,6 +367,7 @@ Se cierra con `Cancelar`, con la X, tocando afuera o con Escape.
 | Bandeja vacía | `/notificaciones` | 3.3 |
 | Menú de acciones | `/notificaciones` | 3.4 |
 | Confirmar borrado | `/notificaciones` | 3.5 |
+| Detalle de la notificación | `/notificaciones` | 3.6, a confirmar |
 | Perfil | `/perfil` | Destino del avatar, sin cambios |
 | Detalle del servicio | `/servicios/{id}` | Destino de la fila, sin cambios |
 | Detalle del reclamo | `/reclamos/{id}` | Destino de la fila, sin cambios |
@@ -457,6 +458,9 @@ y «0 notificaciones sin leer» es ruido.
 | 5 | «9:30 a. m.» | Fila de notificación | — | `fila/fecha` | `--gray-40` |
 | 6 | «Cita programada» | Chip de estado | 10 | `chip/estado` | `--info-blue` |
 | 7 | Eliminar | Botón 44 de ancho | 05 | — | `--gray-40` |
+
+Cuando el texto no entra en la fila, el detalle completo se lee en un modal.
+Está en 3.6.
 
 La de garantía es la misma fila: lo único que cambia es la palabra del
 encabezado y el título.
@@ -553,6 +557,72 @@ Al confirmar:
 confirmación: muestra `Notificación eliminada` con `Deshacer` durante 6
 segundos. Para una acción chica, en vez de frenar antes se puede volver atrás
 después.
+
+---
+
+## 3.6 Notificaciones · detalle de la notificación
+
+> ⚠️ **Esta pantalla no está en el prototipo.** La captura es de la versión
+> actual de la app, que negocio pasó como referencia. Las medidas de abajo
+> están **derivadas de esa captura, no medidas en pantalla**, y por eso van
+> marcadas con ≈. Todo lo demás de este documento sí está medido. Antes de
+> construirlo hay que cerrar los puntos del final de esta sección.
+
+Cuando el texto de la notificación no entra en la fila, la fila lo corta con
+puntos suspensivos y el texto completo se lee acá. **Es para leer, no para
+navegar:** se abre, se lee y se cierra en el mismo lugar.
+
+![Detalle de la notificación](capturas-hu-1518-1579/p7-modal-detalle.png){: .numerada }
+
+| # | Elemento | Componente | Icono | Fuente | Color |
+|---|---|---|---|---|---|
+| 1 | Ícono del tipo | Círculo ≈ 38 · glifo ≈ 20 | 03 | — | fondo `--gray-3` · glifo `--primary-black` |
+| 2 | Título del estado | En mayúsculas, a 12 del ícono | — | `titulo/hoja` | `--primary-black` |
+| 3 | Cerrar | Botón 44 × 44 al borde derecho | 07 | — | `--gray-60` |
+| 4 | Texto completo | Sin corte, crece hacia abajo | — | `cuerpo/md` | `--primary-black` |
+| 5 | Fecha y hora | Día, mes, año y hora | — | `cuerpo/sm` | `--gray-40` |
+| 6 | «Cerrar» | Botón primario · ancho completo · alto ≈ 48 · radio ≈ 14 | — | `boton` | `--primary-yellow` con texto `--primary-black` |
+
+### La tarjeta
+
+| | |
+|---|---|
+| Ancho | ≈ 330, centrada, a ≈ 30 de cada borde |
+| Radio | ≈ 24 |
+| Fondo de la tarjeta | `--primary-white` |
+| Fondo de atrás | Capa oscura sobre la bandeja, que queda visible |
+| Alto | Lo que pida el texto |
+
+### Cómo se comporta
+
+| | |
+|---|---|
+| Qué lo abre | Tocar la fila |
+| Cómo se cierra | El botón `Cerrar`, la X, tocar afuera y Escape |
+| Qué pasa al cerrar | Vuelve a la bandeja, en el mismo lugar. No navega a ningún otro lado |
+| Qué muestra la fila | El mensaje a una línea, cortado con puntos suspensivos |
+| Qué muestra el modal | El mensaje entero, sin corte |
+
+**Dos salidas para lo mismo.** La X y el botón `Cerrar` hacen exactamente lo
+mismo. El botón está porque es la acción esperada al terminar de leer y
+porque la X sola, arriba a la derecha, es un blanco chico.
+
+### Lo que hay que cerrar antes de construirlo
+
+1. **A partir de cuándo se corta.** Hoy la fila corta a una línea. Falta
+   definir si el corte es por líneas o por caracteres, y qué pasa con un
+   texto corto que entra entero: si igual abre el modal o no abre nada.
+2. **Qué pasa con el detalle del caso.** En el prototipo, tocar la fila
+   **navega al servicio o al reclamo**. Si ahora abre este modal, hay que
+   decidir si el acceso al caso se pierde, si el modal suma un segundo botón
+   para ir al caso, o si conviven las dos cosas.
+3. **El título.** En la captura el título del modal y el de la fila son el
+   mismo texto. Conviene confirmar que siempre lo son: si no, hace falta un
+   campo más en el modelo de la notificación.
+4. **La fecha.** La fila de la captura muestra la fecha larga siempre. El
+   prototipo agrupa por Hoy, Ayer y Anteriores y muestra solo la hora en los
+   dos primeros. Hay que elegir uno de los dos criterios para toda la
+   pantalla.
 
 ---
 
