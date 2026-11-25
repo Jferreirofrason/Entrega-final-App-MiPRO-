@@ -18,7 +18,7 @@ código.
 
 | Parte | Qué hay |
 |---|---|
-| 01 · Sistema visual | Tipografía, color, estados, íconos y los componentes que usan dos o más pantallas |
+| 01 · Sistema visual | Tipografía, color, espaciado, estados, íconos y los componentes que usan dos o más pantallas |
 | 02 · Navegación | Qué pantalla es cada ruta y cuál entra en esta entrega |
 | 03 · Pantallas | Una captura numerada por pantalla, con su tabla |
 | 04 · Contenido | Qué dice una notificación, de dónde sale cada texto y en qué orden aparecen |
@@ -138,7 +138,107 @@ por el ícono y por la palabra, no por el color.
 
 ---
 
-## 1.3 Estados de los controles
+## 1.3 Espaciado y medidas
+
+Todo lo que sigue está medido en el DOM a 390 px de ancho.
+
+**La regla.** Entre bloques manda la escala de **8**: 8, 16, 24 y 32. Adentro
+de una fila hay valores más chicos (3, 5, 7) y son a propósito: alinean por
+línea base, no separan bloques. Los bloques se separan con `gap`, nunca con
+márgenes sueltos.
+
+**Lo que se toca mide 44 como mínimo**, aunque el dibujo sea más chico. La
+papelera dibuja un ícono de 16 y ocupa 44 de ancho.
+
+### Márgenes de pantalla
+
+| Dónde | Valor |
+|---|---|
+| Margen lateral, en las dos pantallas | 24 |
+| Encabezado, arriba y abajo | 20 y 16 |
+| Del botón de volver al título | 12 |
+| Del título a los tres puntos | lo que sobra: el título se estira |
+| Final de la lista | 32 |
+| Aviso al borde inferior seguro | 16 |
+| Margen lateral del aviso | 16 |
+
+### Ritmo vertical de la bandeja
+
+| De qué a qué | Valor |
+|---|---|
+| Del encabezado al contador | 12 |
+| Del contador al primer grupo | 14 |
+| Del encabezado al primer grupo, sin contador | 18 |
+| Entre un grupo y el siguiente | 26 |
+| Del título del grupo a la primera fila | 8 |
+| Entre filas | 1 de separador, sin aire |
+| Dentro de la fila: del encabezado al título | 3 |
+| Dentro de la fila: del título al chip | 7 |
+
+**Por qué 14 y 18 y no los dos iguales:** con el contador arriba, el primer
+grupo ya tiene una línea de texto que lo separa del encabezado. Sin contador
+esa línea no está, y el grupo necesita su propio aire.
+
+### Rellenos
+
+| Elemento | Relleno | Hueco interno |
+|---|---|---|
+| Fila de notificación | 14 / 4 / 14 / 24 | columnas `8px 1fr`, hueco 10 |
+| Papelera de la fila | ancho 44, 15 desde arriba | — |
+| Chip de estado | 3 / 8 | 5 |
+| Acción de la hoja | 8 / 24, alto mínimo 52 | 14, con el ícono en una columna de 24 |
+| Botones de la confirmación | 12 / 18, alto mínimo 44 | 12 entre los dos |
+| Aviso | 10 / 12 / 10 / 16 | 16 |
+| Estado vacío | del ícono al título 16, del título al texto 8 | — |
+| Avatar y botón de volver | 44 × 44 | — |
+
+### Radios
+
+| Radio | Dónde |
+|---|---|
+| Círculo completo | Avatar, punto de no leída |
+| 999 | Chip de estado |
+| 24 | Borde superior de las dos hojas |
+| 12 | Aviso |
+| 10 | Botón de volver, tres puntos, botones de la confirmación |
+| 8 | El radio base del sistema |
+| 4 | Contador de la campana |
+
+### Bordes y líneas
+
+| Línea | Valor |
+|---|---|
+| Separador entre filas | 1 pt `--gray-8` |
+| Borde del avatar y de los botones claros | 1 pt `--gray-20` |
+| Línea al lado del título de grupo | 1 pt `--gray-8` |
+| Borde inferior del título de la hoja | 1 pt `--gray-8` |
+| Borde superior del pie de la confirmación | 1 pt `--gray-8` |
+| Barra de la fila sin leer | 3 pt, por dentro del borde izquierdo |
+
+### Sombras y capas
+
+| Dónde | Valor |
+|---|---|
+| Encabezado, al quedar fijo | `0 2px 10px rgba(0, 0, 0, 0.05)` |
+| Hoja de acciones y de confirmación | `0 -8px 30px rgba(0, 0, 0, 0.15)` |
+| Aviso | `0 6px 20px rgba(0, 0, 0, 0.18)` |
+| Capa detrás de las hojas | `rgba(0, 0, 0, 0.45)` |
+
+El sistema tiene un token de sombra, `--elevation-sm`
+(`0 4px 20px rgba(0, 0, 0, 0.04)`), que **estas dos pantallas no usan**: sus
+tres sombras están escritas en cada lugar. Conviene unificarlo.
+
+### Lo que no se usa
+
+- **Nada de márgenes sueltos para separar bloques.** Si dos cosas tienen que
+  separarse, se agrupan y se les pone `gap`.
+- **Nada de alto mínimo para empujar contenido.** El único alto mínimo que
+  hay es el táctil, 44, y el de la acción de la hoja, 52.
+- **Nada de espacio muerto al final.** La lista cierra con 32 y ahí termina.
+
+---
+
+## 1.4 Estados de los controles
 
 No hay estado deshabilitado en esta entrega: un control que no tiene sentido
 no se muestra, no se apaga. El menú entero desaparece con la bandeja vacía, y
@@ -159,7 +259,7 @@ midieron en el DOM para comprobarlo.
 
 ---
 
-## 1.4 Íconos
+## 1.5 Íconos
 
 Los 12 íconos de esta entrega son **assets propios**: un archivo SVG por
 ícono, guardados en el repositorio de la entrega,
@@ -225,7 +325,7 @@ en la bandeja y en el historial, y por eso se cambia en un solo lugar.
 
 ---
 
-## 1.5 Componentes
+## 1.6 Componentes
 
 Controles que usan dos o más pantallas. Los propios de una sola se definen en
 su sección de la Parte 03.
@@ -422,7 +522,7 @@ notificación queda leída.
 | 3 | Más opciones | Barra superior | 02 | — | `--primary-black` |
 | 4 | «10 notificaciones sin leer» | Contador · padding 12 / 24 / 2 | — | `contador` | `--primary-black` |
 | 5 | «Hoy», «Ayer», «Anteriores» | Encabezado de grupo · línea al lado | — | `titulo/grupo` | texto `--primary-black` · línea `--gray-8` |
-| 6 | Una notificación | Fila de notificación | 05 08 a 12 | ver 1.5 | ver 1.5 |
+| 6 | Una notificación | Fila de notificación | 05 08 a 12 | ver 1.6 | ver 1.6 |
 
 La captura muestra los primeros 844 px. Lo que sigue hacia abajo son más
 filas iguales.

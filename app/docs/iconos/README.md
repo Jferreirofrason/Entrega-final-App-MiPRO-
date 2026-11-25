@@ -3,7 +3,7 @@
 Los 12 íconos de Notificaciones y del encabezado de Inicio, uno por archivo.
 
 - **24 × 24, trazo 2, color heredado.** El color y el cuerpo de cada uso
-  están en la sección 1.4 del documento de detalles de diseño.
+  están en la sección 1.5 del documento de detalles de diseño.
 - **El número del nombre manda.** Es el mismo en la lámina del documento y en
   la columna «Icono» de las tablas de pantalla.
 

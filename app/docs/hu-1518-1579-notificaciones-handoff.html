@@ -235,7 +235,7 @@ código.</p>
 <tbody>
 <tr>
 <td>01 · Sistema visual</td>
-<td>Tipografía, color, estados, íconos y los componentes que usan dos o más pantallas</td>
+<td>Tipografía, color, espaciado, estados, íconos y los componentes que usan dos o más pantallas</td>
 </tr>
 <tr>
 <td>02 · Navegación</td>
@@ -605,7 +605,265 @@ el color y ese es el ícono. Cada estado se reconoce por <strong>tres cosas a la
 <p><strong><code>Solicitud recibida</code> y <code>Cita programada</code> comparten el azul.</strong> Se distinguen
 por el ícono y por la palabra, no por el color.</p>
 <hr />
-<h2>1.3 Estados de los controles</h2>
+<h2>1.3 Espaciado y medidas</h2>
+<p>Todo lo que sigue está medido en el DOM a 390 px de ancho.</p>
+<p><strong>La regla.</strong> Entre bloques manda la escala de <strong>8</strong>: 8, 16, 24 y 32. Adentro
+de una fila hay valores más chicos (3, 5, 7) y son a propósito: alinean por
+línea base, no separan bloques. Los bloques se separan con <code>gap</code>, nunca con
+márgenes sueltos.</p>
+<p><strong>Lo que se toca mide 44 como mínimo</strong>, aunque el dibujo sea más chico. La
+papelera dibuja un ícono de 16 y ocupa 44 de ancho.</p>
+<h3>Márgenes de pantalla</h3>
+<table>
+<thead>
+<tr>
+<th>Dónde</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Margen lateral, en las dos pantallas</td>
+<td>24</td>
+</tr>
+<tr>
+<td>Encabezado, arriba y abajo</td>
+<td>20 y 16</td>
+</tr>
+<tr>
+<td>Del botón de volver al título</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Del título a los tres puntos</td>
+<td>lo que sobra: el título se estira</td>
+</tr>
+<tr>
+<td>Final de la lista</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Aviso al borde inferior seguro</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Margen lateral del aviso</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+<h3>Ritmo vertical de la bandeja</h3>
+<table>
+<thead>
+<tr>
+<th>De qué a qué</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Del encabezado al contador</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Del contador al primer grupo</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Del encabezado al primer grupo, sin contador</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Entre un grupo y el siguiente</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Del título del grupo a la primera fila</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Entre filas</td>
+<td>1 de separador, sin aire</td>
+</tr>
+<tr>
+<td>Dentro de la fila: del encabezado al título</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Dentro de la fila: del título al chip</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Por qué 14 y 18 y no los dos iguales:</strong> con el contador arriba, el primer
+grupo ya tiene una línea de texto que lo separa del encabezado. Sin contador
+esa línea no está, y el grupo necesita su propio aire.</p>
+<h3>Rellenos</h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Relleno</th>
+<th>Hueco interno</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fila de notificación</td>
+<td>14 / 4 / 14 / 24</td>
+<td>columnas <code>8px 1fr</code>, hueco 10</td>
+</tr>
+<tr>
+<td>Papelera de la fila</td>
+<td>ancho 44, 15 desde arriba</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Chip de estado</td>
+<td>3 / 8</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Acción de la hoja</td>
+<td>8 / 24, alto mínimo 52</td>
+<td>14, con el ícono en una columna de 24</td>
+</tr>
+<tr>
+<td>Botones de la confirmación</td>
+<td>12 / 18, alto mínimo 44</td>
+<td>12 entre los dos</td>
+</tr>
+<tr>
+<td>Aviso</td>
+<td>10 / 12 / 10 / 16</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Estado vacío</td>
+<td>del ícono al título 16, del título al texto 8</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Avatar y botón de volver</td>
+<td>44 × 44</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3>Radios</h3>
+<table>
+<thead>
+<tr>
+<th>Radio</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Círculo completo</td>
+<td>Avatar, punto de no leída</td>
+</tr>
+<tr>
+<td>999</td>
+<td>Chip de estado</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Borde superior de las dos hojas</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Aviso</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Botón de volver, tres puntos, botones de la confirmación</td>
+</tr>
+<tr>
+<td>8</td>
+<td>El radio base del sistema</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Contador de la campana</td>
+</tr>
+</tbody>
+</table>
+<h3>Bordes y líneas</h3>
+<table>
+<thead>
+<tr>
+<th>Línea</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Separador entre filas</td>
+<td>1 pt <code>--gray-8</code></td>
+</tr>
+<tr>
+<td>Borde del avatar y de los botones claros</td>
+<td>1 pt <code>--gray-20</code></td>
+</tr>
+<tr>
+<td>Línea al lado del título de grupo</td>
+<td>1 pt <code>--gray-8</code></td>
+</tr>
+<tr>
+<td>Borde inferior del título de la hoja</td>
+<td>1 pt <code>--gray-8</code></td>
+</tr>
+<tr>
+<td>Borde superior del pie de la confirmación</td>
+<td>1 pt <code>--gray-8</code></td>
+</tr>
+<tr>
+<td>Barra de la fila sin leer</td>
+<td>3 pt, por dentro del borde izquierdo</td>
+</tr>
+</tbody>
+</table>
+<h3>Sombras y capas</h3>
+<table>
+<thead>
+<tr>
+<th>Dónde</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encabezado, al quedar fijo</td>
+<td><code>0 2px 10px rgba(0, 0, 0, 0.05)</code></td>
+</tr>
+<tr>
+<td>Hoja de acciones y de confirmación</td>
+<td><code>0 -8px 30px rgba(0, 0, 0, 0.15)</code></td>
+</tr>
+<tr>
+<td>Aviso</td>
+<td><code>0 6px 20px rgba(0, 0, 0, 0.18)</code></td>
+</tr>
+<tr>
+<td>Capa detrás de las hojas</td>
+<td><code>rgba(0, 0, 0, 0.45)</code></td>
+</tr>
+</tbody>
+</table>
+<p>El sistema tiene un token de sombra, <code>--elevation-sm</code>
+(<code>0 4px 20px rgba(0, 0, 0, 0.04)</code>), que <strong>estas dos pantallas no usan</strong>: sus
+tres sombras están escritas en cada lugar. Conviene unificarlo.</p>
+<h3>Lo que no se usa</h3>
+<ul>
+<li><strong>Nada de márgenes sueltos para separar bloques.</strong> Si dos cosas tienen que
+  separarse, se agrupan y se les pone <code>gap</code>.</li>
+<li><strong>Nada de alto mínimo para empujar contenido.</strong> El único alto mínimo que
+  hay es el táctil, 44, y el de la acción de la hoja, 52.</li>
+<li><strong>Nada de espacio muerto al final.</strong> La lista cierra con 32 y ahí termina.</li>
+</ul>
+<hr />
+<h2>1.4 Estados de los controles</h2>
 <p>No hay estado deshabilitado en esta entrega: un control que no tiene sentido
 no se muestra, no se apaga. El menú entero desaparece con la bandeja vacía, y
 <code>Marcar todas como leídas</code> desaparece cuando no queda ninguna sin leer.</p>
@@ -658,7 +916,7 @@ no se muestra, no se apaga. El menú entero desaparece con la bandeja vacía, y
 <p><strong>Todo lo que se toca mide 44 px de lado como mínimo.</strong> Las dos pantallas se
 midieron en el DOM para comprobarlo.</p>
 <hr />
-<h2>1.4 Íconos</h2>
+<h2>1.5 Íconos</h2>
 <p>Los 12 íconos de esta entrega son <strong>assets propios</strong>: un archivo SVG por
 ícono, guardados en el repositorio de la entrega,
 en <strong><code>app/docs/iconos/</code></strong>, igual que las fotos de las categorías:</p>
@@ -898,7 +1156,7 @@ más.</p>
 de estados, que da ícono, color y fondo juntos. Por eso un estado se ve igual
 en la bandeja y en el historial, y por eso se cambia en un solo lugar.</p>
 <hr />
-<h2>1.5 Componentes</h2>
+<h2>1.6 Componentes</h2>
 <p>Controles que usan dos o más pantallas. Los propios de una sola se definen en
 su sección de la Parte 03.</p>
 <h3>Avatar de perfil</h3>
@@ -1541,8 +1799,8 @@ notificación queda leída.</p>
 <td>Una notificación</td>
 <td>Fila de notificación</td>
 <td>05 08 a 12</td>
-<td>ver 1.5</td>
-<td>ver 1.5</td>
+<td>ver 1.6</td>
+<td>ver 1.6</td>
 </tr>
 </tbody>
 </table>
