@@ -4,9 +4,9 @@
 //
 // Escribe docs/iconos-servicios/:
 //
-//   amarillo/NN-nombre.svg   el glifo solo, en amarillo de marca, 24 × 24
-//   sello/NN-nombre.svg      el glifo sobre el sello negro, como se ve
-//   lamina.svg               los 14 juntos, numerados
+//   amarillo/<nombre>.svg    el glifo solo, en amarillo de marca, 24 × 24
+//   sello/<nombre>.svg       el glifo sobre el sello negro, como se ve
+//   lamina.svg               los 14 juntos
 //   README.md                el índice
 //
 // Los dibujos NO se copian a mano: se leen del mismo paquete de íconos que
@@ -28,23 +28,27 @@ const SALIDA = new URL("./iconos-servicios/", import.meta.url);
 const AMARILLO = "#FFEE00";
 const NEGRO = "#000000";
 
-// Del 01 al 09, las nueve categorías del catálogo, en el orden del mapa de
-// la app. Del 10 al 14, los íconos que usan los servicios sueltos.
+// Las nueve categorías del catálogo, en el orden del mapa de la app, y
+// después los cinco que usan los servicios sueltos.
+//
+// `archivo` es el nombre del archivo: dice QUÉ es el ícono, no cómo se
+// llama en la librería. Quien lo busca busca \"fumigación\", no \"bug\".
+// `catalogo` es el nombre con el que se lee el dibujo de la librería.
 const ICONOS = [
-  { n: "Wrench", archivo: "wrench", uso: "Instalación", tipo: "Categoría" },
-  { n: "Settings", archivo: "settings", uso: "Mantenimiento", tipo: "Categoría" },
-  { n: "Hammer", archivo: "hammer", uso: "Reparación", tipo: "Categoría" },
-  { n: "Bug", archivo: "bug", uso: "Fumigación", tipo: "Categoría" },
-  { n: "Sparkles", archivo: "sparkles", uso: "Limpieza", tipo: "Categoría" },
-  { n: "Paintbrush", archivo: "paintbrush", uso: "Pintura", tipo: "Categoría" },
-  { n: "Armchair", archivo: "armchair", uso: "Mobiliario", tipo: "Categoría" },
-  { n: "Leaf", archivo: "leaf", uso: "Jardinería", tipo: "Categoría" },
-  { n: "Truck", archivo: "truck", uso: "Mudanza", tipo: "Categoría" },
-  { n: "Wind", archivo: "wind", uso: "Aire acondicionado", tipo: "Servicio" },
-  { n: "Fan", archivo: "fan", uso: "Ventilación", tipo: "Servicio" },
-  { n: "Droplets", archivo: "droplets", uso: "Plomería y agua", tipo: "Servicio" },
-  { n: "Zap", archivo: "zap", uso: "Electricidad", tipo: "Servicio" },
-  { n: "Flame", archivo: "flame", uso: "Gas y calor", tipo: "Servicio" },
+  { n: "Wrench", catalogo: "wrench", archivo: "instalacion", uso: "Instalación", tipo: "Categoría" },
+  { n: "Settings", catalogo: "settings", archivo: "mantenimiento", uso: "Mantenimiento", tipo: "Categoría" },
+  { n: "Hammer", catalogo: "hammer", archivo: "reparacion", uso: "Reparación", tipo: "Categoría" },
+  { n: "Bug", catalogo: "bug", archivo: "fumigacion", uso: "Fumigación", tipo: "Categoría" },
+  { n: "Sparkles", catalogo: "sparkles", archivo: "limpieza", uso: "Limpieza", tipo: "Categoría" },
+  { n: "Paintbrush", catalogo: "paintbrush", archivo: "pintura", uso: "Pintura", tipo: "Categoría" },
+  { n: "Armchair", catalogo: "armchair", archivo: "mobiliario", uso: "Mobiliario", tipo: "Categoría" },
+  { n: "Leaf", catalogo: "leaf", archivo: "jardineria", uso: "Jardinería", tipo: "Categoría" },
+  { n: "Truck", catalogo: "truck", archivo: "mudanza", uso: "Mudanza", tipo: "Categoría" },
+  { n: "Wind", catalogo: "wind", archivo: "aire-acondicionado", uso: "Aire acondicionado", tipo: "Servicio" },
+  { n: "Fan", catalogo: "fan", archivo: "ventilacion", uso: "Ventilación", tipo: "Servicio" },
+  { n: "Droplets", catalogo: "droplets", archivo: "plomeria", uso: "Plomería y agua", tipo: "Servicio" },
+  { n: "Zap", catalogo: "zap", archivo: "electricidad", uso: "Electricidad", tipo: "Servicio" },
+  { n: "Flame", catalogo: "flame", archivo: "gas", uso: "Gas y calor", tipo: "Servicio" },
 ];
 
 const esc = (s) =>
@@ -73,10 +77,9 @@ const CELDA_H = 134;
 const MARGEN = 16;
 
 for (let i = 0; i < ICONOS.length; i++) {
-  const { n, archivo, uso, tipo } = ICONOS[i];
-  const { __iconNode } = await import(new URL(`${archivo}.js`, ICONOS_DIR));
-  const numero = String(i + 1).padStart(2, "0");
-  const nombre = `${numero}-${archivo}.svg`;
+  const { n, catalogo, archivo, uso, tipo } = ICONOS[i];
+  const { __iconNode } = await import(new URL(`${catalogo}.js`, ICONOS_DIR));
+  const nombre = `${archivo}.svg`;
   const glifo = dibujar(__iconNode);
 
   // El glifo solo, en amarillo.
@@ -101,7 +104,7 @@ for (let i = 0; i < ICONOS.length; i++) {
     "utf-8",
   );
 
-  filas.push({ numero, nombre, n, uso, tipo });
+  filas.push({ nombre, n, uso, tipo });
 
   // La lámina: el sello, su nombre y para qué es.
   const col = i % COLUMNAS;
@@ -113,18 +116,14 @@ for (let i = 0; i < ICONOS.length; i++) {
   <g transform="translate(${x} ${y})">
     <rect x="0" y="0" width="${CELDA_W - 12}" height="${CELDA_H - 12}" rx="12"
           fill="#FFFFFF" stroke="#ECECEC" stroke-width="1" />
-    <circle cx="18" cy="18" r="11" fill="${AMARILLO}" />
-    <text x="18" y="22.5" text-anchor="middle"
-          font-family="Helvetica, Arial, sans-serif" font-size="10.5"
-          font-weight="600" fill="${NEGRO}">${numero}</text>
-    <g transform="translate(${(CELDA_W - 12) / 2 - 20} 36)">
+    <g transform="translate(${(CELDA_W - 12) / 2 - 20} 28)">
       <rect width="40" height="40" rx="10" fill="${NEGRO}" />
       <g transform="translate(10.5 10.5) scale(0.79)" fill="none" stroke="${AMARILLO}"
          stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round">${glifo}</g>
     </g>
-    <text x="${(CELDA_W - 12) / 2}" y="97" text-anchor="middle"
-          font-family="Menlo, monospace" font-size="10.5" fill="${NEGRO}">${esc(n)}</text>
-    <text x="${(CELDA_W - 12) / 2}" y="112" text-anchor="middle"
+    <text x="${(CELDA_W - 12) / 2}" y="90" text-anchor="middle"
+          font-family="Menlo, monospace" font-size="10.5" fill="${NEGRO}">${esc(archivo)}.svg</text>
+    <text x="${(CELDA_W - 12) / 2}" y="105" text-anchor="middle"
           font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#717171">${esc(uso)}</text>
   </g>`);
 }
@@ -165,12 +164,12 @@ Cada uno viene en dos variantes:
 - \`sello/\` el glifo sobre el sello negro, 40 × 40, radio 10, glifo a 19.
   Es exactamente como se ve en la lista de categorías del catálogo.
 
-\`lamina.svg\` los muestra a los 14 juntos, numerados.
+\`lamina.svg\` los muestra a los 14 juntos.
 
-| # | Archivo | Nombre | Tipo | Dónde se usa |
-|---|---|---|---|---|
+| Archivo | Qué es | Tipo | Nombre del dibujo |
+|---|---|---|---|
 ${filas
-  .map((f) => `| ${f.numero} | \`${f.nombre}\` | \`${f.n}\` | ${f.tipo} | ${f.uso} |`)
+  .map((f) => `| \`${f.nombre}\` | ${f.uso} | ${f.tipo} | \`${f.n}\` |`)
   .join("\n")}
 
 ## Cómo se ven en la app

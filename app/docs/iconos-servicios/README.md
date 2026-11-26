@@ -11,24 +11,24 @@ Cada uno viene en dos variantes:
 - `sello/` el glifo sobre el sello negro, 40 × 40, radio 10, glifo a 19.
   Es exactamente como se ve en la lista de categorías del catálogo.
 
-`lamina.svg` los muestra a los 14 juntos, numerados.
+`lamina.svg` los muestra a los 14 juntos.
 
-| # | Archivo | Nombre | Tipo | Dónde se usa |
-|---|---|---|---|---|
-| 01 | `01-wrench.svg` | `Wrench` | Categoría | Instalación |
-| 02 | `02-settings.svg` | `Settings` | Categoría | Mantenimiento |
-| 03 | `03-hammer.svg` | `Hammer` | Categoría | Reparación |
-| 04 | `04-bug.svg` | `Bug` | Categoría | Fumigación |
-| 05 | `05-sparkles.svg` | `Sparkles` | Categoría | Limpieza |
-| 06 | `06-paintbrush.svg` | `Paintbrush` | Categoría | Pintura |
-| 07 | `07-armchair.svg` | `Armchair` | Categoría | Mobiliario |
-| 08 | `08-leaf.svg` | `Leaf` | Categoría | Jardinería |
-| 09 | `09-truck.svg` | `Truck` | Categoría | Mudanza |
-| 10 | `10-wind.svg` | `Wind` | Servicio | Aire acondicionado |
-| 11 | `11-fan.svg` | `Fan` | Servicio | Ventilación |
-| 12 | `12-droplets.svg` | `Droplets` | Servicio | Plomería y agua |
-| 13 | `13-zap.svg` | `Zap` | Servicio | Electricidad |
-| 14 | `14-flame.svg` | `Flame` | Servicio | Gas y calor |
+| Archivo | Qué es | Tipo | Nombre del dibujo |
+|---|---|---|---|
+| `instalacion.svg` | Instalación | Categoría | `Wrench` |
+| `mantenimiento.svg` | Mantenimiento | Categoría | `Settings` |
+| `reparacion.svg` | Reparación | Categoría | `Hammer` |
+| `fumigacion.svg` | Fumigación | Categoría | `Bug` |
+| `limpieza.svg` | Limpieza | Categoría | `Sparkles` |
+| `pintura.svg` | Pintura | Categoría | `Paintbrush` |
+| `mobiliario.svg` | Mobiliario | Categoría | `Armchair` |
+| `jardineria.svg` | Jardinería | Categoría | `Leaf` |
+| `mudanza.svg` | Mudanza | Categoría | `Truck` |
+| `aire-acondicionado.svg` | Aire acondicionado | Servicio | `Wind` |
+| `ventilacion.svg` | Ventilación | Servicio | `Fan` |
+| `plomeria.svg` | Plomería y agua | Servicio | `Droplets` |
+| `electricidad.svg` | Electricidad | Servicio | `Zap` |
+| `gas.svg` | Gas y calor | Servicio | `Flame` |
 
 ## Cómo se ven en la app
 
